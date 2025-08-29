@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - The Ultimate AI Life Coach</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* * AURA PREMIUM WEBSITE STYLES
+         * This stylesheet enhances the base design with animations, micro-interactions,
+         * and a more refined visual language for a truly premium feel.
+         */
+        :root {
+            --accent-color: #5A40D0; /* Deep Purple */
+            --accent-color-hover: #4833A6;
+            --background-color: #FFFFFF;
+            --text-primary: #111827;
+            --text-secondary: #4B5563;
+            --subtle-gray: #F9FAFB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Accent Styles */
+        .accent-bg { background-color: var(--accent-color); }
+        .accent-text { color: var(--accent-color); }
+        .accent-border { border-color: var(--accent-color); }
+        .accent-bg-hover:hover { background-color: var(--accent-color-hover); }
+
+        /* Header Styling */
+        header {
+            transition: all 0.3s ease-in-out;
+        }
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+        }
+
+        /* Hero Section Animated Gradient */
+        .hero-animated-bg {
+            background: linear-gradient(300deg, #f4f2ff, #fdfcff, #f7f5ff);
+            background-size: 180% 180%;
+            animation: gradient-animation 18s ease infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* CTA Button Breathing Effect */
+        .cta-breathing {
+            animation: breathing 3s ease-in-out infinite;
+        }
+        @keyframes breathing {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(90, 64, 208, 0.1), 0 4px 6px -2px rgba(90, 64, 208, 0.05); }
+            50% { transform: scale(1.03); box-shadow: 0 20px 25px -5px rgba(90, 64, 208, 0.2), 0 10px 10px -5px rgba(90, 64, 208, 0.1); }
+        }
+
+        /* On-Scroll Fade-Up Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Interactive Card Hover Effect */
+        .interactive-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .interactive-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Testimonial Carousel Styles */
+        .carousel-container { overflow: hidden; position: relative; }
+        .carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
+        .carousel-slide { min-width: 100%; box-sizing: border-box; }
+        .carousel-dots { display: flex; justify-content: center; margin-top: 1.5rem; }
+        .carousel-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background-color: #D1D5DB; margin: 0 5px;
+            cursor: pointer; transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .carousel-dot.active { background-color: var(--accent-color); transform: scale(1.2); }
+        
+        /* FAQ Accordion Styles */
+        .faq-item summary { cursor: pointer; outline: none; transition: margin-bottom 0.2s ease-out; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item[open] summary { margin-bottom: 0.5rem; }
+        .faq-item .plus-icon { transition: transform 0.3s ease-in-out; }
+        .faq-item[open] summary .plus-icon { transform: rotate(45deg); }
+
+        /* "Most Popular" Banner */
+        .popular-banner {
+            position: absolute; top: -1.25rem; left: 50%;
+            transform: translateX(-50%); background-color: var(--accent-color);
+            color: white; padding: 0.5rem 1.5rem; border-radius: 9999px;
+            font-weight: 700; font-size: 0.875rem; line-height: 1.25rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header id="main-header" class="py-4 px-6 md:px-12 fixed w-full top-0 z-50">
+        <nav class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold accent-text">Aura</h1>
+            <a href="#pricing" class="accent-bg text-white font-semibold py-2 px-6 rounded-full transition-transform duration-300 ease-in-out hover:scale-105 accent-bg-hover">Get Started</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="text-center pt-32 pb-20 px-6 hero-animated-bg">
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-4 reveal">Unlock Your Full Potential.</h1>
+            <h2 class="text-5xl md:text-7xl font-extrabold accent-text leading-tight mb-6 reveal" style="transition-delay: 150ms;">In Every Area of Life.</h2>
+            <p class="text-lg md:text-xl text-secondary max-w-3xl mx-auto mb-10 reveal" style="transition-delay: 300ms;">Meet Aura: The world's most advanced AI Life Coach, with proven expertise in Dating, Career, Fitness, Success, and beyond.</p>
+            <a href="#pricing" class="accent-bg text-white font-bold py-4 px-10 rounded-full text-lg transition-transform duration-300 ease-in-out shadow-lg cta-breathing reveal" style="transition-delay: 450ms;">
+                Begin My Transformation
+            </a>
+        </section>
+
+        <!-- Relatable Problems Section -->
+        <section id="problems" class="py-24 bg-subtle-gray">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-16 reveal">Stop Guessing. Start Growing.</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm w-full interactive-card reveal">
+                        <p class="text-lg text-text-primary font-medium">Feeling stuck in your career or personal life?</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm w-full interactive-card reveal" style="transition-delay: 150ms;">
+                        <p class="text-lg text-text-primary font-medium">Tired of goals that never get accomplished?</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-sm w-full interactive-card reveal" style="transition-delay: 300ms;">
+                        <p class="text-lg text-text-primary font-medium">Want to build unshakable confidence in every situation?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features & Benefits Section -->
+        <section id="features" class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 reveal">Aura is Your Unfair Advantage.</h2>
+                <p class="text-lg text-secondary max-w-3xl mx-auto mb-20 reveal" style="transition-delay: 150ms;">
+                    To create the world's first omniscient AI coach, we trained Aura on an unprecedented dataset of millions of peer-reviewed studies, success stories, and expert-led interactions across every field of human potential. This isn't just advice—it's a roadmap to mastery, driven by data.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                     <!-- Feature Items -->
+                    <div class="flex flex-col items-center reveal">
+                        <div class="bg-purple-100 p-4 rounded-full mb-5"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg></div>
+                        <h3 class="text-xl font-semibold mb-2">Master Communication</h3>
+                        <p class="text-secondary">Excel in dating, negotiations, and relationships with data-backed conversation strategies.</p>
+                    </div>
+                    <div class="flex flex-col items-center reveal" style="transition-delay: 150ms;">
+                        <div class="bg-purple-100 p-4 rounded-full mb-5"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
+                        <h3 class="text-xl font-semibold mb-2">Engineer Your Success</h3>
+                        <p class="text-secondary">Get personalized roadmaps for your career, finances, and ambitious personal goals.</p>
+                    </div>
+                    <div class="flex flex-col items-center reveal" style="transition-delay: 300ms;">
+                        <div class="bg-purple-100 p-4 rounded-full mb-5"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg></div>
+                        <h3 class="text-xl font-semibold mb-2">Optimize Your Well-being</h3>
+                        <p class="text-secondary">Build powerful habits for fitness, discipline, and mental clarity that actually last.</p>
+                    </div>
+                    <div class="flex flex-col items-center reveal" style="transition-delay: 450ms;">
+                        <div class="bg-purple-100 p-4 rounded-full mb-5"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 accent-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4M17 3v4m-2-2h4m2 10h-4m2 2v-4m-8-4l-2 2-2-2m12 12l2-2 2 2" /></svg></div>
+                        <h3 class="text-xl font-semibold mb-2">The Confidence Catalyst</h3>
+                        <p class="text-secondary">Receive elite coaching to overcome self-doubt and perform at your peak potential.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-24 bg-subtle-gray">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 reveal">Choose Your Path to Mastery.</h2>
+                <p class="text-secondary mb-16 reveal">One simple price for unlimited access to every coaching module.</p>
+                <div class="flex flex-col lg:flex-row justify-center items-center gap-8">
+                    <!-- Monthly Tier -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-gray-200 interactive-card reveal">
+                        <h3 class="text-2xl font-semibold text-gray-500">Monthly</h3>
+                        <p class="text-5xl font-bold my-4">$9.99<span class="text-lg font-medium text-gray-500">/month</span></p>
+                        <p class="text-secondary h-12">Full access to Aura. Pause or cancel anytime.</p>
+                        <a href="https://5613144303252.gumroad.com/l/kjyvod" target="_blank" rel="noopener noreferrer" class="block mt-8 w-full border-2 accent-border accent-text font-bold py-3 px-8 rounded-full transition-colors duration-300 hover:bg-purple-50">Get Started</a>
+                    </div>
+                    <!-- Annual Tier -->
+                    <div class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md border-2 accent-border relative interactive-card reveal" style="transition-delay: 150ms;">
+                        <div class="popular-banner">MOST POPULAR</div>
+                        <h3 class="text-2xl font-semibold accent-text">Annual</h3>
+                        <p class="text-5xl font-bold my-4">$79.99<span class="text-lg font-medium text-gray-500">/year</span></p>
+                        <p class="text-secondary h-12">Unlock everything. Get exclusive content. <span class="font-bold">Save 30%.</span></p>
+                        <a href="https://5613144303252.gumroad.com/l/kjyvod" target="_blank" rel="noopener noreferrer" class="block mt-8 w-full accent-bg text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 ease-in-out hover:scale-105 accent-bg-hover">Claim This Deal</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-24">
+            <div class="container mx-auto px-6 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">Real People, Real Transformations.</h2>
+                <div class="carousel-container max-w-3xl mx-auto bg-subtle-gray p-8 md:p-12 rounded-2xl shadow-md">
+                    <div class="carousel-track">
+                        <!-- Testimonials will be injected here by JS -->
+                    </div>
+                    <div class="carousel-dots"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-24 bg-subtle-gray">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 reveal">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <!-- FAQ Items -->
+                    <details class="faq-item bg-white p-6 rounded-lg shadow-sm reveal">
+                        <summary class="flex justify-between items-center font-semibold text-lg"><span class="text-text-primary">Is this just for dating advice?</span><span class="plus-icon text-2xl accent-text font-light">+</span></summary>
+                        <p class="mt-4 text-secondary">Not at all. While Aura is a world-class dating coach, it is a complete life coaching platform. You get expert, data-driven guidance on your career, fitness, personal finances, habits, and long-term goals, all in one place.</p>
+                    </details>
+                    <details class="faq-item bg-white p-6 rounded-lg shadow-sm reveal" style="transition-delay: 150ms;">
+                        <summary class="flex justify-between items-center font-semibold text-lg"><span class="text-text-primary">Is my data and my conversations private?</span><span class="plus-icon text-2xl accent-text font-light">+</span></summary>
+                        <p class="mt-4 text-secondary">Absolutely. We use end-to-end encryption and have a strict privacy policy. Your data is used only to improve your personal experience and is never shared or sold.</p>
+                    </details>
+                    <details class="faq-item bg-white p-6 rounded-lg shadow-sm reveal" style="transition-delay: 300ms;">
+                        <summary class="flex justify-between items-center font-semibold text-lg"><span class="text-text-primary">What if I don't see results?</span><span class="plus-icon text-2xl accent-text font-light">+</span></summary>
+                        <p class="mt-4 text-secondary">Aura is a tool for growth, and results depend on your application of its guidance. However, we offer a 30-day money-back guarantee. If you genuinely feel you haven't learned anything valuable, we'll refund your subscription. No questions asked.</p>
+                    </details>
+                     <details class="faq-item bg-white p-6 rounded-lg shadow-sm reveal" style="transition-delay: 450ms;">
+                        <summary class="flex justify-between items-center font-semibold text-lg"><span class="text-text-primary">Can I cancel my subscription anytime?</span><span class="plus-icon text-2xl accent-text font-light">+</span></summary>
+                        <p class="mt-4 text-secondary">Yes, you can easily cancel your monthly or annual subscription from your account settings at any time. You'll retain access until the end of your current billing period.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section id="final-cta" class="text-center py-24">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4 reveal">Ready to become who you were meant to be?</h2>
+            <p class="text-lg text-secondary max-w-xl mx-auto mb-10 reveal" style="transition-delay: 150ms;">Your potential is limitless. Aura gives you the map.</p>
+            <a href="#pricing" class="accent-bg text-white font-bold py-4 px-10 rounded-full text-lg transition-transform duration-300 ease-in-out shadow-lg cta-breathing reveal" style="transition-delay: 300ms;">
+                Unlock My Potential
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-sm text-gray-500">&copy; 2025 Aura AI. All Rights Reserved. Use of this service is subject to our terms and policies.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Sticky Header on Scroll ---
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // --- On-Scroll Reveal Animation ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Testimonial Carousel Logic ---
+            const testimonials = [
+                { quote: "Aura helped me negotiate a 20% raise at work. I didn't even know where to start.", author: "Michael P." },
+                { quote: "I've been trying to get fit for years. Aura's habit coaching was the first thing that actually stuck.", author: "Jessica R." },
+                { quote: "It's not just about lines, it's about insight. Aura gave me the confidence to just be myself on dates.", author: "David L." },
+                { quote: "I finally have a clear plan for my finances and my future. This is more than an app, it's a necessity.", author: "Sarah W." }
+            ];
+
+            const track = document.querySelector('.carousel-track');
+            const dotsContainer = document.querySelector('.carousel-dots');
+            let currentIndex = 0;
+
+            testimonials.forEach((t, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide text-center px-4';
+                slide.innerHTML = `<p class="text-xl md:text-2xl italic text-text-primary">"${t.quote}"</p><p class="mt-6 font-semibold text-secondary">- ${t.author}</p>`;
+                track.appendChild(slide);
+
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot';
+                dot.dataset.index = index;
+                dotsContainer.appendChild(dot);
+            });
+
+            const slides = Array.from(track.children);
+            const dots = Array.from(dotsContainer.children);
+
+            const updateCarousel = () => {
+                const amountToMove = slides[0].getBoundingClientRect().width * currentIndex;
+                track.style.transform = `translateX(-${amountToMove}px)`;
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[currentIndex].classList.add('active');
+            };
+
+            const showNextSlide = () => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                updateCarousel();
+            };
+
+            dotsContainer.addEventListener('click', e => {
+                if(e.target.classList.contains('carousel-dot')) {
+                    currentIndex = parseInt(e.target.dataset.index);
+                    updateCarousel();
+                }
+            });
+            
+            updateCarousel();
+            setInterval(showNextSlide, 5000);
+        });
+    </script>
+
+</body>
+</html>
