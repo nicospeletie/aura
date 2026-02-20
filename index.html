@@ -370,19 +370,26 @@
       z-index: 0;
     }
 
-    .card-orbit-path {
+    .card-orbit-track {
       fill: none;
-      stroke: rgba(255, 226, 244, 0.98);
-      stroke-width: 1.7;
+      stroke: transparent;
+      stroke-width: 1.6;
       vector-effect: non-scaling-stroke;
       shape-rendering: geometricPrecision;
       stroke-linecap: round;
       stroke-linejoin: round;
-      stroke-dasharray: 130 870;
-      stroke-dashoffset: 0;
-      animation: cardOrbitDash 5s linear infinite, cardOrbitGlow 2.4s ease-in-out infinite;
-      filter: drop-shadow(0 0 7px rgba(255, 122, 182, 0.62));
-      will-change: stroke-dashoffset, filter, opacity;
+    }
+
+    .card-orbit-runner {
+      opacity: 0.96;
+      animation: cardRunnerGlow 2.4s ease-in-out infinite;
+      will-change: opacity, filter;
+    }
+
+    .card-orbit-line {
+      fill: rgba(255, 227, 245, 0.98);
+      filter: drop-shadow(0 0 8px rgba(255, 122, 182, 0.72));
+      vector-effect: non-scaling-stroke;
     }
 
     .question-card.bump {
@@ -847,19 +854,12 @@
       100% { left: 140%; }
     }
 
-    @keyframes cardOrbitDash {
-      0% { stroke-dashoffset: 0; }
-      100% { stroke-dashoffset: -1000; }
-    }
-
-    @keyframes cardOrbitGlow {
+    @keyframes cardRunnerGlow {
       0%, 100% {
-        opacity: 0.8;
-        filter: drop-shadow(0 0 5px rgba(255, 122, 182, 0.48));
+        opacity: 0.78;
       }
       50% {
         opacity: 1;
-        filter: drop-shadow(0 0 11px rgba(255, 122, 182, 0.78));
       }
     }
 
@@ -1170,8 +1170,23 @@
       </div>
 
       <article class="question-card" id="questionCard">
-        <svg class="card-orbit" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <rect class="card-orbit-path" x="1" y="1" width="98" height="98" rx="8" ry="8" pathLength="1000"></rect>
+        <svg class="card-orbit" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <defs>
+            <filter id="cardOrbitSoftGlow" x="-220%" y="-220%" width="540%" height="540%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1.35" result="soft"></feGaussianBlur>
+              <feMerge>
+                <feMergeNode in="soft"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
+          </defs>
+          <rect id="cardOrbitPath" class="card-orbit-track" x="1.3" y="1.3" width="97.4" height="97.4" rx="8.6" ry="8.6"></rect>
+          <g class="card-orbit-runner" filter="url(#cardOrbitSoftGlow)">
+            <rect class="card-orbit-line" x="-8.5" y="-0.9" width="17" height="1.8" rx="0.9" ry="0.9"></rect>
+            <animateMotion dur="4.6s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#cardOrbitPath" xlink:href="#cardOrbitPath"></mpath>
+            </animateMotion>
+          </g>
         </svg>
         <div class="category" id="qCategory">Παρουσία</div>
         <h2 class="question" id="qText">...</h2>
