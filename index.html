@@ -364,23 +364,17 @@
     .question-card::before {
       content: "";
       position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      border: 1px solid transparent;
-      background:
-        linear-gradient(var(--panel), var(--panel)) padding-box,
-        conic-gradient(
-          from 0deg,
-          rgba(255, 191, 224, 0) 0deg,
-          rgba(255, 191, 224, 0) 300deg,
-          rgba(255, 223, 241, 0.95) 326deg,
-          rgba(255, 122, 182, 0.88) 344deg,
-          rgba(255, 196, 219, 0.55) 355deg,
-          rgba(255, 191, 224, 0) 360deg
-        ) border-box;
-      background-clip: padding-box, border-box;
-      animation: cardOrbit 4.8s linear infinite;
-      will-change: transform;
+      top: 0;
+      left: -24%;
+      right: auto;
+      bottom: auto;
+      width: 36%;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      box-shadow: 0 0 14px rgba(255, 122, 182, 0.56);
+      animation: cardBorderScan 5.4s linear infinite;
+      will-change: top, right, bottom, left, width, height, background;
       pointer-events: none;
       z-index: 0;
     }
@@ -847,9 +841,88 @@
       100% { left: 140%; }
     }
 
-    @keyframes cardOrbit {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes cardBorderScan {
+      0% {
+        top: 0;
+        right: auto;
+        bottom: auto;
+        left: -24%;
+        width: 36%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      24% {
+        top: 0;
+        right: auto;
+        bottom: auto;
+        left: 88%;
+        width: 36%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      25% {
+        top: -24%;
+        right: 0;
+        bottom: auto;
+        left: auto;
+        width: 2px;
+        height: 36%;
+        background: linear-gradient(180deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      49% {
+        top: 88%;
+        right: 0;
+        bottom: auto;
+        left: auto;
+        width: 2px;
+        height: 36%;
+        background: linear-gradient(180deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      50% {
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: 88%;
+        width: 36%;
+        height: 2px;
+        background: linear-gradient(270deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      74% {
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: -24%;
+        width: 36%;
+        height: 2px;
+        background: linear-gradient(270deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      75% {
+        top: 88%;
+        right: auto;
+        bottom: auto;
+        left: 0;
+        width: 2px;
+        height: 36%;
+        background: linear-gradient(0deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      99% {
+        top: -24%;
+        right: auto;
+        bottom: auto;
+        left: 0;
+        width: 2px;
+        height: 36%;
+        background: linear-gradient(0deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
+      100% {
+        top: 0;
+        right: auto;
+        bottom: auto;
+        left: -24%;
+        width: 36%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+      }
     }
 
     @keyframes optionIn {
