@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>PELETIE TRIBE • Διαγνωστικό Αρχέτυπου Έλξης</title>
   <meta name="description" content="30 σύντομες και διορατικές ερωτήσεις για να ανακαλύψεις το πραγματικό σου αρχέτυπο έλξης.">
   <meta property="og:title" content="PELETIE TRIBE • Διαγνωστικό Αρχέτυπου Έλξης">
@@ -260,6 +260,7 @@
       font: inherit;
       width: 100%;
       border-radius: 14px;
+      touch-action: manipulation;
       transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
     }
 
@@ -982,13 +983,13 @@
       }
 
       .score-title {
-        font-size: clamp(23px, 7.2vw, 29px);
+        font-size: clamp(24px, 7.8vw, 31px);
         line-height: 1.18;
       }
 
       .score-copy {
-        font-size: 17px;
-        line-height: 1.7;
+        font-size: 18px;
+        line-height: 1.74;
       }
 
       .bar {
@@ -1018,7 +1019,7 @@
       }
 
       .metric {
-        font-size: 12.5px;
+        font-size: 13px;
       }
 
       .panel {
@@ -1026,24 +1027,24 @@
       }
 
       .panel h3 {
-        font-size: clamp(20px, 5.7vw, 23px);
+        font-size: clamp(21px, 6vw, 24px);
       }
 
       .panel p {
-        font-size: 16.5px;
-        line-height: 1.7;
+        font-size: 17px;
+        line-height: 1.74;
       }
 
       .tip,
       .focus-item {
         padding: 10px 12px;
-        font-size: 15.8px;
-        line-height: 1.62;
+        font-size: 16.2px;
+        line-height: 1.65;
       }
 
       .cta p {
-        font-size: 16px;
-        line-height: 1.62;
+        font-size: 16.8px;
+        line-height: 1.66;
       }
 
       .cta-title-wrap {
@@ -1870,7 +1871,7 @@
           state.screen = "result";
           updateScreens();
           renderResult();
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          window.scrollTo(0, 0);
         }, 140);
       }
 
