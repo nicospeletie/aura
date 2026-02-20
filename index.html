@@ -388,36 +388,52 @@
       z-index: 1;
     }
 
-    .orbit-runner {
+    .orbit-svg {
       position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      border-radius: 999px;
-      transform-origin: 50% 50%;
-      opacity: 0.98;
-      animation: runnerGlow 3.2s ease-in-out infinite;
-      will-change: transform, opacity, filter;
+      z-index: 3;
+      overflow: visible;
       mix-blend-mode: screen;
     }
 
-    .orbit-runner-card {
-      width: clamp(108px, 22vw, 184px);
-      height: 1.8px;
-      background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 178, 218, 0.32) 26%,
-        rgba(255, 222, 241, 0.92) 44%,
-        rgba(255, 255, 255, 1) 50%,
-        rgba(255, 214, 237, 0.95) 56%,
-        rgba(255, 145, 206, 0.44) 72%,
-        rgba(255, 255, 255, 0) 100%
-      );
+    .orbit-track,
+    .orbit-tail,
+    .orbit-core {
+      fill: none;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .orbit-track {
+      stroke: rgba(255, 186, 223, 0.34);
+      stroke-width: 1.05;
+    }
+
+    .orbit-tail {
+      stroke: rgba(255, 124, 183, 0.82);
+      stroke-width: 3.6;
+      stroke-linecap: round;
+      stroke-dasharray: 24 76;
+      animation: orbitDash 3.05s linear infinite;
+      opacity: 0.9;
       filter:
-        drop-shadow(0 0 6px rgba(255, 228, 244, 0.98))
-        drop-shadow(0 0 14px rgba(255, 189, 223, 0.94))
-        drop-shadow(0 0 26px rgba(255, 136, 196, 0.86))
-        drop-shadow(0 0 44px rgba(255, 95, 173, 0.74));
-      z-index: 3;
+        blur(0.28px)
+        drop-shadow(0 0 12px rgba(255, 158, 210, 0.8))
+        drop-shadow(0 0 26px rgba(255, 110, 178, 0.62));
+    }
+
+    .orbit-core {
+      stroke: rgba(255, 249, 253, 0.98);
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-dasharray: 24 76;
+      animation: orbitDash 3.05s linear infinite, orbitPulse 2.4s ease-in-out infinite;
+      filter:
+        drop-shadow(0 0 8px rgba(255, 233, 246, 0.98))
+        drop-shadow(0 0 18px rgba(255, 161, 214, 0.88))
+        drop-shadow(0 0 32px rgba(255, 107, 178, 0.72));
     }
 
     .question-card.bump {
@@ -865,13 +881,14 @@
       100% { left: 140%; }
     }
 
-    @keyframes runnerGlow {
-      0%, 100% {
-        opacity: 0.84;
-      }
-      50% {
-        opacity: 1;
-      }
+    @keyframes orbitDash {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -100; }
+    }
+
+    @keyframes orbitPulse {
+      0%, 100% { opacity: 0.82; }
+      50% { opacity: 1; }
     }
 
     @keyframes optionIn {
@@ -1183,7 +1200,11 @@
       </div>
 
       <article class="question-card" id="questionCard">
-        <div class="orbit-runner orbit-runner-card" id="cardRunner" aria-hidden="true"></div>
+        <svg class="orbit-svg" id="cardOrbit" aria-hidden="true" focusable="false">
+          <rect class="orbit-track" id="cardOrbitTrack" pathLength="100"></rect>
+          <rect class="orbit-tail" id="cardOrbitTail" pathLength="100"></rect>
+          <rect class="orbit-core" id="cardOrbitCore" pathLength="100"></rect>
+        </svg>
         <h2 class="question" id="qText">...</h2>
         <div class="options" id="options" role="listbox" aria-label="Επιλογές απάντησης"></div>
       </article>
@@ -1749,9 +1770,6 @@
         index: 0,
         answers: Array(QUESTIONS.length).fill(null),
         result: null,
-        orbitRaf: null,
-        orbitTs: 0,
-        orbits: [],
         matrixRaf: null
       };
 
@@ -1763,7 +1781,10 @@
         startBtn: document.getElementById("startBtn"),
         prevBtn: document.getElementById("prevBtn"),
         qCard: document.getElementById("questionCard"),
-        cardRunner: document.getElementById("cardRunner"),
+        cardOrbit: document.getElementById("cardOrbit"),
+        cardOrbitTrack: document.getElementById("cardOrbitTrack"),
+        cardOrbitTail: document.getElementById("cardOrbitTail"),
+        cardOrbitCore: document.getElementById("cardOrbitCore"),
         matrixCanvas: document.getElementById("matrixCanvas"),
         progressBar: document.getElementById("progressBar"),
         qText: document.getElementById("qText"),
@@ -1877,31 +1898,6 @@
         }, { passive: false });
       }
 
-      function smoothAngle(prev, next, alpha) {
-        const delta = ((next - prev + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
-        return prev + delta * alpha;
-      }
-
-      function buildOrbit(container, runner, config) {
-        return {
-          container,
-          runner,
-          inset: config.inset,
-          radius: config.radius,
-          speed: config.speed,
-          smoothing: config.smoothing,
-          distance: 0,
-          angle: 0,
-          valid: false,
-          w: 0,
-          h: 0,
-          r: 0,
-          perimeter: 0,
-          runnerW: 0,
-          runnerH: 0
-        };
-      }
-
       function initMatrixBackground() {
         if (!el.matrixCanvas) return;
         if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -1973,134 +1969,30 @@
         state.matrixRaf = window.requestAnimationFrame(drawFrame);
       }
 
-      function measureOrbit(orbit) {
-        if (!orbit.container || !orbit.runner) {
-          orbit.valid = false;
-          return;
-        }
+      function syncCardOrbit() {
+        if (!el.qCard || !el.cardOrbit) return;
 
-        const rect = orbit.container.getBoundingClientRect();
-        const usableW = rect.width - orbit.inset * 2;
-        const usableH = rect.height - orbit.inset * 2;
-        if (usableW <= 2 || usableH <= 2) {
-          orbit.valid = false;
-          return;
-        }
+        const rect = el.qCard.getBoundingClientRect();
+        const width = Math.max(6, rect.width);
+        const height = Math.max(6, rect.height);
+        const inset = 1.4;
+        const drawWidth = Math.max(1, width - inset * 2);
+        const drawHeight = Math.max(1, height - inset * 2);
+        const computed = window.getComputedStyle(el.qCard);
+        const cssRadius = parseFloat(computed.borderTopLeftRadius) || 24;
+        const safeRadius = Math.max(0, Math.min(cssRadius, drawWidth / 2 - 0.4, drawHeight / 2 - 0.4));
 
-        const computed = window.getComputedStyle(orbit.container);
-        const cssRadius = parseFloat(computed.borderTopLeftRadius) || orbit.radius;
-        const radius = Math.max(0, Math.min(cssRadius, usableW / 2 - 0.01, usableH / 2 - 0.01));
-        const topLen = Math.max(0, usableW - radius * 2);
-        const sideLen = Math.max(0, usableH - radius * 2);
-        const perimeter = topLen * 2 + sideLen * 2 + 2 * Math.PI * radius;
-        if (!Number.isFinite(perimeter) || perimeter <= 0) {
-          orbit.valid = false;
-          return;
-        }
+        el.cardOrbit.setAttribute("viewBox", `0 0 ${width.toFixed(2)} ${height.toFixed(2)}`);
 
-        orbit.w = usableW;
-        orbit.h = usableH;
-        orbit.r = radius;
-        orbit.perimeter = perimeter;
-        orbit.runnerW = orbit.runner.offsetWidth || 24;
-        orbit.runnerH = orbit.runner.offsetHeight || 1;
-        orbit.valid = true;
-      }
-
-      function pointOnRoundedRect(distance, orbit) {
-        const { w, h, r, perimeter } = orbit;
-        const topLen = Math.max(0, w - r * 2);
-        const sideLen = Math.max(0, h - r * 2);
-        const arcLen = r * Math.PI * 0.5;
-        let d = ((distance % perimeter) + perimeter) % perimeter;
-
-        if (d <= topLen) return { x: r + d, y: 0, angle: 0 };
-        d -= topLen;
-
-        if (d <= arcLen) {
-          const t = d / r;
-          return { x: w - r + r * Math.sin(t), y: r - r * Math.cos(t), angle: t };
-        }
-        d -= arcLen;
-
-        if (d <= sideLen) return { x: w, y: r + d, angle: Math.PI * 0.5 };
-        d -= sideLen;
-
-        if (d <= arcLen) {
-          const t = d / r;
-          return { x: w - r + r * Math.cos(t), y: h - r + r * Math.sin(t), angle: Math.PI * 0.5 + t };
-        }
-        d -= arcLen;
-
-        if (d <= topLen) return { x: w - r - d, y: h, angle: Math.PI };
-        d -= topLen;
-
-        if (d <= arcLen) {
-          const t = d / r;
-          return { x: r - r * Math.sin(t), y: h - r + r * Math.cos(t), angle: Math.PI + t };
-        }
-        d -= arcLen;
-
-        if (d <= sideLen) return { x: 0, y: h - r - d, angle: -Math.PI * 0.5 };
-        d -= sideLen;
-
-        const t = Math.min(Math.PI * 0.5, d / r);
-        return { x: r - r * Math.cos(t), y: r - r * Math.sin(t), angle: -Math.PI * 0.5 + t };
-      }
-
-      function placeOrbitRunner(orbit, smoothing = orbit.smoothing) {
-        if (!orbit.runner) return;
-        if (!orbit.valid) {
-          orbit.runner.style.transform = "translate3d(-9999px,-9999px,0)";
-          return;
-        }
-
-        const p = pointOnRoundedRect(orbit.distance, orbit);
-        orbit.angle = smoothAngle(orbit.angle, p.angle, smoothing);
-
-        const x = orbit.inset + p.x - orbit.runnerW / 2;
-        const y = orbit.inset + p.y - orbit.runnerH / 2;
-        orbit.runner.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${orbit.angle.toFixed(4)}rad)`;
-      }
-
-      function primeOrbits(attempt = 0) {
-        state.orbits.forEach((orbit) => {
-          measureOrbit(orbit);
-          placeOrbitRunner(orbit, 1);
+        [el.cardOrbitTrack, el.cardOrbitTail, el.cardOrbitCore].forEach((node) => {
+          if (!node) return;
+          node.setAttribute("x", inset.toFixed(2));
+          node.setAttribute("y", inset.toFixed(2));
+          node.setAttribute("width", drawWidth.toFixed(2));
+          node.setAttribute("height", drawHeight.toFixed(2));
+          node.setAttribute("rx", safeRadius.toFixed(2));
+          node.setAttribute("ry", safeRadius.toFixed(2));
         });
-
-        const hasInvalid = state.orbits.some((orbit) => !orbit.valid);
-        if (!hasInvalid || attempt >= 24) return;
-        window.requestAnimationFrame(() => primeOrbits(attempt + 1));
-      }
-
-      function stepOrbits(timestamp) {
-        if (!state.orbitTs) state.orbitTs = timestamp;
-        const dtMs = Math.min(34, timestamp - state.orbitTs);
-        state.orbitTs = timestamp;
-
-        state.orbits.forEach((orbit) => {
-          if (!orbit.valid) measureOrbit(orbit);
-          if (!orbit.valid) return;
-          orbit.distance = (orbit.distance + orbit.speed * (dtMs / 1000)) % orbit.perimeter;
-          placeOrbitRunner(orbit);
-        });
-
-        state.orbitRaf = window.requestAnimationFrame(stepOrbits);
-      }
-
-      function initOrbits() {
-        if (typeof window.requestAnimationFrame !== "function") return;
-
-        state.orbits = [
-          buildOrbit(el.qCard, el.cardRunner, { inset: 1.25, radius: 24, speed: 44, smoothing: 1 })
-        ];
-
-        state.orbitTs = 0;
-        primeOrbits();
-
-        if (state.orbitRaf) window.cancelAnimationFrame(state.orbitRaf);
-        state.orbitRaf = window.requestAnimationFrame(stepOrbits);
       }
 
       function init() {
@@ -2110,7 +2002,7 @@
         el.scoreMax.textContent = `/${MAX_TOTAL_SCORE}`;
         bindEvents();
         initMatrixBackground();
-        initOrbits();
+        window.requestAnimationFrame(syncCardOrbit);
       }
 
       function bindEvents() {
@@ -2122,7 +2014,7 @@
           clearTimeout(resizeTimer);
           resizeTimer = setTimeout(() => {
             applyStaticWidowFix();
-            primeOrbits();
+            syncCardOrbit();
             if (state.screen === "quiz") renderQuestion();
             if (state.screen === "result") renderResult();
           }, 120);
@@ -2135,7 +2027,7 @@
         state.answers = Array(QUESTIONS.length).fill(null);
         state.result = null;
         updateScreens();
-        primeOrbits();
+        syncCardOrbit();
         renderQuestion();
       }
 
@@ -2145,7 +2037,7 @@
         el.resultScreen.classList.toggle("active", state.screen === "result");
         document.body.classList.toggle("result-mode", state.screen === "result");
         if (state.screen === "quiz") {
-          primeOrbits();
+          syncCardOrbit();
         }
       }
 
@@ -2175,6 +2067,8 @@
           btn.addEventListener("click", () => selectAnswer(option.score, btn));
           el.options.appendChild(btn);
         });
+
+        window.requestAnimationFrame(syncCardOrbit);
 
         el.prevBtn.style.visibility = state.index === 0 ? "hidden" : "visible";
       }
