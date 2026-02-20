@@ -367,6 +367,7 @@
     .question-card {
       position: relative;
       overflow: hidden;
+      isolation: isolate;
       border: 1px solid var(--line);
       border-radius: var(--radius-xl);
       background: var(--panel);
@@ -396,7 +397,7 @@
       pointer-events: none;
       z-index: 3;
       overflow: visible;
-      mix-blend-mode: screen;
+      mix-blend-mode: normal;
     }
 
     .orbit-track,
@@ -1160,6 +1161,14 @@
         animation: none !important;
         transition: none !important;
       }
+
+      .orbit-tail {
+        animation: orbitDash 13.8s linear infinite !important;
+      }
+
+      .orbit-core {
+        animation: orbitDash 13.8s linear infinite, orbitPulse 7.6s ease-in-out infinite !important;
+      }
     }
   </style>
 </head>
@@ -1772,7 +1781,8 @@
         index: 0,
         answers: Array(QUESTIONS.length).fill(null),
         result: null,
-        matrixRaf: null
+        matrixRaf: null,
+        cardOrbitObserver: null
       };
 
       const el = {
@@ -1978,7 +1988,9 @@
         const width = Math.max(6, rect.width);
         const height = Math.max(6, rect.height);
         if (width < 20 || height < 20) {
-          window.requestAnimationFrame(syncCardOrbit);
+          if (state.screen === "quiz") {
+            window.requestAnimationFrame(syncCardOrbit);
+          }
           return;
         }
         const inset = 1.4;
@@ -2001,6 +2013,14 @@
         });
       }
 
+      function initCardOrbitObserver() {
+        if (!("ResizeObserver" in window) || !el.qCard) return;
+        state.cardOrbitObserver = new ResizeObserver(() => {
+          syncCardOrbit();
+        });
+        state.cardOrbitObserver.observe(el.qCard);
+      }
+
       function init() {
         bindViewportGuards();
         bindAntiZoomGestures();
@@ -2008,6 +2028,7 @@
         el.scoreMax.textContent = `/${MAX_TOTAL_SCORE}`;
         bindEvents();
         initMatrixBackground();
+        initCardOrbitObserver();
         window.requestAnimationFrame(syncCardOrbit);
       }
 
