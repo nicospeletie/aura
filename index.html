@@ -39,11 +39,13 @@
     body {
       margin: 0;
       padding: 0;
-      min-height: 100%;
+      min-height: 100dvh;
       background: var(--bg-0);
       color: var(--txt);
       font-family: "Manrope", sans-serif;
       touch-action: manipulation;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     body {
@@ -139,7 +141,7 @@
     .app {
       width: min(960px, calc(100% - 20px));
       margin: 0 auto;
-      padding: 16px 0 calc(28px + env(safe-area-inset-bottom));
+      padding: 14px 0 max(8px, env(safe-area-inset-bottom));
     }
 
     .topbar {
@@ -296,7 +298,7 @@
       border-radius: 14px;
       background: rgba(30, 10, 25, 0.8);
       backdrop-filter: blur(8px);
-      padding: 10px 11px;
+      padding: 7px 10px;
       box-shadow: var(--shadow);
       transition: box-shadow 220ms ease, border-color 220ms ease;
     }
@@ -477,7 +479,6 @@
       border-radius: inherit;
       background: radial-gradient(circle at 10% 0%, rgba(255, 176, 216, 0.24), transparent 48%);
       opacity: 0;
-      animation: optionAura 5s ease-in-out infinite;
       pointer-events: none;
       transition: opacity 220ms ease;
     }
@@ -503,6 +504,7 @@
 
     .option.selected::before {
       opacity: 0.52;
+      animation: optionAura 3.8s ease-in-out infinite;
     }
 
     .option-emoji {
@@ -804,7 +806,7 @@
     }
 
     .footer {
-      margin-top: 10px;
+      margin-top: 6px;
       text-align: center;
       color: #d8a9c3;
       font-size: 10px;
@@ -921,6 +923,11 @@
     }
 
     @media (max-width: 780px) {
+      .app {
+        width: calc(100% - 14px);
+        padding-bottom: max(6px, env(safe-area-inset-bottom));
+      }
+
       .bg-hypno {
         inset: -34%;
         opacity: 0.26;
@@ -951,8 +958,8 @@
       }
 
       .grain {
-        opacity: 0.09;
-        animation-duration: 34s;
+        opacity: 0.08;
+        animation-duration: 42s;
       }
 
       .chips {
@@ -980,8 +987,8 @@
       }
 
       .score-copy {
-        font-size: 16px;
-        line-height: 1.66;
+        font-size: 17px;
+        line-height: 1.7;
       }
 
       .bar {
@@ -995,6 +1002,11 @@
 
       .bar-value {
         text-align: left;
+        font-size: 13px;
+      }
+
+      .bar-name {
+        font-size: 14px;
       }
 
       .tag {
@@ -1006,7 +1018,7 @@
       }
 
       .metric {
-        font-size: 12px;
+        font-size: 12.5px;
       }
 
       .panel {
@@ -1018,15 +1030,15 @@
       }
 
       .panel p {
-        font-size: 16px;
-        line-height: 1.66;
+        font-size: 16.5px;
+        line-height: 1.7;
       }
 
       .tip,
       .focus-item {
         padding: 10px 12px;
-        font-size: 15.5px;
-        line-height: 1.58;
+        font-size: 15.8px;
+        line-height: 1.62;
       }
 
       .cta p {
@@ -1053,6 +1065,7 @@
 
       .option:hover::before {
         opacity: 0.42;
+        animation: optionAura 4.8s ease-in-out infinite;
       }
 
       .option:hover::after {
