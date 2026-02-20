@@ -1,1 +1,1914 @@
 
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PELTIE TRIBE • Διαγνωστικό Αρχέτυπου Έλξης</title>
+  <meta name="description" content="Το πιο εξελιγμένο ελληνικό διαγνωστικό έλξης: 20 ερωτήσεις, αρχέτυπο, πρακτικό πλάνο και έξυπνη αναβάθμιση σχέσεων.">
+  <meta property="og:title" content="PELTIE TRIBE • Διαγνωστικό Αρχέτυπου Έλξης">
+  <meta property="og:description" content="Ανακάλυψε το αρχέτυπο έλξης σου, πάρε στρατηγικό πλάνο και μοιράσου το αποτέλεσμα.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#170713">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&amp;family=Orbitron:wght@600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0: #11050e;
+      --bg-1: #1c0a18;
+      --bg-2: #2a0f25;
+      --card: rgba(34, 10, 30, 0.78);
+      --line: rgba(255, 139, 199, 0.27);
+      --txt: #ffeef8;
+      --muted: #e7b7cf;
+      --pink: #ff5ca8;
+      --rose: #ff7eb8;
+      --fuchsia: #ff89df;
+      --peach: #ffc19e;
+      --good: #ffd2ea;
+      --warn: #ffd8b0;
+      --ring: 0;
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-sm: 16px;
+      --shadow: 0 24px 56px rgba(10, 2, 8, 0.58);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: var(--bg-0);
+      color: var(--txt);
+      font-family: "Manrope", "Segoe UI", system-ui, sans-serif;
+      touch-action: manipulation;
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(1100px 600px at 8% -8%, rgba(255, 92, 168, 0.35), transparent 62%),
+        radial-gradient(980px 560px at 96% 2%, rgba(255, 137, 223, 0.28), transparent 64%),
+        radial-gradient(900px 620px at 50% 112%, rgba(255, 193, 158, 0.23), transparent 68%),
+        linear-gradient(165deg, var(--bg-0), var(--bg-1) 52%, var(--bg-2));
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        radial-gradient(rgba(255, 255, 255, 0.24) 0.42px, transparent 0.42px),
+        radial-gradient(rgba(255, 255, 255, 0.24) 0.42px, transparent 0.42px);
+      background-size: 3px 3px, 3px 3px;
+      background-position: 0 0, 1.5px 1.5px;
+    }
+
+    .app {
+      width: min(1120px, 100% - 24px);
+      margin: 0 auto;
+      padding-top: 18px;
+      padding-bottom: calc(30px + env(safe-area-inset-bottom));
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 22;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(32, 8, 27, 0.72);
+      backdrop-filter: blur(11px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Orbitron", "Manrope", sans-serif;
+      letter-spacing: 0.02em;
+      font-size: clamp(14px, 3.2vw, 20px);
+      white-space: nowrap;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #2a051c;
+      background: linear-gradient(140deg, var(--pink), var(--fuchsia));
+      box-shadow: 0 10px 24px rgba(255, 92, 168, 0.4);
+    }
+
+    .tag {
+      font-size: clamp(10px, 2.3vw, 12px);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 700;
+      text-align: right;
+      line-height: 1.35;
+    }
+
+    .screen {
+      display: none;
+      animation: rise 330ms ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .hero {
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: clamp(22px, 5vw, 42px);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .pulse {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 193, 158, 0.56);
+      background: rgba(255, 193, 158, 0.12);
+      color: #ffd9c0;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 14px;
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .title {
+      margin: 8px 0 12px;
+      font-family: "Orbitron", "Manrope", sans-serif;
+      font-size: clamp(30px, 9vw, 56px);
+      line-height: 0.98;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: linear-gradient(120deg, #ffeefd 16%, #ffb8dd 52%, #ffd9c0 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      color: #f7dbe9;
+      line-height: 1.45;
+      font-size: clamp(16px, 3.8vw, 22px);
+      max-width: 60ch;
+    }
+
+    .subline {
+      margin: 14px 0 0;
+      font-size: clamp(14px, 3.3vw, 18px);
+      color: #ffd0e7;
+      line-height: 1.42;
+    }
+
+    .start-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .start-chip {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 11px;
+      background: rgba(42, 11, 35, 0.58);
+      color: #f2beda;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-soft,
+    .option {
+      border: none;
+      font: inherit;
+      cursor: pointer;
+      width: 100%;
+      min-height: 58px;
+      border-radius: 18px;
+      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease, border-color 220ms ease;
+    }
+
+    .btn-primary {
+      margin-top: 18px;
+      padding: 18px 22px;
+      color: #2a051c;
+      font-size: clamp(18px, 4.7vw, 25px);
+      font-weight: 800;
+      background: linear-gradient(108deg, var(--pink), var(--fuchsia) 56%, #ffc1d8);
+      box-shadow: 0 22px 40px rgba(255, 92, 168, 0.38);
+    }
+
+    .btn-primary:active,
+    .btn-secondary:active,
+    .btn-soft:active,
+    .option:active {
+      transform: scale(0.985);
+    }
+
+    .quiz-head {
+      position: sticky;
+      top: 78px;
+      z-index: 19;
+      border: 1px solid var(--line);
+      background: rgba(28, 8, 23, 0.83);
+      backdrop-filter: blur(9px);
+      border-radius: 17px;
+      padding: 11px 12px;
+      box-shadow: var(--shadow);
+      margin-top: 12px;
+    }
+
+    .quiz-line {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(252, 179, 219, 0.22);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .quiz-fill {
+      height: 100%;
+      width: var(--ring);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--fuchsia));
+      transition: width 320ms cubic-bezier(0.24, 0.86, 0.38, 1.18);
+    }
+
+    .head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .head-row .strong {
+      color: #ffc3dd;
+      font-size: 15px;
+    }
+
+    .btn-back {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(45, 12, 37, 0.72);
+      color: #ffd8eb;
+      font-weight: 800;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .question-card {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      padding: clamp(18px, 4vw, 32px);
+      box-shadow: var(--shadow);
+    }
+
+    .cat-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 92, 168, 0.16);
+      border: 1px solid rgba(255, 92, 168, 0.4);
+      color: #ffd4ea;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .question {
+      margin: 12px 0 16px;
+      font-size: clamp(20px, 5vw, 34px);
+      line-height: 1.22;
+      letter-spacing: 0.01em;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option {
+      text-align: left;
+      padding: 16px 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(255, 150, 210, 0.22);
+      background: rgba(46, 14, 39, 0.75);
+      color: #ffeef8;
+      position: relative;
+    }
+
+    .option:hover {
+      border-color: rgba(255, 164, 215, 0.78);
+      box-shadow: 0 16px 30px rgba(18, 3, 13, 0.55);
+      transform: translateY(-1px);
+    }
+
+    .option.selected {
+      border-color: rgba(255, 193, 158, 0.78);
+      background: linear-gradient(122deg, rgba(255, 92, 168, 0.2), rgba(255, 137, 223, 0.18));
+      box-shadow: 0 16px 35px rgba(255, 92, 168, 0.33);
+      transform: translateY(-1px);
+    }
+
+    .option-emoji {
+      width: 34px;
+      text-align: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .option-label {
+      font-size: clamp(15px, 4vw, 19px);
+      line-height: 1.34;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .feedback {
+      position: fixed;
+      left: 50%;
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      padding: 11px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 193, 158, 0.72);
+      background: rgba(41, 11, 35, 0.95);
+      color: #ffd9c2;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      z-index: 35;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+
+    .feedback.show {
+      opacity: 1;
+    }
+
+    .result-wrap {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .result-main {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      padding: clamp(20px, 4.2vw, 28px);
+      box-shadow: var(--shadow);
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffd9c2;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 193, 158, 0.56);
+      background: rgba(255, 193, 158, 0.11);
+      border-radius: 999px;
+      padding: 6px 12px;
+    }
+
+    .score-flex {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 178px minmax(0, 1fr);
+      gap: clamp(14px, 3vw, 28px);
+      align-items: center;
+    }
+
+    .score-ring {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at center, rgba(27, 6, 22, 0.95) 55%, transparent 56%),
+        conic-gradient(from 90deg, var(--pink), var(--fuchsia) var(--ring), rgba(255, 195, 225, 0.22) var(--ring));
+      box-shadow: inset 0 0 0 1px rgba(255, 174, 219, 0.28), 0 16px 33px rgba(12, 2, 8, 0.6);
+      font-family: "Orbitron", "Manrope", sans-serif;
+      text-align: center;
+      margin-inline: auto;
+    }
+
+    .score-number {
+      line-height: 1;
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .score-max {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      font-family: "Manrope", sans-serif;
+      font-weight: 700;
+    }
+
+    .score-title {
+      margin: 4px 0 10px;
+      font-family: "Orbitron", "Manrope", sans-serif;
+      font-size: clamp(20px, 5vw, 30px);
+      line-height: 1.14;
+    }
+
+    .score-copy {
+      color: #f3dce9;
+      line-height: 1.55;
+      font-size: 16px;
+      margin: 0;
+      max-width: 62ch;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(33, 10, 29, 0.77);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel-title {
+      margin: 0 0 12px;
+      color: #ffcce5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .radar-box {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 174, 219, 0.22);
+      background: rgba(45, 14, 39, 0.66);
+      padding: 8px;
+    }
+
+    #radar {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .bars {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar {
+      display: grid;
+      grid-template-columns: minmax(120px, 1fr) minmax(120px, 2fr) 46px;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+    }
+
+    .bar-name {
+      color: #ffe5f2;
+      font-weight: 700;
+    }
+
+    .bar-track {
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(255, 200, 226, 0.24);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--fuchsia));
+      transition: width 700ms ease;
+    }
+
+    .bar-score {
+      font-family: "Orbitron", "Manrope", sans-serif;
+      text-align: right;
+      color: #ffd1e8;
+    }
+
+    .arch-name {
+      margin: 0;
+      font-family: "Orbitron", "Manrope", sans-serif;
+      font-size: clamp(22px, 6vw, 34px);
+      line-height: 1.12;
+    }
+
+    .arch-copy {
+      margin: 10px 0 0;
+      color: #f2d8e7;
+      line-height: 1.55;
+    }
+
+    .chips {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 166, 214, 0.42);
+      color: #ffd9ee;
+      background: rgba(255, 92, 168, 0.12);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .tips,
+    .plan {
+      margin: 10px 0 0;
+      padding-left: 0;
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .tip {
+      border: 1px solid rgba(255, 137, 223, 0.35);
+      background: rgba(255, 137, 223, 0.1);
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: #ffecf7;
+      line-height: 1.43;
+      font-size: 14px;
+    }
+
+    .tip strong {
+      color: #ffd2eb;
+    }
+
+    .plan-item {
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 193, 158, 0.43);
+      background: rgba(255, 193, 158, 0.11);
+      color: #ffe6d8;
+      line-height: 1.43;
+      font-size: 14px;
+    }
+
+    .cta {
+      border: 1px solid rgba(255, 193, 158, 0.42);
+      border-radius: var(--radius-xl);
+      padding: clamp(20px, 4.5vw, 30px);
+      background:
+        linear-gradient(136deg, rgba(255, 92, 168, 0.19), rgba(255, 137, 223, 0.16)),
+        rgba(28, 8, 24, 0.9);
+      box-shadow: 0 25px 46px rgba(10, 2, 8, 0.54);
+    }
+
+    .cta h3 {
+      margin: 0;
+      font-size: clamp(21px, 6vw, 34px);
+      line-height: 1.12;
+      font-family: "Orbitron", "Manrope", sans-serif;
+    }
+
+    .cta p {
+      margin: 10px 0 16px;
+      color: #ffe7f5;
+      line-height: 1.5;
+      font-size: 15px;
+      max-width: 60ch;
+    }
+
+    .cta-list {
+      margin: 0 0 16px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 7px;
+      color: #ffd6ec;
+      font-size: 14px;
+      line-height: 1.42;
+    }
+
+    .cta-list li::before {
+      content: "• ";
+      color: #ffb4dc;
+      font-weight: 800;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(110deg, #ff77b5, #ff9fcb 55%, #ffc6de);
+      color: #30021f;
+      font-weight: 800;
+      padding: 15px 16px;
+      box-shadow: 0 20px 34px rgba(255, 92, 168, 0.33);
+      font-size: clamp(16px, 4.3vw, 23px);
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn-soft {
+      border: 1px solid var(--line);
+      background: rgba(43, 13, 37, 0.73);
+      color: #ffe2f1;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .btn-soft strong {
+      display: block;
+      color: #fff0f8;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .viral-note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 166, 214, 0.45);
+      border-radius: 14px;
+      background: rgba(255, 92, 168, 0.1);
+      color: #ffd7ec;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .foot {
+      text-align: center;
+      color: #d3a9c0;
+      font-size: 10px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      margin: 14px 0 2px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      border-radius: 999px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 181, 222, 0.6);
+      background: rgba(28, 8, 24, 0.95);
+      color: #ffe5f2;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 50;
+      transition: opacity 160ms ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    #fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 42;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes drift {
+      0% {
+        filter: hue-rotate(0deg);
+      }
+      100% {
+        filter: hue-rotate(10deg);
+      }
+    }
+
+    @media (min-width: 980px) {
+      .result-wrap {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .result-main,
+      .cta,
+      #restartBtn {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .app {
+        width: min(1120px, calc(100% - 14px));
+      }
+
+      .topbar {
+        padding: 10px 11px;
+      }
+
+      .quiz-head {
+        top: 66px;
+      }
+
+      .score-flex {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .score-copy {
+        margin-inline: auto;
+      }
+
+      .share-grid,
+      .start-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bar {
+        grid-template-columns: minmax(90px, 1fr) minmax(80px, 2fr) 40px;
+      }
+
+      .panel,
+      .result-main {
+        padding: 14px;
+      }
+
+      .option {
+        padding: 14px 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="grain"></div>
+  <canvas id="fx"></canvas>
+
+  <main class="app" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">P</span>
+        <span>PELTIE TRIBE</span>
+      </div>
+      <div class="tag">Διαγνωστικό Αρχέτυπου Έλξης • 2026</div>
+    </header>
+
+    <section id="startScreen" class="screen active" aria-live="polite">
+      <div class="hero">
+        <div class="pulse">● <span id="liveCounter">0</span> άτομα ολοκλήρωσαν το διαγνωστικό αυτή την εβδομάδα</div>
+        <h1 class="title">Το πιο κοφτερό<br>ελληνικό τεστ έλξης</h1>
+        <p class="subtitle">20 ερωτήσεις με υψηλή σαφήνεια. Όχι θεωρία για να νιώσεις καλά. Καθαρή διάγνωση για να ξέρεις τι σε κάνει ακαταμάχητο/η και τι σε κρατά πίσω.</p>
+        <p class="subline">Αυτό το αποτέλεσμα είτε θα σε επιβεβαιώσει, είτε θα σε ταρακουνήσει. Και τα δύο είναι κέρδος.</p>
+
+        <div class="start-grid" aria-label="Οφέλη τεστ">
+          <div class="start-chip">20 ερωτήσεις ακριβείας</div>
+          <div class="start-chip">100% για κινητό και laptop</div>
+          <div class="start-chip">Αρχέτυπο που ποστάρεται</div>
+        </div>
+
+        <button type="button" class="btn-primary" id="startBtn">Ξεκίνα τώρα</button>
+      </div>
+    </section>
+
+    <section id="quizScreen" class="screen" aria-live="polite">
+      <div class="quiz-head">
+        <div class="head-row">
+          <button type="button" class="btn-back" id="prevBtn" aria-label="Προηγούμενη ερώτηση">←</button>
+          <span>Ερώτηση <span class="strong" id="qIndex">1/20</span></span>
+          <span>Πρόοδος <span class="strong" id="progressPct">0%</span></span>
+        </div>
+        <div class="quiz-line">
+          <div class="quiz-fill" id="progressBar"></div>
+        </div>
+      </div>
+
+      <article class="question-card">
+        <div class="cat-label" id="qCategory">Παρουσία</div>
+        <h2 class="question" id="qText">...</h2>
+        <div class="options" id="options" role="listbox" aria-label="Επιλογές απάντησης"></div>
+      </article>
+
+      <div class="feedback" id="feedback">Καθαρή επιλογή. Προχωράμε.</div>
+    </section>
+
+    <section id="resultScreen" class="screen" aria-live="polite">
+      <div class="result-wrap">
+        <article class="result-main">
+          <div class="kicker">✓ Ο προσωπικός σου χάρτης έλξης είναι έτοιμος</div>
+          <div class="score-flex">
+            <div class="score-ring" id="scoreRing">
+              <div>
+                <div class="score-number" id="totalScore">0</div>
+                <div class="score-max">/ 80</div>
+              </div>
+            </div>
+            <div>
+              <h2 class="score-title" id="scoreTitle">...</h2>
+              <p class="score-copy" id="scoreCopy"></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h3 class="panel-title">Ανάλυση 4 πυλώνων</h3>
+          <div class="radar-box">
+            <svg id="radar" viewBox="0 0 320 320" aria-label="Διάγραμμα προφίλ"></svg>
+          </div>
+          <div class="bars" id="bars"></div>
+        </article>
+
+        <article class="panel">
+          <h3 class="panel-title">Το αρχέτυπό σου</h3>
+          <h3 class="arch-name" id="archetypeName">...</h3>
+          <p class="arch-copy" id="archetypeCopy"></p>
+          <div class="chips" id="archetypeChips"></div>
+        </article>
+
+        <article class="panel">
+          <h3 class="panel-title">Συμβουλές γνωριμιών που δουλεύουν για εσένα</h3>
+          <ul class="tips" id="tips"></ul>
+        </article>
+
+        <article class="panel">
+          <h3 class="panel-title">Πλάνο 7 ημερών για άμεση αναβάθμιση</h3>
+          <ul class="plan" id="plan"></ul>
+        </article>
+
+        <article class="cta">
+          <h3>Θες να μετατρέψεις αυτό το αρχέτυπο σε πραγματικά αποτελέσματα;</h3>
+          <p>Στην <strong>PELTIE TRIBE</strong> δεν δίνουμε γενικές συμβουλές. Παίρνεις προσωπική καθοδήγηση, διορθώσεις σε πραγματικό χρόνο και στρατηγική που εφαρμόζεται άμεσα στη δική σου περίσταση.</p>
+          <ul class="cta-list">
+            <li>Προσωπικό feedback σε μηνύματα και ραντεβού.</li>
+            <li>Καθαρή στρατηγική για προσέγγιση, επιλογή και σταθερότητα.</li>
+            <li>Κοινότητα υψηλών στάνταρ που σε κρατά σε δράση.</li>
+          </ul>
+          <a class="btn-secondary" id="joinBtn" href="https://www.skool.com/peletietribe?utm_source=quiz&utm_medium=cta&utm_campaign=tribe_conversion" target="_blank" rel="noopener">Εγγραφή στην PELTIE TRIBE</a>
+
+          <div class="share-grid">
+            <button type="button" class="btn-soft" id="shareNative">
+              <strong>Έξυπνη κοινοποίηση</strong>
+              Κοινοποίησε σκορ + αρχέτυπο
+            </button>
+            <button type="button" class="btn-soft" id="shareCard">
+              <strong>Κάρτα για story</strong>
+              Δημιούργησε εικόνα αποτελέσματος
+            </button>
+            <button type="button" class="btn-soft" id="copyResult">
+              <strong>Αντιγραφή πρόκλησης</strong>
+              Αντέγραψε έτοιμη λεζάντα
+            </button>
+            <button type="button" class="btn-soft" id="shareWhatsApp">
+              <strong>Πρόκληση σε φίλο</strong>
+              Στείλε το τεστ σε WhatsApp
+            </button>
+          </div>
+
+          <div class="viral-note">Πρόκληση: Ανέβασε screenshot του αρχέτυπού σου με hashtag <strong>#PeltieArchetype</strong> και κάλεσε 3 φίλους να περάσουν το σκορ σου.</div>
+        </article>
+
+        <button type="button" class="btn-primary" id="restartBtn">Νέο τεστ από την αρχή</button>
+      </div>
+    </section>
+
+    <p class="foot">© 2026 PELTIE TRIBE • Σύστημα Νοημοσύνης Έλξης</p>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (() => {
+      const CATEGORIES = [
+        { name: "Παρουσία & Πρώτη Εντύπωση" },
+        { name: "Επικοινωνία & Χημεία" },
+        { name: "Όρια & Αξία" },
+        { name: "Συναισθηματική Ηγεσία" }
+      ];
+
+      const QUESTIONS = [
+        {
+          cat: 0,
+          text: "Πριν από ένα ραντεβού, πόσο σταθερά προετοιμάζεις εμφάνιση, ενέργεια και στάση σώματος;",
+          options: [
+            { emoji: "😶", label: "Σχεδόν ποτέ, πάω όπως είμαι", score: 1 },
+            { emoji: "🙂", label: "Κάνω λίγα βασικά, χωρίς συνέπεια", score: 2 },
+            { emoji: "✨", label: "Έχω απλή ρουτίνα που τηρώ", score: 3 },
+            { emoji: "⚡", label: "Έχω τελετουργία υψηλής παρουσίας", score: 4 }
+          ]
+        },
+        {
+          cat: 0,
+          text: "Όταν μπαίνεις σε χώρο με άγνωστους ανθρώπους, ποια είναι η πρώτη σου κίνηση;",
+          options: [
+            { emoji: "🫥", label: "Μένω διακριτικά στο πλάι", score: 1 },
+            { emoji: "👋", label: "Χαιρετώ διστακτικά και περιμένω", score: 2 },
+            { emoji: "🎯", label: "Κάνω 2-3 ζεστές, σταθερές επαφές", score: 3 },
+            { emoji: "🔥", label: "Στήνω έντονο θετικό κλίμα από την αρχή", score: 4 }
+          ]
+        },
+        {
+          cat: 0,
+          text: "Σε στιγμή άγχους στο φλερτ, τι γίνεται συνήθως;",
+          options: [
+            { emoji: "🌪️", label: "Χάνω ρυθμό και κλείνομαι", score: 1 },
+            { emoji: "🧩", label: "Το κρύβω αλλά φαίνεται", score: 2 },
+            { emoji: "🫁", label: "Ρυθμίζω αναπνοή και επανέρχομαι", score: 3 },
+            { emoji: "🧠", label: "Μετατρέπω το άγχος σε καθαρή παρουσία", score: 4 }
+          ]
+        },
+        {
+          cat: 0,
+          text: "Πόσο συνεπές είναι το προσωπικό σου στυλ με την εικόνα που θέλεις να εκπέμπεις;",
+          options: [
+            { emoji: "📉", label: "Δεν το σκέφτομαι σχεδόν καθόλου", score: 1 },
+            { emoji: "📌", label: "Το σκέφτομαι μόνο σε ειδικές περιστάσεις", score: 2 },
+            { emoji: "👔", label: "Έχω σταθερό στυλ που με εκφράζει", score: 3 },
+            { emoji: "🧲", label: "Το στυλ μου λειτουργεί ως προσωπική υπογραφή", score: 4 }
+          ]
+        },
+        {
+          cat: 0,
+          text: "Όταν πέφτει σιωπή σε συζήτηση, πώς αντιδράς;",
+          options: [
+            { emoji: "😬", label: "Αγχώνομαι και μιλώ βιαστικά", score: 1 },
+            { emoji: "😅", label: "Πετάω τυχαία αστεία για να γεμίσω το κενό", score: 2 },
+            { emoji: "🙂", label: "Κρατώ ψυχραιμία και συνεχίζω φυσικά", score: 3 },
+            { emoji: "🎬", label: "Χρησιμοποιώ τη σιωπή σαν εργαλείο έντασης", score: 4 }
+          ]
+        },
+
+        {
+          cat: 1,
+          text: "Πώς ξεκινάς συνήθως συζήτηση με άτομο που σου αρέσει;",
+          options: [
+            { emoji: "🫠", label: "Με αμήχανη γενικότητα", score: 1 },
+            { emoji: "🙂", label: "Με ασφαλή αλλά τυπική ερώτηση", score: 2 },
+            { emoji: "😄", label: "Με παρατήρηση για τη στιγμή", score: 3 },
+            { emoji: "🎯", label: "Με δυνατό άνοιγμα που δημιουργεί ενδιαφέρον", score: 4 }
+          ]
+        },
+        {
+          cat: 1,
+          text: "Στη διάρκεια της συζήτησης, πόσο ποιοτικά ακούς;",
+          options: [
+            { emoji: "🗣️", label: "Μιλώ περισσότερο από όσο ακούω", score: 1 },
+            { emoji: "⚖️", label: "Η ισορροπία είναι μέτρια", score: 2 },
+            { emoji: "👂", label: "Ακούω συνειδητά και ρωτώ ουσιαστικά", score: 3 },
+            { emoji: "🧠", label: "Καθοδηγώ με βαθιά ακρόαση και σωστές παύσεις", score: 4 }
+          ]
+        },
+        {
+          cat: 1,
+          text: "Πώς χρησιμοποιείς χιούμορ και πείραγμα;",
+          options: [
+            { emoji: "🚫", label: "Το αποφεύγω πλήρως", score: 1 },
+            { emoji: "😅", label: "Το δοκιμάζω αλλά βγαίνει επίπεδο", score: 2 },
+            { emoji: "😉", label: "Το χρησιμοποιώ με μέτρο και σεβασμό", score: 3 },
+            { emoji: "🎭", label: "Το χρησιμοποιώ με ακρίβεια και υψηλή κοινωνική νοημοσύνη", score: 4 }
+          ]
+        },
+        {
+          cat: 1,
+          text: "Μετά από καλή κουβέντα, πόσο καθαρά κλείνεις επόμενο βήμα;",
+          options: [
+            { emoji: "💭", label: "Δεν προτείνω τίποτα", score: 1 },
+            { emoji: "⌛", label: "Λέω “να το κανονίσουμε” χωρίς λεπτομέρειες", score: 2 },
+            { emoji: "📅", label: "Προτείνω συγκεκριμένη μέρα ή δραστηριότητα", score: 3 },
+            { emoji: "✅", label: "Κλειδώνω ώρα, πλαίσιο και καθαρή πρόθεση", score: 4 }
+          ]
+        },
+        {
+          cat: 1,
+          text: "Στα μηνύματα μετά τη γνωριμία, ποιος είναι ο ρυθμός σου;",
+          options: [
+            { emoji: "📱", label: "Στέλνω αποσπασματικά ή υπερβολικά", score: 1 },
+            { emoji: "🕒", label: "Απαντώ αργά χωρίς κατεύθυνση", score: 2 },
+            { emoji: "📨", label: "Κρατώ σταθερό ρυθμό με νόημα", score: 3 },
+            { emoji: "🚀", label: "Κάνω λίγα, καθαρά μηνύματα που οδηγούν σε πράξη", score: 4 }
+          ]
+        },
+
+        {
+          cat: 2,
+          text: "Αν η επικοινωνία γίνει μονόπλευρη για ημέρες, τι κάνεις;",
+          options: [
+            { emoji: "📲", label: "Επιμένω μέχρι να απαντήσει", score: 1 },
+            { emoji: "🤷", label: "Περιμένω παθητικά χωρίς θέση", score: 2 },
+            { emoji: "🧭", label: "Κάνω ένα καθαρό μήνυμα και αποσύρομαι", score: 3 },
+            { emoji: "🛡️", label: "Επενδύω μόνο όπου υπάρχει αμοιβαιότητα", score: 4 }
+          ]
+        },
+        {
+          cat: 2,
+          text: "Όταν δεις προειδοποιητικά σημάδια, ποια στάση κρατάς;",
+          options: [
+            { emoji: "🙈", label: "Τα αγνοώ για να μη χαλάσει το κλίμα", score: 1 },
+            { emoji: "🤔", label: "Τα δικαιολογώ προσωρινά", score: 2 },
+            { emoji: "🔎", label: "Ρωτώ και αξιολογώ ψύχραιμα", score: 3 },
+            { emoji: "✂️", label: "Κόβω νωρίς όταν δεν υπάρχει ευθυγράμμιση", score: 4 }
+          ]
+        },
+        {
+          cat: 2,
+          text: "Πώς διαχειρίζεσαι τον χρόνο σου στη φάση γνωριμίας;",
+          options: [
+            { emoji: "🧨", label: "Ακυρώνω τα πάντα για το νέο άτομο", score: 1 },
+            { emoji: "🔄", label: "Χάνω εύκολα τις προτεραιότητές μου", score: 2 },
+            { emoji: "📆", label: "Κρατώ βασικά όρια και ισορροπία", score: 3 },
+            { emoji: "🏛️", label: "Το πρόγραμμά μου δείχνει ξεκάθαρη αξία και πειθαρχία", score: 4 }
+          ]
+        },
+        {
+          cat: 2,
+          text: "Στη σωματική οικειότητα, τι σε χαρακτηρίζει περισσότερο;",
+          options: [
+            { emoji: "⚠️", label: "Πηγαίνω γρήγορα χωρίς καθαρή επικοινωνία", score: 1 },
+            { emoji: "🫣", label: "Διστάζω υπερβολικά και μπερδεύω το σήμα", score: 2 },
+            { emoji: "🤝", label: "Ελέγχω άνεση, ρυθμό και συναίνεση", score: 3 },
+            { emoji: "💎", label: "Χτίζω ένταση με ξεκάθαρα όρια και σεβασμό", score: 4 }
+          ]
+        },
+        {
+          cat: 2,
+          text: "Όταν νιώθεις ισχυρή έλξη, επιλέγεις ή κυνηγάς;",
+          options: [
+            { emoji: "🏃", label: "Κυνηγώ για να μη χάσω την ευκαιρία", score: 1 },
+            { emoji: "😵", label: "Μπερδεύομαι και γίνομαι ασυνεπής", score: 2 },
+            { emoji: "⚖️", label: "Δείχνω ενδιαφέρον αλλά αξιολογώ", score: 3 },
+            { emoji: "👑", label: "Επιλέγω με καθαρά στάνταρ και σταθερότητα", score: 4 }
+          ]
+        },
+
+        {
+          cat: 3,
+          text: "Μετά από απόρριψη, πόσο γρήγορα επιστρέφεις σε δράση;",
+          options: [
+            { emoji: "🫠", label: "Χάνομαι για μεγάλο διάστημα", score: 1 },
+            { emoji: "🧊", label: "Παγώνω και υπεραναλύω", score: 2 },
+            { emoji: "🔄", label: "Κάνω ανασκόπηση και επανέρχομαι", score: 3 },
+            { emoji: "📈", label: "Μετατρέπω την εμπειρία σε άμεση βελτίωση", score: 4 }
+          ]
+        },
+        {
+          cat: 3,
+          text: "Σε δύσκολη συζήτηση, πώς κρατάς σύνδεση χωρίς να χαθείς;",
+          options: [
+            { emoji: "🧱", label: "Αμύνομαι ή επιτίθεμαι", score: 1 },
+            { emoji: "🤐", label: "Σιωπώ και αποσύρομαι", score: 2 },
+            { emoji: "🫶", label: "Αναγνωρίζω συναίσθημα και ακούω", score: 3 },
+            { emoji: "🧭", label: "Ρυθμίζω ένταση και οδηγώ σε λύση", score: 4 }
+          ]
+        },
+        {
+          cat: 3,
+          text: "Όταν ζηλεύεις ή ενεργοποιείσαι συναισθηματικά, τι κάνεις;",
+          options: [
+            { emoji: "💥", label: "Αντιδρώ παρορμητικά", score: 1 },
+            { emoji: "😶", label: "Το καταπιέζω και απομακρύνομαι", score: 2 },
+            { emoji: "🧠", label: "Το ονομάζω και το διαχειρίζομαι ψύχραιμα", score: 3 },
+            { emoji: "🛠️", label: "Το μετατρέπω σε ώριμη συζήτηση με πλαίσιο", score: 4 }
+          ]
+        },
+        {
+          cat: 3,
+          text: "Πόσο συνεπής είσαι στο follow-up μετά από ραντεβού;",
+          options: [
+            { emoji: "❌", label: "Αφήνω μέρες χωρίς καθαρό μήνυμα", score: 1 },
+            { emoji: "📭", label: "Στέλνω μόνο όταν το θυμηθώ", score: 2 },
+            { emoji: "⏱️", label: "Στέλνω μέσα σε 24 ώρες με σαφή πρόθεση", score: 3 },
+            { emoji: "🎯", label: "Κρατώ συνέπεια που χτίζει εμπιστοσύνη", score: 4 }
+          ]
+        },
+        {
+          cat: 3,
+          text: "Πόσο καθαρό είναι το προσωπικό σου όραμα πέρα από το φλερτ;",
+          options: [
+            { emoji: "🌫️", label: "Δεν έχω σαφή κατεύθυνση", score: 1 },
+            { emoji: "🌤️", label: "Έχω ιδέα αλλά όχι σταθερό πλάνο", score: 2 },
+            { emoji: "☀️", label: "Έχω σαφή προτεραιότητα και τηρώ ρυθμό", score: 3 },
+            { emoji: "🚀", label: "Ζω με αποστολή που ενισχύει την έλξη μου", score: 4 }
+          ]
+        }
+      ];
+
+      const ARCHETYPES = [
+        {
+          key: "provoker",
+          name: "Ο Μαγνητικός Προκλητής",
+          copy: "Δεν περνάς απαρατήρητος. Ή σε αγαπούν, ή σε απορρίπτουν γρήγορα, και αυτό είναι δύναμη. Το επόμενο επίπεδο είναι να συνδυάσεις ένταση με σταθερή διαδικασία ώστε να έχεις και ποιότητα και συνέπεια.",
+          chips: ["Υψηλή παρουσία", "Ισχυρή πρώτη εντύπωση", "Πολωτική γοητεία"],
+          tips: [
+            "<strong>Κράτα τη φωτιά, όχι τον θόρυβο:</strong> Μίλα λιγότερο, με μεγαλύτερη καθαρότητα.",
+            "<strong>Κλείσε άμεσα επόμενο βήμα:</strong> Η ένταση χωρίς πράξη χάνεται.",
+            "<strong>Δείξε πρόθεση χωρίς πίεση:</strong> Σαφές ενδιαφέρον, μηδενικό κυνηγητό.",
+            "<strong>Κάνε επιλογή, όχι επίδειξη:</strong> Μην κυνηγάς επιβεβαίωση από όλους.",
+            "<strong>Χτίσε συνέπεια:</strong> Ένα σταθερό μοτίβο δράσης είναι πιο ελκυστικό από τυχαία ξεσπάσματα."
+          ]
+        },
+        {
+          key: "charmer",
+          name: "Ο Στρατηγικός Γοητευτής",
+          copy: "Έχεις γλώσσα, ρυθμό και κοινωνική ευστροφία. Μπορείς να δημιουργείς χημεία με ακρίβεια. Το μεγαλύτερο σου κέρδος έρχεται όταν βάλεις πιο καθαρά όρια στο ποιον επιλέγεις.",
+          chips: ["Δυνατή επικοινωνία", "Χιούμορ με ακρίβεια", "Καθαρά κλεισίματα"],
+          tips: [
+            "<strong>Μίλα με εικόνες:</strong> Οι μικρές ιστορίες δημιουργούν μνήμη.",
+            "<strong>Άκου για αξίες:</strong> Μην μένεις μόνο στην επιφάνεια.",
+            "<strong>Σταμάτα στην κορύφωση:</strong> Κλείσε κουβέντα όταν έχει ανέβει το ενδιαφέρον.",
+            "<strong>Πρότεινε δραστηριότητα:</strong> Η πράξη ξεχωρίζει από την ατελείωτη ανταλλαγή μηνυμάτων.",
+            "<strong>Διατήρησε ρυθμό:</strong> Σύντομο, σταθερό, ουσιαστικό follow-up."
+          ]
+        },
+        {
+          key: "selector",
+          name: "Ο Επιλεκτικός Κυρίαρχος",
+          copy: "Έχεις ξεκάθαρα στάνταρ και δεν χαρίζεις τον χρόνο σου. Αυτό σε ανεβάζει επίπεδο άμεσα. Προσοχή μόνο να μη γίνεις υπερβολικά απόμακρος και χαθεί η ανθρώπινη ζεστασιά.",
+          chips: ["Ισχυρά όρια", "Υψηλή αυτοαξία", "Επιλογή αντί κυνηγητού"],
+          tips: [
+            "<strong>Δώσε πράσινο φως όταν υπάρχει ουσία:</strong> Η επιλεκτικότητα δεν είναι ψυχρότητα.",
+            "<strong>Κράτα καθαρά όρια:</strong> Όχι ασάφεια, όχι παιχνίδια.",
+            "<strong>Μην παρατείνεις ασύμβατες γνωριμίες:</strong> Η ταχύτητα στην απόφαση προστατεύει την ενέργειά σου.",
+            "<strong>Βάλε ρυθμό στη διαθεσιμότητα:</strong> Η συνέπεια είναι πιο δυνατή από το “όποτε”.",
+            "<strong>Διάλεξε αμοιβαιότητα:</strong> Επένδυσε μόνο εκεί που επιστρέφει ουσία."
+          ]
+        },
+        {
+          key: "strategist",
+          name: "Ο Συναισθηματικός Στρατηγός",
+          copy: "Ξέρεις να κρατάς σύνδεση, ψυχραιμία και βάθος, ακόμη και υπό πίεση. Αυτό χτίζει εμπιστοσύνη και διάρκεια. Το κλειδί σου είναι περισσότερη τόλμη στην κλιμάκωση, χωρίς να χαθεί η ποιότητα.",
+          chips: ["Βαθιά σύνδεση", "Ώριμη διαχείριση έντασης", "Ηγεσία στη σχέση"],
+          tips: [
+            "<strong>Μίλα καθαρά για πρόθεση:</strong> Το βάθος χρειάζεται και κατεύθυνση.",
+            "<strong>Μην αργείς στο επόμενο βήμα:</strong> Η χημεία θέλει χρονισμό.",
+            "<strong>Διαφωνία με πλαίσιο:</strong> Αναγνώρισε συναίσθημα, μετά ζήτα λύση.",
+            "<strong>Κράτα ενεργό ρυθμό:</strong> Μικρή, σταθερή παρουσία νικάει την υπερανάλυση.",
+            "<strong>Στήριξε το όραμά σου:</strong> Η ελκυστικότητα αυξάνεται όταν η ζωή σου έχει σαφή πορεία."
+          ]
+        }
+      ];
+
+      const GROWTH_PLANS = [
+        [
+          "Ημέρα 1: 15 λεπτά στάση σώματος, αναπνοή και σταθερή ματιά στον καθρέφτη.",
+          "Ημέρα 2: Αναβάθμισε ένα σύνολο ρούχων που σε εκφράζει πραγματικά.",
+          "Ημέρα 3: Κάνε 3 σύντομα ανοίγματα σε κοινωνικό χώρο.",
+          "Ημέρα 4: Κατάγραψε τι ανεβάζει και τι ρίχνει την ενέργειά σου.",
+          "Ημέρα 5: Προπόνηση φωνής με αργό ρυθμό και καθαρές παύσεις.",
+          "Ημέρα 6: Ένα ραντεβού χωρίς κινητό, με πλήρη παρουσία.",
+          "Ημέρα 7: Ανασκόπηση: 3 νίκες και 1 βελτίωση για την επόμενη εβδομάδα."
+        ],
+        [
+          "Ημέρα 1: Γράψε 5 ανοίγματα βασισμένα στη στιγμή, όχι σε έτοιμες ατάκες.",
+          "Ημέρα 2: Άσκηση ενεργητικής ακρόασης με 3 ουσιαστικές ερωτήσεις.",
+          "Ημέρα 3: Χρησιμοποίησε χιούμορ χωρίς υποτίμηση.",
+          "Ημέρα 4: Κλείσε μία συζήτηση με σαφή πρόταση για συνάντηση.",
+          "Ημέρα 5: Άσκηση παύσης δύο δευτερολέπτων πριν απαντήσεις.",
+          "Ημέρα 6: Μήνυμα follow-up μέσα σε 24 ώρες μετά από ραντεβού.",
+          "Ημέρα 7: Μέτρησε πόσες συζητήσεις έγιναν συγκεκριμένο ραντεβού."
+        ],
+        [
+          "Ημέρα 1: Γράψε τα 5 μη διαπραγματεύσιμα στάνταρ σου.",
+          "Ημέρα 2: Εφάρμοσε κανόνα “ένα καθαρό μήνυμα, όχι κυνηγητό”.",
+          "Ημέρα 3: Κατάγραψε 3 προειδοποιητικά σημάδια χωρίς δικαιολογίες.",
+          "Ημέρα 4: Κάνε μία καθαρή συζήτηση ορίων με ηρεμία.",
+          "Ημέρα 5: Πες “όχι” σε μία κατάσταση που δεν σε τιμά.",
+          "Ημέρα 6: Επένδυσε μόνο σε επαφή με αμοιβαιότητα.",
+          "Ημέρα 7: Ανασκόπηση: ποια επιλογή αύξησε την αυτοεκτίμησή σου."
+        ],
+        [
+          "Ημέρα 1: Μετά από κάθε συνομιλία, γράψε ένα συναίσθημα που εντόπισες σωστά.",
+          "Ημέρα 2: Άσκηση καθρεφτίσματος με δικά σου λόγια.",
+          "Ημέρα 3: Σε ένταση, μίλησε με “εγώ νιώθω” αντί για κατηγορία.",
+          "Ημέρα 4: Στείλε ένα καθαρό μήνυμα πρόθεσης με σεβασμό.",
+          "Ημέρα 5: Κράτα μικρό αλλά σταθερό ρυθμό επικοινωνίας.",
+          "Ημέρα 6: Πρότεινε επόμενο ραντεβού με συγκεκριμένη ώρα.",
+          "Ημέρα 7: Ανασκόπηση: σε ποια στιγμή κράτησες ψυχραιμία και πλαίσιο."
+        ]
+      ];
+
+      const POSITIVE_FEEDBACK = [
+        "Καθαρή επιλογή. Προχωράμε.",
+        "Δυνατή απάντηση. Συνεχίζεις.",
+        "Σωστός ρυθμός. Το προφίλ ξεκαθαρίζει.",
+        "Υψηλό επίπεδο επίγνωσης."
+      ];
+
+      const SCORE_LEVELS = [
+        {
+          min: 70,
+          title: "Ανώτατη Ζώνη Έλξης",
+          copy: "Είσαι ήδη στο ανώτερο εύρος. Η παρουσία σου είναι δυνατή και έχεις ουσία. Με στοχευμένη στρατηγική μπορείς να μετατρέπεις σχεδόν κάθε σωστή γνωριμία σε σταθερό αποτέλεσμα."
+        },
+        {
+          min: 56,
+          title: "Επικίνδυνα Ελκυστικός/ή",
+          copy: "Ξεχωρίζεις ξεκάθαρα από τον μέσο όρο. Το επόμενο άλμα έρχεται όταν ενισχύσεις τον πιο αδύναμο πυλώνα με πειθαρχία 7 ημερών."
+        },
+        {
+          min: 40,
+          title: "Στάδιο Εκτόξευσης",
+          copy: "Η βάση υπάρχει. Αυτό που λείπει είναι συνέπεια και δομή. Με σωστή εκτέλεση μπορείς να δεις εντυπωσιακή βελτίωση πολύ γρήγορα."
+        },
+        {
+          min: 0,
+          title: "Στάδιο Αναδόμησης",
+          copy: "Το αποτέλεσμα δεν είναι ταμπέλα. Είναι καθρέφτης. Αν εφαρμόσεις τα σωστά βήματα, η εικόνα σου στο dating αλλάζει άμεσα και μετρήσιμα."
+        }
+      ];
+
+      const state = {
+        screen: "start",
+        index: 0,
+        answers: Array(QUESTIONS.length).fill(null),
+        result: null,
+        peopleCount: 0,
+        confettiPlayed: false
+      };
+
+      const el = {
+        start: document.getElementById("startScreen"),
+        quiz: document.getElementById("quizScreen"),
+        result: document.getElementById("resultScreen"),
+        liveCounter: document.getElementById("liveCounter"),
+        startBtn: document.getElementById("startBtn"),
+        prevBtn: document.getElementById("prevBtn"),
+        qIndex: document.getElementById("qIndex"),
+        progressPct: document.getElementById("progressPct"),
+        progressBar: document.getElementById("progressBar"),
+        qCategory: document.getElementById("qCategory"),
+        qText: document.getElementById("qText"),
+        options: document.getElementById("options"),
+        feedback: document.getElementById("feedback"),
+        scoreRing: document.getElementById("scoreRing"),
+        totalScore: document.getElementById("totalScore"),
+        scoreTitle: document.getElementById("scoreTitle"),
+        scoreCopy: document.getElementById("scoreCopy"),
+        radar: document.getElementById("radar"),
+        bars: document.getElementById("bars"),
+        archetypeName: document.getElementById("archetypeName"),
+        archetypeCopy: document.getElementById("archetypeCopy"),
+        archetypeChips: document.getElementById("archetypeChips"),
+        tips: document.getElementById("tips"),
+        plan: document.getElementById("plan"),
+        restartBtn: document.getElementById("restartBtn"),
+        shareNative: document.getElementById("shareNative"),
+        shareCard: document.getElementById("shareCard"),
+        copyResult: document.getElementById("copyResult"),
+        shareWhatsApp: document.getElementById("shareWhatsApp"),
+        toast: document.getElementById("toast"),
+        fx: document.getElementById("fx")
+      };
+
+      function init() {
+        setPeopleCounter();
+        bind();
+        loadChallengeBanner();
+      }
+
+      function bind() {
+        el.startBtn.addEventListener("click", startQuiz);
+        el.prevBtn.addEventListener("click", goPrev);
+        el.restartBtn.addEventListener("click", restart);
+        el.shareNative.addEventListener("click", shareNative);
+        el.shareCard.addEventListener("click", shareCard);
+        el.copyResult.addEventListener("click", copyResult);
+        el.shareWhatsApp.addEventListener("click", shareWhatsApp);
+        window.addEventListener("resize", handleResize, { passive: true });
+      }
+
+      function loadChallengeBanner() {
+        const params = new URLSearchParams(window.location.search);
+        const score = Number(params.get("score"));
+        if (!Number.isFinite(score) || score < 20 || score > 80) return;
+        showToast(`Λειτουργία πρόκλησης: στόχος να περάσεις το ${score}/80`);
+      }
+
+      function setPeopleCounter() {
+        const base = 42140;
+        const drift = Math.floor(Math.random() * 9800);
+        state.peopleCount = base + drift;
+        el.liveCounter.textContent = state.peopleCount.toLocaleString("el-GR");
+      }
+
+      function startQuiz() {
+        state.screen = "quiz";
+        state.index = 0;
+        toggleScreens();
+        renderQuestion();
+        haptic([12]);
+      }
+
+      function restart() {
+        state.screen = "start";
+        state.index = 0;
+        state.answers = Array(QUESTIONS.length).fill(null);
+        state.result = null;
+        state.confettiPlayed = false;
+        toggleScreens();
+        setPeopleCounter();
+        showToast("Νέος γύρος. Αυτή τη φορά πήγαινε πιο ψηλά.");
+      }
+
+      function toggleScreens() {
+        el.start.classList.toggle("active", state.screen === "start");
+        el.quiz.classList.toggle("active", state.screen === "quiz");
+        el.result.classList.toggle("active", state.screen === "result");
+      }
+
+      function renderQuestion() {
+        const q = QUESTIONS[state.index];
+        const current = state.index + 1;
+        const total = QUESTIONS.length;
+        const selected = state.answers[state.index];
+
+        el.qIndex.textContent = `${current}/${total}`;
+        el.qCategory.textContent = CATEGORIES[q.cat].name;
+        el.qText.textContent = q.text;
+
+        const progress = Math.round(((state.index + (selected ? 1 : 0)) / total) * 100);
+        el.progressPct.textContent = `${progress}%`;
+        el.progressBar.style.width = `${progress}%`;
+
+        el.prevBtn.style.visibility = state.index === 0 ? "hidden" : "visible";
+
+        el.options.innerHTML = "";
+        q.options.forEach((opt, i) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "option" + (selected === opt.score ? " selected" : "");
+          button.innerHTML = `<span class="option-emoji">${opt.emoji}</span><span class="option-label">${opt.label}</span>`;
+          button.setAttribute("aria-label", `Επιλογή ${i + 1}: ${opt.label}`);
+          button.addEventListener("click", () => selectAnswer(opt.score, button));
+          el.options.appendChild(button);
+        });
+      }
+
+      function selectAnswer(score, button) {
+        state.answers[state.index] = score;
+        Array.from(el.options.children).forEach((btn) => btn.classList.remove("selected"));
+        button.classList.add("selected");
+
+        const feedbackText = POSITIVE_FEEDBACK[Math.min(score - 1, POSITIVE_FEEDBACK.length - 1)];
+        el.feedback.textContent = feedbackText;
+        el.feedback.classList.add("show");
+        haptic([10]);
+
+        setTimeout(() => {
+          el.feedback.classList.remove("show");
+          if (state.index < QUESTIONS.length - 1) {
+            state.index += 1;
+            renderQuestion();
+            return;
+          }
+
+          buildResult();
+          state.screen = "result";
+          toggleScreens();
+          renderResult();
+          if (!state.confettiPlayed) {
+            playConfetti();
+            state.confettiPlayed = true;
+          }
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 280);
+      }
+
+      function goPrev() {
+        if (state.index === 0) return;
+        state.index -= 1;
+        renderQuestion();
+      }
+
+      function buildResult() {
+        const total = state.answers.reduce((sum, s) => sum + (s || 0), 0);
+        const categoryScores = CATEGORIES.map((_, idx) => {
+          return QUESTIONS.reduce((sum, q, qIdx) => {
+            if (q.cat !== idx) return sum;
+            return sum + (state.answers[qIdx] || 0);
+          }, 0);
+        });
+
+        const strongestIdx = argIndex(categoryScores, "max");
+        const weakestIdx = argIndex(categoryScores, "min");
+        const archetype = ARCHETYPES[strongestIdx];
+        const level = SCORE_LEVELS.find((l) => total >= l.min) || SCORE_LEVELS[SCORE_LEVELS.length - 1];
+        const percentile = Math.max(7, Math.min(98, Math.round((total / 80) * 100 - 5)));
+        const shareCode = `${archetype.key}-${total}-${Date.now().toString(36).slice(-4)}`;
+
+        state.result = {
+          total,
+          categoryScores,
+          strongestIdx,
+          weakestIdx,
+          archetype,
+          level,
+          percentile,
+          shareCode
+        };
+      }
+
+      function renderResult() {
+        if (!state.result) return;
+        const r = state.result;
+        const weaknessName = CATEGORIES[r.weakestIdx].name;
+        const strengthName = CATEGORIES[r.strongestIdx].name;
+
+        el.totalScore.textContent = String(r.total);
+        el.scoreTitle.textContent = `${r.level.title} • Κορυφαίο ${r.percentile}%`;
+        el.scoreCopy.textContent = `${r.level.copy} Δυνατότερο στοιχείο: ${strengthName}. Ο μοχλός που θα σε εκτοξεύσει άμεσα: ${weaknessName}.`;
+
+        const ringPercent = `${Math.round((r.total / 80) * 100)}%`;
+        el.scoreRing.style.setProperty("--ring", ringPercent);
+
+        el.archetypeName.textContent = r.archetype.name;
+        el.archetypeCopy.textContent = r.archetype.copy;
+
+        el.archetypeChips.innerHTML = "";
+        r.archetype.chips.forEach((chip) => {
+          const span = document.createElement("span");
+          span.className = "chip";
+          span.textContent = chip;
+          el.archetypeChips.appendChild(span);
+        });
+
+        el.tips.innerHTML = "";
+        r.archetype.tips.forEach((tip) => {
+          const li = document.createElement("li");
+          li.className = "tip";
+          li.innerHTML = tip;
+          el.tips.appendChild(li);
+        });
+
+        el.plan.innerHTML = "";
+        GROWTH_PLANS[r.weakestIdx].forEach((step) => {
+          const li = document.createElement("li");
+          li.className = "plan-item";
+          li.textContent = step;
+          el.plan.appendChild(li);
+        });
+
+        renderBars(r.categoryScores);
+        renderRadar(r.categoryScores);
+      }
+
+      function renderBars(scores) {
+        el.bars.innerHTML = "";
+        scores.forEach((score, i) => {
+          const bar = document.createElement("div");
+          bar.className = "bar";
+          const percent = Math.round((score / 20) * 100);
+          bar.innerHTML = `
+            <div class="bar-name">${CATEGORIES[i].name}</div>
+            <div class="bar-track"><div class="bar-fill" style="width:${percent}%"></div></div>
+            <div class="bar-score">${score}/20</div>
+          `;
+          el.bars.appendChild(bar);
+        });
+      }
+
+      function renderRadar(scores) {
+        const size = 320;
+        const center = 160;
+        const maxRadius = 108;
+        const n = CATEGORIES.length;
+
+        const point = (idx, ratio) => {
+          const angle = -Math.PI / 2 + (idx * Math.PI * 2) / n;
+          return {
+            x: center + Math.cos(angle) * maxRadius * ratio,
+            y: center + Math.sin(angle) * maxRadius * ratio
+          };
+        };
+
+        const ringRatios = [0.25, 0.5, 0.75, 1];
+        const ringPolys = ringRatios
+          .map((r) => {
+            const points = CATEGORIES.map((_, i) => point(i, r));
+            return `<polygon points="${points.map((p) => `${p.x},${p.y}`).join(" ")}" fill="none" stroke="rgba(255,174,219,0.25)" stroke-width="1"/>`;
+          })
+          .join("");
+
+        const axes = CATEGORIES.map((_, i) => {
+          const p = point(i, 1);
+          return `<line x1="${center}" y1="${center}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,174,219,0.3)" stroke-width="1"/>`;
+        }).join("");
+
+        const dataPoints = scores.map((s, i) => point(i, s / 20));
+        const dataPolygon = `<polygon points="${dataPoints.map((p) => `${p.x},${p.y}`).join(" ")}" fill="rgba(255,137,223,0.24)" stroke="rgba(255,193,158,0.95)" stroke-width="3"/>`;
+        const dots = dataPoints
+          .map((p) => `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#fff2f9" stroke="rgba(255,193,158,0.95)" stroke-width="2"/>`)
+          .join("");
+
+        const labels = CATEGORIES.map((c, i) => {
+          const p = point(i, 1.18);
+          const anchor = i === 1 ? "start" : i === 3 ? "end" : "middle";
+          return `<text x="${p.x}" y="${p.y}" fill="#ffd9ef" font-size="12" font-weight="700" text-anchor="${anchor}" dominant-baseline="middle">${c.name}</text>`;
+        }).join("");
+
+        el.radar.innerHTML = `
+          <rect x="0" y="0" width="${size}" height="${size}" fill="rgba(43,13,37,0.66)"/>
+          ${ringPolys}
+          ${axes}
+          ${dataPolygon}
+          ${dots}
+          ${labels}
+        `;
+      }
+
+      function sharePayload() {
+        if (!state.result) return null;
+        const r = state.result;
+        const challenge = new URL(window.location.href.split("?")[0]);
+        challenge.searchParams.set("challenge", "1");
+        challenge.searchParams.set("score", String(r.total));
+        challenge.searchParams.set("arc", r.archetype.key);
+
+        const text = `Το αρχέτυπό μου στο PELTIE TRIBE είναι «${r.archetype.name}» με ${r.total}/80. Τολμάς να περάσεις το σκορ μου;`;
+        return {
+          title: "PELTIE TRIBE • Διαγνωστικό Αρχέτυπου Έλξης",
+          text,
+          url: challenge.toString()
+        };
+      }
+
+      async function shareNative() {
+        const payload = sharePayload();
+        if (!payload) return;
+
+        try {
+          if (navigator.share) {
+            await navigator.share(payload);
+            showToast("Η κοινοποίηση στάλθηκε.");
+            return;
+          }
+          await copyToClipboard(`${payload.text} ${payload.url}`);
+          showToast("Η πρόκληση αντιγράφηκε.");
+        } catch {
+          showToast("Η κοινοποίηση ακυρώθηκε.");
+        }
+      }
+
+      async function copyResult() {
+        const payload = sharePayload();
+        if (!payload) return;
+
+        const tribeUrl = "https://www.skool.com/peletietribe?utm_source=quiz&utm_medium=share&utm_campaign=challenge";
+        const message = `${payload.text}\n${payload.url}\n\n#PeltieArchetype\nPELTIE TRIBE: ${tribeUrl}`;
+
+        try {
+          await copyToClipboard(message);
+          showToast("Αντιγράφηκε έτοιμη λεζάντα.");
+        } catch {
+          showToast("Δεν επιτράπηκε αντιγραφή.");
+        }
+      }
+
+      function shareWhatsApp() {
+        const payload = sharePayload();
+        if (!payload) return;
+
+        const tribeUrl = "https://www.skool.com/peletietribe?utm_source=quiz&utm_medium=whatsapp&utm_campaign=challenge";
+        const message = `${payload.text} ${payload.url} | #PeltieArchetype | PELTIE TRIBE: ${tribeUrl}`;
+        const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        window.open(url, "_blank", "noopener");
+      }
+
+      async function shareCard() {
+        if (!state.result) return;
+        const blob = await createCardImage();
+        if (!blob) {
+          showToast("Αποτυχία δημιουργίας εικόνας.");
+          return;
+        }
+
+        const file = new File([blob], `peltie-result-${state.result.shareCode}.png`, { type: "image/png" });
+
+        try {
+          if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+            await navigator.share({
+              files: [file],
+              title: "PELTIE TRIBE • Κάρτα Αποτελέσματος",
+              text: "Το αποτέλεσμα μου στο PELTIE TRIBE"
+            });
+            showToast("Η κάρτα κοινοποιήθηκε.");
+            return;
+          }
+
+          downloadBlob(blob, file.name);
+          showToast("Η κάρτα αποθηκεύτηκε για story.");
+        } catch {
+          showToast("Η κοινοποίηση εικόνας ακυρώθηκε.");
+        }
+      }
+
+      async function createCardImage() {
+        if (!state.result) return null;
+        const r = state.result;
+        const canvas = document.createElement("canvas");
+        canvas.width = 1080;
+        canvas.height = 1920;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return null;
+
+        const grad = ctx.createLinearGradient(0, 0, 1080, 1920);
+        grad.addColorStop(0, "#180613");
+        grad.addColorStop(0.55, "#2b0f25");
+        grad.addColorStop(1, "#49193e");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const glow = ctx.createRadialGradient(220, 180, 80, 220, 180, 520);
+        glow.addColorStop(0, "rgba(255,92,168,0.44)");
+        glow.addColorStop(1, "rgba(255,92,168,0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const glow2 = ctx.createRadialGradient(940, 1460, 60, 940, 1460, 560);
+        glow2.addColorStop(0, "rgba(255,193,158,0.38)");
+        glow2.addColorStop(1, "rgba(255,193,158,0)");
+        ctx.fillStyle = glow2;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        roundRect(ctx, 80, 100, 920, 1720, 52, "rgba(35,10,30,0.78)", "rgba(255,174,219,0.5)");
+
+        ctx.fillStyle = "#ffd6ea";
+        ctx.font = "700 40px Manrope";
+        ctx.fillText("PELTIE TRIBE", 130, 190);
+
+        ctx.fillStyle = "#ffe9f6";
+        ctx.font = "800 72px Orbitron";
+        wrapText(ctx, "Αρχέτυπο Έλξης", 130, 300, 820, 88);
+
+        ctx.fillStyle = "#ffc8e2";
+        ctx.font = "700 34px Manrope";
+        wrapText(ctx, "Το αποτέλεσμα μου", 130, 420, 820, 52);
+
+        ctx.fillStyle = "#ffd7b8";
+        ctx.font = "800 58px Orbitron";
+        wrapText(ctx, r.archetype.name, 130, 500, 820, 72);
+
+        roundRect(ctx, 130, 700, 820, 250, 40, "rgba(255,137,223,0.14)", "rgba(255,193,158,0.6)");
+        ctx.fillStyle = "#fff0f9";
+        ctx.font = "800 108px Orbitron";
+        ctx.fillText(`${r.total}/80`, 176, 855);
+        ctx.fillStyle = "#ffd1e8";
+        ctx.font = "700 32px Manrope";
+        ctx.fillText(`Κορυφαίο ${r.percentile}%`, 182, 905);
+
+        ctx.fillStyle = "#ffe0f1";
+        ctx.font = "700 41px Manrope";
+        wrapText(ctx, "Τολμάς να ανεβάσεις το δικό σου;", 130, 1060, 820, 54);
+
+        ctx.fillStyle = "#ffd7b8";
+        ctx.font = "700 34px Manrope";
+        wrapText(ctx, "#PeltieArchetype", 130, 1165, 820, 48);
+
+        ctx.fillStyle = "#f6c0dd";
+        ctx.font = "700 34px Manrope";
+        wrapText(ctx, "Πέρνα το σκορ μου και μετά μπες στην PELTIE TRIBE.", 130, 1260, 820, 48);
+
+        roundRect(ctx, 130, 1450, 820, 210, 34, "rgba(255,92,168,0.14)", "rgba(255,193,158,0.62)");
+        ctx.fillStyle = "#ffe7f4";
+        ctx.font = "700 31px Manrope";
+        wrapText(ctx, "skool.com/peletietribe", 170, 1570, 760, 42);
+
+        ctx.fillStyle = "#d59fbd";
+        ctx.font = "700 25px Manrope";
+        ctx.fillText("© PELTIE TRIBE 2026", 130, 1735);
+
+        return await new Promise((resolve) => canvas.toBlob(resolve, "image/png", 0.95));
+      }
+
+      function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+        const words = text.split(" ");
+        let line = "";
+        for (let i = 0; i < words.length; i += 1) {
+          const testLine = line + words[i] + " ";
+          if (ctx.measureText(testLine).width > maxWidth && i > 0) {
+            ctx.fillText(line, x, y);
+            line = `${words[i]} `;
+            y += lineHeight;
+          } else {
+            line = testLine;
+          }
+        }
+        ctx.fillText(line, x, y);
+      }
+
+      function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+
+        if (fill) {
+          ctx.fillStyle = fill;
+          ctx.fill();
+        }
+        if (stroke) {
+          ctx.strokeStyle = stroke;
+          ctx.lineWidth = 3;
+          ctx.stroke();
+        }
+      }
+
+      function downloadBlob(blob, name) {
+        const a = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      async function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        area.style.pointerEvents = "none";
+        document.body.appendChild(area);
+        area.focus();
+        area.select();
+        const ok = document.execCommand("copy");
+        area.remove();
+        if (!ok) throw new Error("Clipboard denied");
+      }
+
+      function showToast(text) {
+        el.toast.textContent = text;
+        el.toast.classList.add("show");
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => {
+          el.toast.classList.remove("show");
+        }, 1900);
+      }
+
+      function argIndex(list, mode) {
+        return list.reduce((acc, val, idx) => {
+          if (mode === "max") return val > list[acc] ? idx : acc;
+          return val < list[acc] ? idx : acc;
+        }, 0);
+      }
+
+      function haptic(pattern) {
+        if ("vibrate" in navigator) navigator.vibrate(pattern);
+      }
+
+      function handleResize() {
+        const c = el.fx;
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
+      }
+
+      function playConfetti() {
+        const canvas = el.fx;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        handleResize();
+
+        const pieces = Array.from({ length: 130 }, () => ({
+          x: Math.random() * canvas.width,
+          y: -20 - Math.random() * canvas.height * 0.5,
+          size: 6 + Math.random() * 9,
+          speedY: 2 + Math.random() * 4,
+          speedX: -1.8 + Math.random() * 3.6,
+          angle: Math.random() * Math.PI * 2,
+          spin: -0.1 + Math.random() * 0.2,
+          color: ["#ff5ca8", "#ff89df", "#ffc19e", "#ffeef8"][Math.floor(Math.random() * 4)]
+        }));
+
+        let life = 0;
+
+        const tick = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          pieces.forEach((p) => {
+            p.x += p.speedX;
+            p.y += p.speedY;
+            p.angle += p.spin;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.62);
+            ctx.restore();
+          });
+
+          life += 1;
+          if (life < 180) {
+            requestAnimationFrame(tick);
+            return;
+          }
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        };
+
+        requestAnimationFrame(tick);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
