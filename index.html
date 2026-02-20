@@ -393,19 +393,30 @@
       pointer-events: none;
       border-radius: 999px;
       transform-origin: 50% 50%;
-      opacity: 0.94;
-      animation: runnerGlow 5.8s ease-in-out infinite;
+      opacity: 0.98;
+      animation: runnerGlow 3.2s ease-in-out infinite;
       will-change: transform, opacity, filter;
+      mix-blend-mode: screen;
     }
 
     .orbit-runner-card {
-      width: 40px;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(255, 252, 255, 0), rgba(255, 252, 255, 0.94) 42%, rgba(255, 252, 255, 1) 50%, rgba(255, 252, 255, 0.94) 58%, rgba(255, 252, 255, 0));
+      width: clamp(108px, 22vw, 184px);
+      height: 1.8px;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 178, 218, 0.32) 26%,
+        rgba(255, 222, 241, 0.92) 44%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 214, 237, 0.95) 56%,
+        rgba(255, 145, 206, 0.44) 72%,
+        rgba(255, 255, 255, 0) 100%
+      );
       filter:
-        drop-shadow(0 0 8px rgba(255, 176, 216, 0.96))
-        drop-shadow(0 0 18px rgba(255, 142, 198, 0.78))
-        drop-shadow(0 0 34px rgba(255, 122, 182, 0.56));
+        drop-shadow(0 0 6px rgba(255, 228, 244, 0.98))
+        drop-shadow(0 0 14px rgba(255, 189, 223, 0.94))
+        drop-shadow(0 0 26px rgba(255, 136, 196, 0.86))
+        drop-shadow(0 0 44px rgba(255, 95, 173, 0.74));
       z-index: 3;
     }
 
@@ -2082,7 +2093,7 @@
         if (typeof window.requestAnimationFrame !== "function") return;
 
         state.orbits = [
-          buildOrbit(el.qCard, el.cardRunner, { inset: 1.4, radius: 24, speed: 30, smoothing: 0.26 })
+          buildOrbit(el.qCard, el.cardRunner, { inset: 1.25, radius: 24, speed: 44, smoothing: 1 })
         ];
 
         state.orbitTs = 0;
