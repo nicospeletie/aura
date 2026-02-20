@@ -79,6 +79,21 @@
       animation: bgFlowMove 22s ease-in-out infinite alternate;
     }
 
+    .bg-hypno {
+      position: fixed;
+      inset: -26%;
+      z-index: -4;
+      pointer-events: none;
+      opacity: 0.34;
+      mix-blend-mode: screen;
+      filter: blur(44px) saturate(118%);
+      background:
+        conic-gradient(from 0deg at 50% 50%, rgba(255, 120, 187, 0.18), rgba(255, 120, 187, 0) 20%, rgba(255, 197, 166, 0.15) 40%, rgba(255, 197, 166, 0) 62%, rgba(255, 145, 206, 0.19) 80%, rgba(255, 145, 206, 0) 100%),
+        radial-gradient(circle at 50% 50%, rgba(255, 170, 216, 0.22), transparent 72%);
+      will-change: transform, opacity;
+      animation: hypnoRotate 60s linear infinite, hypnoBreath 14s ease-in-out infinite alternate;
+    }
+
     .bg::before,
     .bg::after {
       content: "";
@@ -291,33 +306,8 @@
       box-shadow: 0 18px 30px rgba(255, 79, 157, 0.25);
     }
 
-    .quiz-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .quiz-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
-    }
-
-    .quiz-meta strong {
-      color: #ffd6e8;
-      font-size: 14px;
-      letter-spacing: 0.03em;
-    }
-
     .progress-track {
-      margin-top: 8px;
+      margin-top: 0;
       height: 7px;
       border-radius: 999px;
       background: rgba(255, 183, 221, 0.22);
@@ -878,6 +868,16 @@
       100% { transform: translate3d(-2.8vw, 2vh, 0) scale(1.08); opacity: 0.33; }
     }
 
+    @keyframes hypnoRotate {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1.06); }
+    }
+
+    @keyframes hypnoBreath {
+      0% { opacity: 0.26; }
+      100% { opacity: 0.4; }
+    }
+
     @keyframes bgFloatOne {
       0% { transform: translate3d(0, 0, 0) scale(1); }
       100% { transform: translate3d(7vw, 8vh, 0) scale(1.08); }
@@ -921,6 +921,14 @@
     }
 
     @media (max-width: 780px) {
+      .bg-hypno {
+        inset: -34%;
+        opacity: 0.26;
+        mix-blend-mode: normal;
+        filter: blur(32px) saturate(108%);
+        animation-duration: 74s, 22s;
+      }
+
       .bg-flow {
         inset: -22%;
         opacity: 0.3;
@@ -954,14 +962,76 @@
       .score-card {
         grid-template-columns: 1fr;
         text-align: center;
+        padding: 16px 14px;
+      }
+
+      .ring {
+        width: 132px;
+        height: 132px;
+      }
+
+      .score-number {
+        font-size: clamp(34px, 10vw, 42px);
+      }
+
+      .score-title {
+        font-size: clamp(23px, 7.2vw, 29px);
+        line-height: 1.18;
+      }
+
+      .score-copy {
+        font-size: 16px;
+        line-height: 1.66;
       }
 
       .bar {
-        grid-template-columns: minmax(90px, 1fr) minmax(90px, 2fr) 40px;
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .bar-track {
+        height: 10px;
+      }
+
+      .bar-value {
+        text-align: left;
       }
 
       .tag {
         max-width: 150px;
+      }
+
+      .mini-metrics {
+        justify-content: center;
+      }
+
+      .metric {
+        font-size: 12px;
+      }
+
+      .panel {
+        padding: 15px;
+      }
+
+      .panel h3 {
+        font-size: clamp(20px, 5.7vw, 23px);
+      }
+
+      .panel p {
+        font-size: 16px;
+        line-height: 1.66;
+      }
+
+      .tip,
+      .focus-item {
+        padding: 10px 12px;
+        font-size: 15.5px;
+        line-height: 1.58;
+      }
+
+      .cta p {
+        font-size: 16px;
+        line-height: 1.62;
       }
 
       .cta-title-wrap {
@@ -997,6 +1067,14 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      .bg-hypno,
+      .bg-flow,
+      .bg::before,
+      .bg::after,
+      .grain {
+        animation: none !important;
+      }
+
       * {
         animation: none !important;
         transition: none !important;
@@ -1005,6 +1083,7 @@
   </style>
 </head>
 <body>
+  <div class="bg-hypno"></div>
   <div class="bg-flow"></div>
   <div class="bg"></div>
   <div class="grain"></div>
@@ -1035,10 +1114,6 @@
 
     <section id="quizScreen" class="screen" aria-live="polite">
       <div class="quiz-top">
-        <div class="quiz-meta">
-          <span id="chapterLabel">Κεφάλαιο 1/5</span>
-          <span><strong id="progressPct">0%</strong></span>
-        </div>
         <div class="progress-track">
           <div class="progress-fill" id="progressBar"></div>
         </div>
@@ -1131,22 +1206,6 @@
         "Επικοινωνία",
         "Όρια στις σχέσεις",
         "Σταθερότητα"
-      ];
-
-      const CHAPTERS = [
-        "Κεφάλαιο 1: Πρώτη εικόνα",
-        "Κεφάλαιο 2: Παρουσία υπό πίεση",
-        "Κεφάλαιο 3: Επικοινωνία που συνδέει",
-        "Κεφάλαιο 4: Όρια και επιλογές",
-        "Κεφάλαιο 5: Σταθερότητα και εξέλιξη"
-      ];
-
-      const FLOW_STATES = [
-        "Είσοδος",
-        "Ροή",
-        "Ένταση",
-        "Φίλτρο",
-        "Τελική ευθεία"
       ];
 
       const QUESTION_NOTES = [
@@ -1690,9 +1749,7 @@
         quizTop: document.querySelector(".quiz-top"),
         startBtn: document.getElementById("startBtn"),
         prevBtn: document.getElementById("prevBtn"),
-        chapterLabel: document.getElementById("chapterLabel"),
         qCard: document.getElementById("questionCard"),
-        progressPct: document.getElementById("progressPct"),
         progressBar: document.getElementById("progressBar"),
         qCategory: document.getElementById("qCategory"),
         qText: document.getElementById("qText"),
@@ -1745,15 +1802,11 @@
         const total = QUESTIONS.length;
         const answered = state.answers.filter((v) => v !== null).length;
         const progress = Math.round((answered / total) * 100);
-        const chapterIndex = Math.min(CHAPTERS.length - 1, Math.floor(state.index / 6));
-        const flowIndex = Math.min(FLOW_STATES.length - 1, Math.floor(answered / 6));
         el.qCard.classList.remove("bump");
         void el.qCard.offsetWidth;
         el.qCard.classList.add("bump");
 
-        el.progressPct.textContent = `${progress}%`;
         el.progressBar.style.width = `${progress}%`;
-        el.chapterLabel.textContent = `${CHAPTERS[chapterIndex]} • ${FLOW_STATES[flowIndex]}`;
         el.qCategory.textContent = CATEGORIES[q.cat];
         el.qText.textContent = q.text;
         el.qStory.textContent = QUESTION_NOTES[state.index];
