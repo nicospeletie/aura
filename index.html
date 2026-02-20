@@ -64,6 +64,21 @@
         linear-gradient(170deg, var(--bg-0), var(--bg-1));
     }
 
+    .bg-flow {
+      position: fixed;
+      inset: -16%;
+      z-index: -3;
+      pointer-events: none;
+      opacity: 0.36;
+      background:
+        radial-gradient(44% 36% at 14% 18%, rgba(255, 130, 195, 0.34), transparent 72%),
+        radial-gradient(36% 32% at 84% 24%, rgba(255, 172, 215, 0.28), transparent 74%),
+        radial-gradient(42% 34% at 52% 82%, rgba(255, 196, 167, 0.24), transparent 70%);
+      mix-blend-mode: screen;
+      will-change: transform, opacity;
+      animation: bgFlowMove 22s ease-in-out infinite alternate;
+    }
+
     .bg::before,
     .bg::after {
       content: "";
@@ -526,7 +541,7 @@
 
     .results {
       display: grid;
-      gap: 10px;
+      gap: 12px;
     }
 
     .score-card {
@@ -584,8 +599,8 @@
     .score-copy {
       margin: 0;
       color: #ffe5f3;
-      font-size: 15px;
-      line-height: 1.5;
+      font-size: clamp(16px, 3.9vw, 18px);
+      line-height: 1.58;
       max-width: 58ch;
     }
 
@@ -601,7 +616,7 @@
       border-radius: 999px;
       background: rgba(255, 79, 157, 0.1);
       color: #ffdff0;
-      font-size: 11px;
+      font-size: clamp(12px, 2.9vw, 13px);
       font-weight: 700;
       letter-spacing: 0.03em;
       padding: 5px 9px;
@@ -627,8 +642,8 @@
     .panel p {
       margin: 0;
       color: #ffe6f3;
-      line-height: 1.5;
-      font-size: 15px;
+      line-height: 1.62;
+      font-size: clamp(15px, 3.7vw, 17px);
     }
 
     .bars {
@@ -688,8 +703,8 @@
       background: rgba(53, 18, 43, 0.62);
       padding: 9px 10px;
       color: #ffe8f5;
-      font-size: 14px;
-      line-height: 1.42;
+      font-size: clamp(14.5px, 3.4vw, 16px);
+      line-height: 1.52;
     }
 
     .cta {
@@ -857,6 +872,12 @@
       50% { box-shadow: 0 16px 26px rgba(255, 79, 157, 0.36), 0 0 24px rgba(255, 122, 182, 0.28); }
     }
 
+    @keyframes bgFlowMove {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
+      50% { transform: translate3d(2.5vw, -1.6vh, 0) scale(1.04); opacity: 0.4; }
+      100% { transform: translate3d(-2.8vw, 2vh, 0) scale(1.08); opacity: 0.33; }
+    }
+
     @keyframes bgFloatOne {
       0% { transform: translate3d(0, 0, 0) scale(1); }
       100% { transform: translate3d(7vw, 8vh, 0) scale(1.08); }
@@ -900,6 +921,13 @@
     }
 
     @media (max-width: 780px) {
+      .bg-flow {
+        inset: -22%;
+        opacity: 0.3;
+        mix-blend-mode: normal;
+        animation-duration: 28s;
+      }
+
       .bg::before,
       .bg::after {
         filter: blur(26px);
@@ -915,8 +943,8 @@
       }
 
       .grain {
-        opacity: 0.1;
-        animation-duration: 28s;
+        opacity: 0.09;
+        animation-duration: 34s;
       }
 
       .chips {
@@ -977,6 +1005,7 @@
   </style>
 </head>
 <body>
+  <div class="bg-flow"></div>
   <div class="bg"></div>
   <div class="grain"></div>
 
@@ -1008,7 +1037,6 @@
       <div class="quiz-top">
         <div class="quiz-meta">
           <span id="chapterLabel">Κεφάλαιο 1/5</span>
-          <span>Ερώτηση <strong id="qIndex">1/30</strong></span>
           <span><strong id="progressPct">0%</strong></span>
         </div>
         <div class="progress-track">
@@ -1664,7 +1692,6 @@
         prevBtn: document.getElementById("prevBtn"),
         chapterLabel: document.getElementById("chapterLabel"),
         qCard: document.getElementById("questionCard"),
-        qIndex: document.getElementById("qIndex"),
         progressPct: document.getElementById("progressPct"),
         progressBar: document.getElementById("progressBar"),
         qCategory: document.getElementById("qCategory"),
@@ -1724,7 +1751,6 @@
         void el.qCard.offsetWidth;
         el.qCard.classList.add("bump");
 
-        el.qIndex.textContent = `${state.index + 1}/${total}`;
         el.progressPct.textContent = `${progress}%`;
         el.progressBar.style.width = `${progress}%`;
         el.chapterLabel.textContent = `${CHAPTERS[chapterIndex]} • ${FLOW_STATES[flowIndex]}`;
