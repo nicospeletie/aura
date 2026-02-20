@@ -407,35 +407,35 @@
     }
 
     .orbit-track {
-      stroke: rgba(255, 199, 232, 0.46);
-      stroke-width: 1.18;
+      stroke: rgba(255, 202, 233, 0.5);
+      stroke-width: 1.04;
     }
 
     .orbit-tail {
       stroke: rgba(255, 138, 193, 0.96);
-      stroke-width: 4.2;
+      stroke-width: 3.45;
       stroke-linecap: round;
       stroke-dasharray: 24 76;
-      animation: orbitDash 8.6s linear infinite;
+      animation: orbitDash 11.4s linear infinite;
       opacity: 0.98;
       filter:
-        blur(0.42px)
-        drop-shadow(0 0 18px rgba(255, 183, 224, 0.98))
-        drop-shadow(0 0 38px rgba(255, 132, 192, 0.84))
-        drop-shadow(0 0 68px rgba(255, 94, 176, 0.72));
+        blur(0.34px)
+        drop-shadow(0 0 20px rgba(255, 192, 229, 1))
+        drop-shadow(0 0 44px rgba(255, 140, 198, 0.9))
+        drop-shadow(0 0 78px rgba(255, 96, 178, 0.8));
     }
 
     .orbit-core {
       stroke: rgba(255, 252, 255, 1);
-      stroke-width: 1.7;
+      stroke-width: 1.34;
       stroke-linecap: round;
       stroke-dasharray: 24 76;
-      animation: orbitDash 8.6s linear infinite, orbitPulse 4.8s ease-in-out infinite;
+      animation: orbitDash 11.4s linear infinite, orbitPulse 6.2s ease-in-out infinite;
       filter:
-        drop-shadow(0 0 12px rgba(255, 241, 250, 1))
-        drop-shadow(0 0 26px rgba(255, 186, 227, 0.98))
-        drop-shadow(0 0 46px rgba(255, 129, 193, 0.88))
-        drop-shadow(0 0 74px rgba(255, 98, 176, 0.76));
+        drop-shadow(0 0 14px rgba(255, 243, 251, 1))
+        drop-shadow(0 0 30px rgba(255, 194, 231, 1))
+        drop-shadow(0 0 54px rgba(255, 138, 198, 0.92))
+        drop-shadow(0 0 86px rgba(255, 100, 178, 0.82));
     }
 
     .question-card.bump {
@@ -1977,6 +1977,10 @@
         const rect = el.qCard.getBoundingClientRect();
         const width = Math.max(6, rect.width);
         const height = Math.max(6, rect.height);
+        if (width < 20 || height < 20) {
+          window.requestAnimationFrame(syncCardOrbit);
+          return;
+        }
         const inset = 1.4;
         const drawWidth = Math.max(1, width - inset * 2);
         const drawHeight = Math.max(1, height - inset * 2);
