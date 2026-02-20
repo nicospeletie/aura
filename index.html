@@ -39,6 +39,7 @@
     body {
       margin: 0;
       padding: 0;
+      min-height: 100vh;
       min-height: 100dvh;
       background: var(--bg-0);
       color: var(--txt);
@@ -400,11 +401,23 @@
       mix-blend-mode: normal;
     }
 
+    .orbit-glow,
     .orbit-track,
     .orbit-tail,
     .orbit-core {
       fill: none;
       vector-effect: non-scaling-stroke;
+      shape-rendering: geometricPrecision;
+    }
+
+    .orbit-glow {
+      stroke: rgba(255, 182, 221, 0.66);
+      stroke-width: 2.4;
+      opacity: 0.78;
+      filter:
+        blur(0.95px)
+        drop-shadow(0 0 16px rgba(255, 188, 226, 0.92))
+        drop-shadow(0 0 34px rgba(255, 134, 196, 0.78));
     }
 
     .orbit-track {
@@ -414,29 +427,28 @@
 
     .orbit-tail {
       stroke: rgba(255, 138, 193, 0.96);
-      stroke-width: 3.45;
+      stroke-width: 2.85;
       stroke-linecap: round;
       stroke-dasharray: 24 76;
-      animation: orbitDash 11.4s linear infinite;
-      opacity: 0.98;
+      animation: orbitDash 12.8s linear infinite;
+      opacity: 0.97;
+      will-change: stroke-dashoffset, opacity;
       filter:
-        blur(0.34px)
-        drop-shadow(0 0 20px rgba(255, 192, 229, 1))
-        drop-shadow(0 0 44px rgba(255, 140, 198, 0.9))
-        drop-shadow(0 0 78px rgba(255, 96, 178, 0.8));
+        drop-shadow(0 0 10px rgba(255, 216, 239, 0.98))
+        drop-shadow(0 0 22px rgba(255, 148, 202, 0.88));
     }
 
     .orbit-core {
       stroke: rgba(255, 252, 255, 1);
-      stroke-width: 1.34;
+      stroke-width: 1.12;
       stroke-linecap: round;
       stroke-dasharray: 24 76;
-      animation: orbitDash 11.4s linear infinite, orbitPulse 6.2s ease-in-out infinite;
+      animation: orbitDash 12.8s linear infinite, orbitPulse 6.8s ease-in-out infinite;
+      will-change: stroke-dashoffset, opacity;
       filter:
-        drop-shadow(0 0 14px rgba(255, 243, 251, 1))
-        drop-shadow(0 0 30px rgba(255, 194, 231, 1))
-        drop-shadow(0 0 54px rgba(255, 138, 198, 0.92))
-        drop-shadow(0 0 86px rgba(255, 100, 178, 0.82));
+        drop-shadow(0 0 12px rgba(255, 245, 252, 1))
+        drop-shadow(0 0 24px rgba(255, 186, 227, 0.98))
+        drop-shadow(0 0 40px rgba(255, 122, 188, 0.82));
     }
 
     .question-card.bump {
@@ -1212,6 +1224,7 @@
 
       <article class="question-card" id="questionCard">
         <svg class="orbit-svg" id="cardOrbit" aria-hidden="true" focusable="false">
+          <rect class="orbit-glow" id="cardOrbitGlow" pathLength="100"></rect>
           <rect class="orbit-track" id="cardOrbitTrack" pathLength="100"></rect>
           <rect class="orbit-tail" id="cardOrbitTail" pathLength="100"></rect>
           <rect class="orbit-core" id="cardOrbitCore" pathLength="100"></rect>
@@ -1782,7 +1795,9 @@
         answers: Array(QUESTIONS.length).fill(null),
         result: null,
         matrixRaf: null,
-        cardOrbitObserver: null
+        cardOrbitObserver: null,
+        transitionLock: false,
+        transitionTimer: null
       };
 
       const el = {
@@ -1794,6 +1809,7 @@
         prevBtn: document.getElementById("prevBtn"),
         qCard: document.getElementById("questionCard"),
         cardOrbit: document.getElementById("cardOrbit"),
+        cardOrbitGlow: document.getElementById("cardOrbitGlow"),
         cardOrbitTrack: document.getElementById("cardOrbitTrack"),
         cardOrbitTail: document.getElementById("cardOrbitTail"),
         cardOrbitCore: document.getElementById("cardOrbitCore"),
@@ -1867,6 +1883,10 @@
       }
 
       const LOCKED_VIEWPORT = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover";
+      const isTouchPrimaryDevice = () =>
+        ("ontouchstart" in window) ||
+        (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+        (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
 
       function enforceViewportLock() {
         const viewportMeta = document.querySelector('meta[name="viewport"]');
@@ -1877,6 +1897,7 @@
       }
 
       function bindViewportGuards() {
+        if (!isTouchPrimaryDevice()) return;
         enforceViewportLock();
         window.addEventListener("orientationchange", () => {
           setTimeout(enforceViewportLock, 120);
@@ -1891,6 +1912,8 @@
       }
 
       function bindAntiZoomGestures() {
+        if (!isTouchPrimaryDevice()) return;
+
         let lastTouchEnd = 0;
 
         document.addEventListener("touchend", (event) => {
@@ -1922,11 +1945,18 @@
         let columns = 0;
         let drops = [];
         let lastTs = 0;
+        let columnStep = 0.9;
+        let frameIntervalMs = 42;
+        let fallMin = 0.72;
+        let fallRange = 0.34;
+        let fadeAlpha = 0.1;
 
         const resizeMatrix = () => {
           const dpr = Math.min(2, window.devicePixelRatio || 1);
           const width = Math.max(1, window.innerWidth);
           const height = Math.max(1, window.innerHeight);
+          const desktop = width >= 1100;
+          const medium = width >= 820 && width < 1100;
 
           el.matrixCanvas.width = Math.floor(width * dpr);
           el.matrixCanvas.height = Math.floor(height * dpr);
@@ -1934,17 +1964,26 @@
           el.matrixCanvas.style.height = `${height}px`;
 
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          fontSize = width < 760 ? 12 : 14;
-          columns = Math.max(10, Math.floor(width / (fontSize * 0.9)));
+          fontSize = desktop ? 15 : width < 760 ? 12 : 14;
+          columnStep = desktop ? 1.22 : medium ? 1.04 : 0.9;
+          frameIntervalMs = desktop ? 56 : medium ? 48 : 40;
+          fallMin = desktop ? 0.56 : medium ? 0.64 : 0.72;
+          fallRange = desktop ? 0.28 : 0.32;
+          fadeAlpha = desktop ? 0.12 : 0.1;
+          columns = Math.max(8, Math.floor(width / (fontSize * columnStep)));
           drops = Array.from({ length: columns }, () => Math.random() * height);
           ctx.fillStyle = "rgba(10, 4, 10, 1)";
           ctx.fillRect(0, 0, width, height);
         };
 
         const drawFrame = (ts) => {
+          if (document.hidden) {
+            state.matrixRaf = window.requestAnimationFrame(drawFrame);
+            return;
+          }
           if (!lastTs) lastTs = ts;
           const dt = ts - lastTs;
-          if (dt < 38) {
+          if (dt < frameIntervalMs) {
             state.matrixRaf = window.requestAnimationFrame(drawFrame);
             return;
           }
@@ -1953,20 +1992,20 @@
           const width = window.innerWidth;
           const height = window.innerHeight;
 
-          ctx.fillStyle = "rgba(9, 4, 10, 0.1)";
+          ctx.fillStyle = `rgba(9, 4, 10, ${fadeAlpha})`;
           ctx.fillRect(0, 0, width, height);
           ctx.font = `700 ${fontSize}px "Sora", monospace`;
           ctx.textAlign = "center";
 
           for (let i = 0; i < columns; i += 1) {
-            const x = i * fontSize * 0.9 + fontSize * 0.45;
+            const x = i * fontSize * columnStep + fontSize * 0.45;
             const y = drops[i];
             const ch = glyphs.charAt((Math.random() * glyphs.length) | 0);
             const alpha = 0.36 + Math.random() * 0.34;
             ctx.fillStyle = `rgba(255, 152, 206, ${alpha.toFixed(3)})`;
             ctx.fillText(ch, x, y);
 
-            drops[i] = y + fontSize * (0.72 + Math.random() * 0.34);
+            drops[i] = y + fontSize * (fallMin + Math.random() * fallRange);
             if (drops[i] > height + fontSize && Math.random() > 0.957) {
               drops[i] = -fontSize * (Math.random() * 10);
             }
@@ -2002,7 +2041,7 @@
 
         el.cardOrbit.setAttribute("viewBox", `0 0 ${width.toFixed(2)} ${height.toFixed(2)}`);
 
-        [el.cardOrbitTrack, el.cardOrbitTail, el.cardOrbitCore].forEach((node) => {
+        [el.cardOrbitGlow, el.cardOrbitTrack, el.cardOrbitTail, el.cardOrbitCore].forEach((node) => {
           if (!node) return;
           node.setAttribute("x", inset.toFixed(2));
           node.setAttribute("y", inset.toFixed(2));
@@ -2049,6 +2088,11 @@
       }
 
       function startQuiz() {
+        if (state.transitionTimer) {
+          clearTimeout(state.transitionTimer);
+          state.transitionTimer = null;
+        }
+        state.transitionLock = false;
         state.screen = "quiz";
         state.index = 0;
         state.answers = Array(QUESTIONS.length).fill(null);
@@ -2101,6 +2145,8 @@
       }
 
       function selectAnswer(score, btn) {
+        if (state.transitionLock) return;
+        state.transitionLock = true;
         state.answers[state.index] = score;
         Array.from(el.options.children).forEach((b) => b.classList.remove("selected"));
         btn.classList.add("selected");
@@ -2113,23 +2159,28 @@
         }
 
         if (state.index < QUESTIONS.length - 1) {
-          setTimeout(() => {
+          state.transitionTimer = setTimeout(() => {
             state.index += 1;
             renderQuestion();
+            state.transitionLock = false;
+            state.transitionTimer = null;
           }, 140);
           return;
         }
 
-        setTimeout(() => {
+        state.transitionTimer = setTimeout(() => {
           calculateResult();
           state.screen = "result";
           updateScreens();
           renderResult();
           window.scrollTo(0, 0);
+          state.transitionLock = false;
+          state.transitionTimer = null;
         }, 140);
       }
 
       function prevQuestion() {
+        if (state.transitionLock) return;
         if (state.index === 0) return;
         state.index -= 1;
         renderQuestion();
