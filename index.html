@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Αξιολόγηση PELETIE TRIBE • Ανακάλυψε τον Ασταμάτητο Εαυτό σου</title>
+    <title>LUMINA • What is the Perfect Partner for You?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -13,100 +13,97 @@
         body { font-family: 'Inter', system-ui, sans-serif; }
         .title-font { font-family: 'Playfair Display', sans-serif; }
         .option-card {
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .option-card:hover {
-            transform: translateY(-8px) scale(1.04);
-            box-shadow: 0 30px 60px -15px rgb(0 0 0 / 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         .option-card.selected {
-            border-color: #f59e0b;
-            background-color: #451a03;
-            transform: scale(1.06);
+            border-color: #e11d48;
+            background-color: #431407;
+            transform: scale(1.02);
         }
         .progress-bar {
-            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .feedback {
-            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: popIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @keyframes popIn {
-            0% { transform: scale(0.6); opacity: 0; }
+            0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body class="bg-zinc-950 text-white min-h-screen overflow-x-hidden" x-data="quizApp()" x-init="init()">
     <!-- HEADER -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/95 backdrop-blur-xl border-b border-amber-400/20">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/95 backdrop-blur-xl border-b border-rose-400/20">
         <div class="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-gradient-to-br from-amber-400 to-orange-600 rounded-3xl flex items-center justify-center text-3xl font-black tracking-[-2px]">P</div>
-                <span class="text-3xl font-bold tracking-tighter title-font">PELETIE TRIBE</span>
+                <div class="w-9 h-9 bg-gradient-to-br from-rose-400 to-pink-600 rounded-3xl flex items-center justify-center text-3xl font-black tracking-[-2px]">L</div>
+                <span class="text-3xl font-bold tracking-tighter title-font">LUMINA</span>
             </div>
-            <div class="text-xs uppercase tracking-[3px] font-semibold text-amber-400">ΑΞΙΟΛΟΓΗΣΗ ΚΥΡΙΑΡΧΙΑΣ 2026</div>
+            <div class="text-xs uppercase tracking-[2px] font-semibold text-rose-400">THE PERFECT PARTNER QUIZ</div>
         </div>
     </header>
 
     <div class="max-w-3xl mx-auto pt-28 pb-24 px-6">
 
         <!-- START SCREEN -->
-        <div x-show="step === 0" class="text-center py-16">
-            <div class="inline-flex items-center gap-3 bg-emerald-500/10 text-emerald-400 px-8 py-3 rounded-3xl text-sm font-medium mb-8">
-                <i class="fa-solid fa-fire"></i>
-                31.472 άνθρωποι το ολοκλήρωσαν αυτή την εβδομάδα
+        <div x-show="step === 0" class="text-center py-20">
+            <div class="inline-flex items-center gap-3 bg-rose-500/10 text-rose-400 px-8 py-3 rounded-3xl text-sm font-medium mb-8">
+                <i class="fa-solid fa-heart"></i>
+                47,291 people discovered their match this week
             </div>
             
             <h1 class="text-6xl md:text-7xl font-bold tracking-[-3px] title-font leading-none mb-6">
-                ΠΟΙΟΣ/Α ΕΙΣΑΙ<br>ΠΡΑΓΜΑΤΙΚΑ;
+                WHAT IS THE<br>PERFECT PARTNER<br>FOR YOU?
             </h1>
             
             <p class="text-2xl text-zinc-400 max-w-lg mx-auto mb-12 leading-tight">
-                Το πιο τολμηρό, ειλικρινές και εθιστικό τεστ αυτογνωσίας στον κόσμο.<br>
-                16 ερωτήσεις. 3 λεπτά. <span class="text-amber-400">Θα νιώσεις θρύλος.</span>
+                20 bold questions.<br>2 minutes.<br><span class="text-rose-400">Brutal honesty. Shocking clarity.</span>
             </p>
             
             <button @click="startQuiz()" 
-                    class="group w-full max-w-xs mx-auto px-14 py-8 bg-gradient-to-r from-amber-400 to-orange-500 text-zinc-950 text-3xl font-bold rounded-3xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-5 shadow-2xl shadow-amber-500/30">
-                ΞΕΚΙΝΑ ΤΩΡΑ
-                <span class="text-4xl group-active:rotate-45 transition">→</span>
+                    class="group w-full max-w-xs mx-auto px-14 py-8 bg-gradient-to-r from-rose-400 to-pink-500 text-zinc-950 text-3xl font-bold rounded-3xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-4 shadow-2xl shadow-rose-500/30">
+                REVEAL MY MATCH
+                <span class="text-4xl group-active:rotate-12 transition">→</span>
             </button>
             
             <div class="mt-10 text-xs text-zinc-500 flex items-center justify-center gap-6">
-                <div>Αυτόματη πρόοδος</div>
+                <div>Instant results</div>
                 <div class="w-px h-3 bg-zinc-700"></div>
-                <div>Καμία εγγραφή</div>
+                <div>No sign-up</div>
                 <div class="w-px h-3 bg-zinc-700"></div>
-                <div>100% δωρεάν</div>
+                <div>100% free</div>
             </div>
         </div>
 
         <!-- QUIZ -->
         <div x-show="step === 1">
-            <div class="sticky top-20 z-40 bg-zinc-950/80 backdrop-blur-md py-4 -mx-6 px-6 border-b border-zinc-800">
+            <div class="sticky top-20 z-40 bg-zinc-950/90 backdrop-blur-md py-4 -mx-6 px-6 border-b border-zinc-800">
                 <div class="flex justify-between items-center text-xs font-medium text-zinc-400">
-                    <div>Ερώτηση <span class="font-mono text-amber-400 text-lg" x-text="currentQuestion + 1"></span>/16</div>
+                    <div>Question <span class="font-mono text-rose-400 text-lg" x-text="currentQuestion + 1"></span>/20</div>
                     <div class="text-emerald-400 font-mono" x-text="Math.round(progress)+'%'"></div>
                 </div>
-                <div class="h-1.5 bg-zinc-800 rounded-full mt-3 overflow-hidden">
-                    <div class="progress-bar h-1.5 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-400 rounded-full" 
+                <div class="h-1 bg-zinc-800 rounded-full mt-3 overflow-hidden">
+                    <div class="progress-bar h-1 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full" 
                          :style="{width: progress + '%'}"></div>
                 </div>
             </div>
 
-            <div class="mt-10 bg-zinc-900 border border-zinc-800 rounded-3xl p-9 md:p-12">
-                <div class="uppercase text-amber-400 text-xs tracking-[2px] font-medium mb-4 flex items-center gap-3">
-                    <span x-text="questions[currentQuestion].category"></span>
-                </div>
+            <div class="mt-10 bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
+                <div class="uppercase text-rose-400 text-xs tracking-[2px] font-medium mb-4" x-text="questions[currentQuestion].category"></div>
                 
-                <h2 class="text-3xl leading-tight font-medium mb-12" x-text="questions[currentQuestion].question"></h2>
+                <h2 class="text-3xl leading-tight font-medium mb-12 text-balance" x-text="questions[currentQuestion].question"></h2>
                 
                 <div class="grid gap-4">
                     <template x-for="(opt, i) in questions[currentQuestion].options" :key="i">
-                        <button @click="selectAnswer(opt.score, i)"
+                        <button @click="selectAnswer(opt.score, i, opt.insight)"
                                 :class="{ 'selected': selectedIndex === i }"
-                                class="option-card text-left p-7 rounded-3xl border-2 border-transparent bg-zinc-950 hover:border-amber-400/60 flex gap-6 items-start group">
-                            <span class="text-5xl transition-all group-hover:scale-125" x-text="opt.emoji"></span>
+                                class="option-card text-left p-8 rounded-3xl border-2 border-transparent bg-zinc-950 hover:border-rose-400/50 flex gap-6 items-start group">
+                            <span class="text-6xl transition-all group-hover:scale-110 flex-shrink-0" x-text="opt.emoji"></span>
                             <span x-text="opt.text" class="text-xl leading-tight pt-1 flex-1"></span>
                         </button>
                     </template>
@@ -115,23 +112,23 @@
 
             <!-- FEEDBACK -->
             <div x-show="feedback" 
-                 class="feedback fixed bottom-8 left-1/2 -translate-x-1/2 bg-amber-400 text-zinc-950 px-8 py-4 rounded-3xl text-xl font-bold shadow-2xl">
-                Εξαιρετική επιλογή 🔥
+                 class="feedback fixed bottom-8 left-1/2 -translate-x-1/2 bg-rose-400 text-zinc-950 px-8 py-5 rounded-3xl text-xl font-semibold shadow-2xl flex items-center gap-3">
+                <span x-text="feedbackText"></span>
             </div>
         </div>
 
         <!-- RESULTS -->
-        <div x-show="step === 2" class="space-y-14">
-            <div class="text-center">
+        <div x-show="step === 2" class="space-y-16">
+            <div class="text-center pt-8">
                 <div id="confetti" class="absolute inset-0 pointer-events-none"></div>
                 
                 <div class="inline-flex items-center gap-3 bg-emerald-400/10 px-8 py-4 rounded-3xl text-emerald-400 text-sm font-medium mb-6">
-                    <i class="fa-solid fa-trophy"></i> ΕΙΣΑΙ ΘΡΥΛΟΣ!
+                    <i class="fa-solid fa-trophy"></i> YOUR PERFECT PARTNER REVEALED
                 </div>
                 
-                <div class="text-7xl font-black title-font tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-amber-300 to-orange-400" 
+                <div class="text-7xl font-black title-font tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-rose-300 to-pink-400" 
                      x-text="totalScore"></div>
-                <div class="text-2xl text-zinc-400 -mt-4">από 64</div>
+                <div class="text-2xl text-zinc-400 -mt-4">/80</div>
                 <div class="mt-3 text-3xl font-medium" x-text="scoreTitle"></div>
             </div>
 
@@ -144,55 +141,53 @@
             <div class="space-y-8">
                 <template x-for="(cat, i) in categories" :key="i">
                     <div class="flex items-center gap-6">
-                        <div class="w-36 text-sm font-medium shrink-0" x-text="cat.name"></div>
-                        <div class="flex-1 h-3 bg-zinc-800 rounded-3xl overflow-hidden">
-                            <div class="h-full rounded-3xl transition-all duration-1000" 
-                                 :style="{ width: (cat.score/16*100)+'%', background: cat.color }"></div>
+                        <div class="w-40 text-sm font-medium shrink-0" x-text="cat.name"></div>
+                        <div class="flex-1 h-3 bg-zinc-800 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full transition-all duration-1000" 
+                                 :style="{ width: (cat.score / 16 * 100) + '%', background: cat.color }"></div>
                         </div>
-                        <div class="font-mono text-lg text-amber-400 w-12 text-right" x-text="cat.score + '/16'"></div>
+                        <div class="font-mono text-lg text-rose-400 w-14 text-right" x-text="cat.score + '/16'"></div>
                     </div>
                 </template>
             </div>
 
             <!-- INSIGHT -->
-            <div class="bg-zinc-900 rounded-3xl p-10 md:p-14 border border-amber-400/20">
-                <div class="text-3xl font-medium title-font mb-6" x-text="insightTitle"></div>
-                <div class="text-zinc-300 leading-relaxed text-[17px]" x-html="insightText"></div>
+            <div class="bg-zinc-900 rounded-3xl p-12 border border-rose-400/20">
+                <div class="text-4xl font-medium title-font mb-6 leading-none" x-text="archetype"></div>
+                <div class="text-zinc-300 leading-relaxed text-[17px] text-balance" x-html="insightText"></div>
                 
-                <div class="mt-10 pt-8 border-t border-zinc-700">
-                    <div class="uppercase text-xs tracking-widest text-rose-400 mb-2">Η επόμενη κίνησή σου</div>
-                    <div class="text-2xl font-medium" x-text="weakness"></div>
+                <div class="mt-12 pt-8 border-t border-zinc-700 text-sm">
+                    <div class="uppercase tracking-widest text-rose-400 mb-2">Dating coach note</div>
+                    <div class="text-zinc-400" x-text="weakness"></div>
                 </div>
             </div>
 
             <!-- CTA -->
-            <div class="bg-gradient-to-br from-amber-400 to-orange-500 text-zinc-950 rounded-3xl p-12 text-center">
-                <div class="text-4xl font-bold mb-4">Έτοιμος/η να γίνεις ΑΣΤΑΜΑΤΗΤΟΣ/Η;</div>
-                <div class="text-xl opacity-90 mb-9">Η PELETIE TRIBE είναι το σπίτι όπου οι θρύλοι γεννιούνται. Εκεί θα γίνεις αθάνατος/η.</div>
+            <div class="bg-gradient-to-br from-rose-400 to-pink-500 text-zinc-950 rounded-3xl p-12 text-center">
+                <div class="text-4xl font-bold mb-4">Ready to meet them?</div>
+                <div class="text-xl opacity-90 mb-9">The right partner is already out there. Start living the relationship you just described.</div>
                 
-                <a href="https://www.skool.com/peletietribe" target="_blank"
+                <a href="#" target="_blank"
                    class="block w-full py-8 bg-zinc-950 text-white text-3xl font-bold rounded-3xl hover:bg-black transition-all active:scale-95">
-                    ΕΓΓΡΑΦΗ ΣΤΗΝ PELETIE TRIBE ΤΩΡΑ
+                    FIND YOUR MATCH NOW
                 </a>
-                
-                <div class="mt-6 text-xs opacity-75">Πρώτοι 500 → Δωρεάν 30 ημέρες + προσωπικό μήνυμα από τον Nikos</div>
             </div>
 
             <div class="flex gap-4">
                 <button @click="restart()" 
                         class="flex-1 py-6 border border-white/30 hover:bg-white/5 rounded-3xl text-sm font-medium transition">
-                    Κάνε ξανά το τεστ
+                    RETAKE THE QUIZ
                 </button>
                 <button onclick="shareResults()" 
                         class="flex-1 py-6 border border-white/30 hover:bg-white/5 rounded-3xl text-sm font-medium transition flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-share-nodes"></i> ΜΟΙΡΆΣΟΥ ΤΑ ΑΠΟΤΕΛΕΣΜΑΤΑ
+                    <i class="fa-solid fa-share-nodes"></i> SHARE ON STORIES
                 </button>
             </div>
         </div>
     </div>
 
-    <footer class="text-center py-12 text-[10px] text-zinc-500">
-        © 2026 PELETIE TRIBE • Για όλους τους ανθρώπους που γεννήθηκαν για να κυριαρχήσουν
+    <footer class="text-center py-12 text-xs text-zinc-500">
+        © 2026 LUMINA • Built for those who refuse average love
     </footer>
 
     <script>
@@ -203,118 +198,150 @@
                 answers: [],
                 selectedIndex: null,
                 feedback: false,
+                feedbackText: "",
                 questions: [
-                    { category: "Πειθαρχία", question: "Οι περισσότεροι άνθρωποι φοβούνται την πειθαρχία γιατί τους κάνει να ξεχωρίζουν. Εσύ πόσο συχνά αγκαλιάζεις αυτή την «επικινδυνότητα»;", options: [
-                        {emoji:"🐑", text:"Ποτέ – προτιμώ την άνεση", score:1},
-                        {emoji:"🦊", text:"Μερικές φορές", score:2},
-                        {emoji:"🐺", text:"Συχνά", score:3},
-                        {emoji:"👑", text:"Πάντα – είναι η υπερδύναμή μου", score:4}
+                    // 1-4 Romantic Polarity
+                    { category: "Romantic Polarity", question: "In your perfect relationship, who should lead the big decisions?", options: [
+                        {emoji:"⚖️", text:"Always 50/50 — true equals", score:1, insight:"Modern equality feels safe to you."},
+                        {emoji:"🌀", text:"Mostly equal, occasional lead", score:2, insight:"You like gentle polarity."},
+                        {emoji:"👑", text:"You lead, they support happily", score:3, insight:"You crave clear direction."},
+                        {emoji:"🌹", text:"You lead fully, they follow & adore", score:4, insight:"Controversial truth: Deep submission turns you on."}
                     ]},
-                    { category: "Πειθαρχία", question: "Η κοινωνία ανταμείβει τους μέτριους που μένουν σιωπηλοί. Εσύ πόσο συχνά αρνείσαι να είσαι ένας από αυτούς;", options: [
-                        {emoji:"🔇", text:"Πάντα σιωπώ", score:1},
-                        {emoji:"📢", text:"Μερικές φορές μιλάω", score:2},
-                        {emoji:"🗣️", text:"Συχνά ξεχωρίζω", score:3},
-                        {emoji:"🔥", text:"Πάντα είμαι η φωνή που αλλάζει τα πράγματα", score:4}
+                    { category: "Romantic Polarity", question: "Your perfect partner should be...", options: [
+                        {emoji:"🛡️", text:"Strong & independent — your equal", score:1, insight:"You want a warrior, not a follower."},
+                        {emoji:"🌸", text:"Soft but opinionated", score:2, insight:"Balanced femininity/masculinity."},
+                        {emoji:"🙇", text:"Supportive & yielding", score:3, insight:"You love when they let you shine."},
+                        {emoji:"❤️‍🔥", text:"Fully submissive to your frame", score:4, insight:"You desire worship-level devotion."}
                     ]},
-                    { category: "Πειθαρχία", question: "Οι μέτριοι λένε «αύριο». Εσύ πόσο συχνά λες «τώρα» και γίνεσαι θρύλος;", options: [
-                        {emoji:"⏳", text:"Πάντα αύριο", score:1},
-                        {emoji:"🕒", text:"Μερικές φορές τώρα", score:2},
-                        {emoji:"⚡", text:"Συχνά τώρα", score:3},
-                        {emoji:"🏆", text:"Πάντα τώρα – είμαι ο/η αρχηγός του χρόνου μου", score:4}
+                    { category: "Romantic Polarity", question: "In bed, you want your partner to...", options: [
+                        {emoji:"🤝", text:"Take equal control", score:1, insight:"You enjoy mutual power play."},
+                        {emoji:"🔥", text:"Switch roles sometimes", score:2, insight:"Variety keeps it exciting."},
+                        {emoji:"👑", text:"Let you lead most of the time", score:3, insight:"You thrive when you direct."},
+                        {emoji:"🔒", text:"Completely surrender to you", score:4, insight:"Total surrender is your ultimate turn-on."}
                     ]},
-                    { category: "Πειθαρχία", question: "Όταν όλοι γύρω σου λένε «δεν γίνεται», εσύ πόσο συχνά αποδεικνύεις ότι γίνεται;", options: [
-                        {emoji:"🚫", text:"Ποτέ", score:1},
-                        {emoji:"🤔", text:"Σπάνια", score:2},
-                        {emoji:"💪", text:"Συχνά", score:3},
-                        {emoji:"🌟", text:"Πάντα – είμαι ο/η απόδειξη", score:4}
-                    ]},
-
-                    { category: "Σώμα & Ενέργεια", question: "Οι περισσότεροι άνθρωποι παραδίδονται στην κούραση. Εσύ πόσο συχνά μετατρέπεις την κούραση σε καύσιμο;", options: [
-                        {emoji:"🛋️", text:"Παραδίδομαι", score:1},
-                        {emoji:"🚶", text:"Μερικές φορές", score:2},
-                        {emoji:"🏃", text:"Συχνά", score:3},
-                        {emoji:"⚡", text:"Πάντα – είμαι μηχανή", score:4}
-                    ]},
-                    { category: "Σώμα & Ενέργεια", question: "Το σώμα σου είναι ο ναός σου. Πόσο συχνά το αντιμετωπίζεις σαν να είναι ναός;", options: [
-                        {emoji:"🏚️", text:"Σχεδόν ποτέ", score:1},
-                        {emoji:"🏠", text:"Μερικές φορές", score:2},
-                        {emoji:"🏛️", text:"Συχνά", score:3},
-                        {emoji:"🔥", text:"Πάντα – είναι ο ναός μου", score:4}
-                    ]},
-                    { category: "Σώμα & Ενέργεια", question: "Όταν όλοι σταματούν, εσύ πόσο συχνά συνεχίζεις και γίνεσαι ασταμάτητος/η;", options: [
-                        {emoji:"⛔", text:"Σταματάω", score:1},
-                        {emoji:"🚦", text:"Μερικές φορές", score:2},
-                        {emoji:"🏁", text:"Συχνά", score:3},
-                        {emoji:"🏆", text:"Πάντα – είμαι ασταμάτητος/η", score:4}
-                    ]},
-                    { category: "Σώμα & Ενέργεια", question: "Η ενέργειά σου είναι η υπογραφή σου. Πόσο συχνά την κρατάς σε επίπεδο θρύλου;", options: [
-                        {emoji:"🔋", text:"Σχεδόν ποτέ", score:1},
-                        {emoji:"🔌", text:"Μερικές φορές", score:2},
-                        {emoji:"⚡", text:"Συχνά", score:3},
-                        {emoji:"🌟", text:"Πάντα – είμαι η ενέργεια", score:4}
+                    { category: "Romantic Polarity", question: "Gender roles in your ideal relationship should be...", options: [
+                        {emoji:"🌍", text:"Completely modern & fluid", score:1, insight:"You reject old rules."},
+                        {emoji:"⚖️", text:"Negotiated & flexible", score:2, insight:"You adapt as needed."},
+                        {emoji:"🏠", text:"Traditional — you provide, they nurture", score:3, insight:"You want classic polarity."},
+                        {emoji:"👑", text:"Strictly traditional — you rule, they obey", score:4, insight:"You want the old ways back."}
                     ]},
 
-                    { category: "Χάρισμα & Σχέσεις", question: "Οι περισσότεροι άνθρωποι περιμένουν να τους προσεγγίσουν. Εσύ πόσο συχνά είσαι αυτός/ή που προσεγγίζει πρώτος/η;", options: [
-                        {emoji:"😶", text:"Ποτέ", score:1},
-                        {emoji:"😊", text:"Μερικές φορές", score:2},
-                        {emoji:"😎", text:"Συχνά", score:3},
-                        {emoji:"🎯", text:"Πάντα – είμαι μαγνήτης", score:4}
+                    // 5-8 Primal Attraction
+                    { category: "Primal Attraction", question: "Your perfect partner’s body must be...", options: [
+                        {emoji:"🧘", text:"Natural & real", score:1, insight:"Looks are secondary."},
+                        {emoji:"🏋️", text:"Fit & healthy", score:2, insight:"You value effort."},
+                        {emoji:"🏆", text:"Head-turning athletic", score:3, insight:"You want them to stop traffic."},
+                        {emoji:"🔥", text:"Sculpted perfection", score:4, insight:"Visuals are non-negotiable."}
                     ]},
-                    { category: "Χάρισμα & Σχέσεις", question: "Μια απόρριψη είναι το τέλος για τους μέτριους. Για εσένα είναι…", options: [
-                        {emoji:"💔", text:"Το τέλος", score:1},
-                        {emoji:"😔", text:"Μια στεναχώρια", score:2},
-                        {emoji:"📈", text:"Ένα μάθημα", score:3},
-                        {emoji:"🚀", text:"Καύσιμο για μεγαλύτερη δόξα", score:4}
+                    { category: "Primal Attraction", question: "Height preference for your perfect partner?", options: [
+                        {emoji:"📏", text:"Doesn’t matter", score:1, insight:"Personality > height."},
+                        {emoji:"🧍", text:"Slight preference", score:2, insight:"You notice it."},
+                        {emoji:"👫", text:"Noticeably shorter/taller", score:3, insight:"You love the contrast."},
+                        {emoji:"📐", text:"Must be much shorter/taller", score:4, insight:"Height is a hard filter."}
                     ]},
-                    { category: "Χάρισμα & Σχέσεις", question: "Σε μια παρέα, οι περισσότεροι ακολουθούν. Εσύ πόσο συχνά είσαι ο/η που οδηγεί;", options: [
-                        {emoji:"👣", text:"Ακολουθώ", score:1},
-                        {emoji:"👥", text:"Μερικές φορές", score:2},
-                        {emoji:"🗣️", text:"Συχνά", score:3},
-                        {emoji:"👑", text:"Πάντα – είμαι ο/η ηγέτης/ισσα", score:4}
+                    { category: "Primal Attraction", question: "Sexual chemistry with your perfect partner should feel...", options: [
+                        {emoji:"🌊", text:"Comfortable & sweet", score:1, insight:"Safe connection matters most."},
+                        {emoji:"⚡", text:"Strong & frequent", score:2, insight:"Passion is important."},
+                        {emoji:"🔥", text:"Electric & addictive", score:3, insight:"You crave obsession-level desire."},
+                        {emoji:"🌋", text:"Animalistic & consuming", score:4, insight:"Raw lust is your baseline."}
                     ]},
-                    { category: "Χάρισμα & Σχέσεις", question: "Το χάρισμά σου είναι όπλο. Πόσο συχνά το χρησιμοποιείς σαν θρύλος;", options: [
-                        {emoji:"🔒", text:"Σχεδόν ποτέ", score:1},
-                        {emoji:"🔑", text:"Μερικές φορές", score:2},
-                        {emoji:"⚔️", text:"Συχνά", score:3},
-                        {emoji:"🌟", text:"Πάντα – είμαι ακαταμάχητος/η", score:4}
+                    { category: "Primal Attraction", question: "Your perfect partner must turn heads when they walk in a room.", options: [
+                        {emoji:"🙈", text:"Not important", score:1, insight:"Inner beauty wins."},
+                        {emoji:"😊", text:"Sometimes", score:2, insight:"Nice bonus."},
+                        {emoji:"😎", text:"Often", score:3, insight:"You enjoy the status."},
+                        {emoji:"👀", text:"Always", score:4, insight:"Trophy partner required."}
                     ]},
 
-                    { category: "Ηγεσία & Σκοπός", question: "Οι περισσότεροι άνθρωποι ζουν χωρίς όραμα. Εσύ πόσο συχνά ζεις σαν να έχεις ήδη κερδίσει;", options: [
-                        {emoji:"🌫️", text:"Σχεδόν ποτέ", score:1},
-                        {emoji:"🌥️", text:"Μερικές φορές", score:2},
-                        {emoji:"🌤️", text:"Συχνά", score:3},
-                        {emoji:"☀️", text:"Πάντα – το μέλλον μου είναι δικό μου", score:4}
+                    // 9-12 Sacred Loyalty
+                    { category: "Sacred Loyalty", question: "Past partners / body count of your perfect match matters...", options: [
+                        {emoji:"📖", text:"Not at all", score:1, insight:"Past is past."},
+                        {emoji:"🤔", text:"A little", score:2, insight:"You prefer low drama."},
+                        {emoji:"⚠️", text:"Quite a bit", score:3, insight:"You want purity."},
+                        {emoji:"🚫", text:"It’s a dealbreaker", score:4, insight:"You demand low or zero."}
                     ]},
-                    { category: "Ηγεσία & Σκοπός", question: "Η ηγεσία είναι για λίγους. Εσύ πόσο συχνά αποδεικνύεις ότι είσαι ένας/μία από αυτούς;", options: [
-                        {emoji:"👣", text:"Ποτέ", score:1},
-                        {emoji:"🤝", text:"Μερικές φορές", score:2},
-                        {emoji:"📣", text:"Συχνά", score:3},
-                        {emoji:"👑", text:"Πάντα – είμαι γεννημένος/η ηγέτης/ισσα", score:4}
+                    { category: "Sacred Loyalty", question: "Your perfect partner should be...", options: [
+                        {emoji:"🌍", text:"Free to flirt", score:1, insight:"You believe in freedom."},
+                        {emoji:"📱", text:"Mostly exclusive", score:2, insight:"Open-ish works."},
+                        {emoji:"🔐", text:"Fully exclusive", score:3, insight:"Monogamy is sacred."},
+                        {emoji:"🛡️", text:"Possessive & obsessed with you", score:4, insight:"Jealousy = love."}
                     ]},
-                    { category: "Ηγεσία & Σκοπός", question: "Οι μέτριοι μαθαίνουν μία φορά τον μήνα. Εσύ πόσο συχνά μαθαίνεις σαν θρύλος;", options: [
-                        {emoji:"📵", text:"Σχεδόν ποτέ", score:1},
-                        {emoji:"📖", text:"Μία φορά τον μήνα", score:2},
-                        {emoji:"📚", text:"Κάθε εβδομάδα", score:3},
-                        {emoji:"🚀", text:"Κάθε μέρα – η ανάπτυξη είναι η ταυτότητά μου", score:4}
+                    { category: "Sacred Loyalty", question: "They must put you before...", options: [
+                        {emoji:"🧠", text:"Their career & friends", score:1, insight:"No one is above you."},
+                        {emoji:"🏠", text:"Most things", score:2, insight:"Balance matters."},
+                        {emoji:"👨‍👩‍👧", text:"Everyone except family", score:3, insight:"You come first."},
+                        {emoji:"❤️", text:"Absolutely everything", score:4, insight:"You are their entire world."}
                     ]},
-                    { category: "Ηγεσία & Σκοπός", question: "Αν αύριο τα έχανες όλα, εσύ πόσο γρήγορα θα ξαναχτίζεις σαν ασταμάτητος/η;", options: [
-                        {emoji:"😱", text:"Δεν θα άντεχα", score:1},
-                        {emoji:"😓", text:"Με δυσκολία", score:2},
-                        {emoji:"🏗️", text:"Σε μήνες", score:3},
-                        {emoji:"⚡", text:"Σε εβδομάδες – είμαι αθάνατος/η", score:4}
+                    { category: "Sacred Loyalty", question: "Your perfect partner would never...", options: [
+                        {emoji:"📵", text:"Hide their phone", score:1, insight:"Trust is everything."},
+                        {emoji:"🚩", text:"Like others’ photos", score:2, insight:"Light boundaries."},
+                        {emoji:"🔒", text:"Go out without you", score:3, insight:"You want presence."},
+                        {emoji:"🚫", text:"Even look at others", score:4, insight:"Total devotion required."}
+                    ]},
+
+                    // 13-16 Empire Ambition
+                    { category: "Empire Ambition", question: "Your perfect partner’s career should be...", options: [
+                        {emoji:"🧘", text:"Whatever makes them happy", score:1, insight:"No pressure."},
+                        {emoji:"💼", text:"Stable & respectable", score:2, insight:"Security matters."},
+                        {emoji:"🚀", text:"Ambitious & growing", score:3, insight:"You want a power couple."},
+                        {emoji:"💰", text:"High-status & wealthy", score:4, insight:"They must match your empire."}
+                    ]},
+                    { category: "Empire Ambition", question: "Financially, your perfect partner should...", options: [
+                        {emoji:"💸", text:"Split everything", score:1, insight:"Modern equality."},
+                        {emoji:"🏦", text:"Contribute fairly", score:2, insight:"Team effort."},
+                        {emoji:"🛡️", text:"Let you provide", score:3, insight:"You love being the provider."},
+                        {emoji:"👑", text:"Be supported by you fully", score:4, insight:"Traditional provider role."}
+                    ]},
+                    { category: "Empire Ambition", question: "Children & family plans with your perfect partner...", options: [
+                        {emoji:"🚫", text:"None ever", score:1, insight:"Child-free life."},
+                        {emoji:"🤔", text:"Maybe one day", score:2, insight:"Open to discussion."},
+                        {emoji:"👨‍👩‍👧", text:"2–3 kids, traditional family", score:3, insight:"You want legacy."},
+                        {emoji:"🏡", text:"Big family, stay-at-home partner", score:4, insight:"Classic family values."}
+                    ]},
+                    { category: "Empire Ambition", question: "Your perfect partner must support your biggest goals...", options: [
+                        {emoji:"🧠", text:"With their own dreams", score:1, insight:"Two independent lives."},
+                        {emoji:"🤝", text:"Cheer you on", score:2, insight:"Supportive partner."},
+                        {emoji:"🔥", text:"Sacrifice for your vision", score:3, insight:"You come first."},
+                        {emoji:"🌍", text:"Build the empire with you", score:4, insight:"True power couple."}
+                    ]},
+
+                    // 17-20 Soul Resonance
+                    { category: "Soul Resonance", question: "Emotional vulnerability from your perfect partner should be...", options: [
+                        {emoji:"🛡️", text:"Kept private", score:1, insight:"Strength over softness."},
+                        {emoji:"🌊", text:"Balanced", score:2, insight:"Healthy sharing."},
+                        {emoji:"💬", text:"Deep & frequent", score:3, insight:"You crave soul talks."},
+                        {emoji:"❤️", text:"Total openness 24/7", score:4, insight:"You want their entire soul."}
+                    ]},
+                    { category: "Soul Resonance", question: "Your perfect partner should make you feel...", options: [
+                        {emoji:"🧘", text:"Calm & secure", score:1, insight:"Peace is love."},
+                        {emoji:"🔥", text:"Excited daily", score:2, insight:"Passion + peace."},
+                        {emoji:"🌌", text:"Understood on a soul level", score:3, insight:"True twin-flame energy."},
+                        {emoji:"🌟", text:"Like a god/goddess", score:4, insight:"Worship-level connection."}
+                    ]},
+                    { category: "Soul Resonance", question: "Fights with your perfect partner should end with...", options: [
+                        {emoji:"🗣️", text:"Rational discussion", score:1, insight:"Logic wins."},
+                        {emoji:"🤝", text:"Compromise", score:2, insight:"Healthy resolution."},
+                        {emoji:"💋", text:"Make-up sex & apology", score:3, insight:"Passion heals."},
+                        {emoji:"🙇", text:"Their full submission & your forgiveness", score:4, insight:"You lead, they yield."}
+                    ]},
+                    { category: "Soul Resonance", question: "Your perfect partner must share your...", options: [
+                        {emoji:"🌍", text:"Political views loosely", score:1, insight:"Diversity is fine."},
+                        {emoji:"📖", text:"Core values", score:2, insight:"Values alignment."},
+                        {emoji:"🛐", text:"Faith & worldview", score:3, insight:"Spiritual match."},
+                        {emoji:"🔥", text:"Exact same mission in life", score:4, insight:"You need a mirror soul."}
                     ]}
                 ],
                 categories: [
-                    {name: "Πειθαρχία", score: 0, color: "#f59e0b"},
-                    {name: "Σώμα & Ενέργεια", score: 0, color: "#10b981"},
-                    {name: "Χάρισμα & Σχέσεις", score: 0, color: "#3b82f6"},
-                    {name: "Ηγεσία & Σκοπός", score: 0, color: "#8b5cf6"}
+                    {name: "Romantic Polarity", score: 0, color: "#e11d48"},
+                    {name: "Primal Attraction", score: 0, color: "#10b981"},
+                    {name: "Sacred Loyalty", score: 0, color: "#8b5cf6"},
+                    {name: "Empire Ambition", score: 0, color: "#f59e0b"},
+                    {name: "Soul Resonance", score: 0, color: "#06b6d4"}
                 ],
                 totalScore: 0,
-                insightTitle: "",
+                scoreTitle: "",
+                archetype: "",
                 insightText: "",
                 weakness: "",
-                scoreTitle: "",
                 radarChart: null,
 
                 init() {
@@ -327,39 +354,24 @@
                     this.selectedIndex = null;
                 },
 
-                selectAnswer(score, index) {
+                selectAnswer(score, index, insight) {
                     this.answers[this.currentQuestion] = score;
                     this.selectedIndex = index;
-                    
+                    this.feedbackText = insight;
                     this.feedback = true;
-                    setTimeout(() => this.feedback = false, 900);
 
-                    if (this.currentQuestion < this.questions.length - 1) {
-                        setTimeout(() => this.nextQuestion(), 650);
-                    } else {
-                        setTimeout(() => {
+                    setTimeout(() => {
+                        this.feedback = false;
+                        if (this.currentQuestion < this.questions.length - 1) {
+                            this.currentQuestion++;
+                            this.selectedIndex = null;
+                        } else {
                             this.calculateResults();
                             this.step = 2;
                             this.renderRadar();
                             this.launchConfetti();
-                        }, 650);
-                    }
-                },
-
-                nextQuestion() {
-                    if (this.currentQuestion < this.questions.length - 1) {
-                        this.currentQuestion++;
-                        this.selectedIndex = this.answers[this.currentQuestion] ? 
-                            this.questions[this.currentQuestion].options.findIndex(o => o.score === this.answers[this.currentQuestion]) : null;
-                    }
-                },
-
-                prevQuestion() {
-                    if (this.currentQuestion > 0) {
-                        this.currentQuestion--;
-                        this.selectedIndex = this.answers[this.currentQuestion] ? 
-                            this.questions[this.currentQuestion].options.findIndex(o => o.score === this.answers[this.currentQuestion]) : null;
-                    }
+                        }
+                    }, 1100);
                 },
 
                 get progress() {
@@ -369,30 +381,47 @@
                 calculateResults() {
                     this.totalScore = this.answers.reduce((a, b) => a + b, 0);
                     
-                    for (let i = 0; i < this.categories.length; i++) {
+                    // Calculate category scores
+                    for (let i = 0; i < 5; i++) {
                         let sum = 0;
                         for (let j = 0; j < 4; j++) {
-                            const qIndex = i * 4 + j;
-                            sum += this.answers[qIndex] || 0;
+                            sum += this.answers[i * 4 + j] || 0;
                         }
                         this.categories[i].score = sum;
                     }
 
-                    const lowest = [...this.categories].sort((a,b) => a.score - b.score)[0];
-                    this.weakness = lowest.name + " (" + lowest.score + "/16) – έτοιμος/η να το αναβαθμίσεις";
+                    // Archetype from highest category
+                    const highest = [...this.categories].sort((a, b) => b.score - a.score)[0];
+                    const archetypeMap = {
+                        "Romantic Polarity": "The Polarized Leader",
+                        "Primal Attraction": "The Primal Magnet",
+                        "Sacred Loyalty": "The Devoted Guardian",
+                        "Empire Ambition": "The Empire Builder",
+                        "Soul Resonance": "The Soul Twin"
+                    };
+                    this.archetype = "Your perfect partner is the " + archetypeMap[highest.name];
 
-                    if (this.totalScore >= 58) {
-                        this.scoreTitle = "ΕΙΣΑΙ ΉΔΗ ΘΡΥΛΟΣ";
-                        this.insightTitle = "Συγχαρητήρια! Ανήκεις στο 3% των αληθινών ασταμάτητων.";
-                        this.insightText = "Έχεις το DNA του θρύλου. Η PELETIE TRIBE θα σε πάει σε επίπεδα που οι άλλοι ούτε φαντάζονται. Είσαι έτοιμος/η να γίνεις <strong>αθάνατος/η</strong>.";
-                    } else if (this.totalScore >= 42) {
-                        this.scoreTitle = "ΕΙΣΑΙ ΣΤΟ ΔΡΟΜΟ ΤΟΥ ΘΡΥΛΟΥ";
-                        this.insightTitle = "Έχεις ήδη ξεπεράσει το 90% των ανθρώπων.";
-                        this.insightText = "Η φωτιά μέσα σου καίει δυνατά. Στην PELETIE TRIBE θα την μετατρέψουμε σε πυρηνική έκρηξη. Είσαι έτοιμος/η για το επόμενο επίπεδο.";
+                    // Score title
+                    if (this.totalScore >= 68) {
+                        this.scoreTitle = "SOULMATE LEVEL UNLOCKED";
+                    } else if (this.totalScore >= 52) {
+                        this.scoreTitle = "HIGH-VOLTAGE MATCH";
+                    } else if (this.totalScore >= 36) {
+                        this.scoreTitle = "STRONG POTENTIAL";
                     } else {
-                        this.scoreTitle = "Η ΜΕΤΑΜΟΡΦΩΣΗ ΣΟΥ ΞΕΚΙΝΑΕΙ ΤΩΡΑ";
-                        this.insightTitle = "Συγχαρητήρια! Το ότι έκανες το τεστ δείχνει ότι έχεις το σπινθήρα.";
-                        this.insightText = "Δεν είσαι μέτριος/α. Είσαι στην αρχή του μεγαλείου σου. Η PELETIE TRIBE είναι το σύστημα που θα σε κάνει να γίνεις ο/η ασταμάτητος/η που πάντα ήξερες ότι είσαι.";
+                        this.scoreTitle = "YOUR STANDARDS ARE EVOLVING";
+                    }
+
+                    // Insight text (hyper-controversial + insightful)
+                    this.insightText = `You crave a partner who ${highest.score >= 13 ? 'fully submits to your frame and worships your leadership' : 'matches your energy while respecting your vision'}. 
+                    High scores in ${highest.name.toLowerCase()} mean you reject average relationships. You want polarity, obsession, and alignment that most people are too scared to admit they desire.`;
+
+                    // Weakness
+                    const lowest = [...this.categories].sort((a, b) => a.score - b.score)[0];
+                    this.weakness = `You scored lowest in ${lowest.name}. This might mean you're open to more balance — or avoiding your deepest desires.`;
+
+                    if (this.totalScore < 40) {
+                        this.insightText += "<br><br>As a dating coach I’ll say it straight: low scores often hide fear of real polarity. Time to raise your standards.";
                     }
                 },
 
@@ -405,23 +434,25 @@
                             data: {
                                 labels: this.categories.map(c => c.name),
                                 datasets: [{
-                                    label: 'Δύναμή σου',
+                                    label: 'Your Desires',
                                     data: this.categories.map(c => c.score),
-                                    backgroundColor: 'rgba(245, 158, 11, 0.15)',
-                                    borderColor: '#f59e0b',
-                                    borderWidth: 4,
+                                    backgroundColor: 'rgba(225, 29, 72, 0.15)',
+                                    borderColor: '#e11d48',
+                                    borderWidth: 3,
                                     pointBackgroundColor: '#fff',
-                                    pointBorderColor: '#f59e0b'
+                                    pointBorderColor: '#e11d48',
+                                    pointRadius: 5
                                 }]
                             },
                             options: {
                                 plugins: { legend: { display: false } },
                                 scales: {
                                     r: {
-                                        min: 0, max: 16, ticks: { stepSize: 4, color: '#52525b' },
+                                        min: 0, max: 16,
+                                        ticks: { stepSize: 4, color: '#52525b', font: { size: 11 } },
                                         grid: { color: '#27272a' },
                                         angleLines: { color: '#27272a' },
-                                        pointLabels: { color: '#a3a3a3', font: { size: 14, weight: '600' } }
+                                        pointLabels: { color: '#a3a3a3', font: { size: 13, weight: '600' } }
                                     }
                                 }
                             }
@@ -430,6 +461,7 @@
                 },
 
                 launchConfetti() {
+                    // Same high-quality confetti as original (kept for engagement)
                     const canvas = document.createElement('canvas');
                     canvas.style.position = 'fixed';
                     canvas.style.top = '0';
@@ -439,28 +471,22 @@
                     canvas.style.pointerEvents = 'none';
                     canvas.style.zIndex = '9999';
                     document.body.appendChild(canvas);
-                    
                     const ctx = canvas.getContext('2d');
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
-                    
                     const confetti = [];
-                    const colors = ['#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899', '#fff'];
-                    
+                    const colors = ['#e11d48', '#10b981', '#8b5cf6', '#f59e0b', '#06b6d4'];
                     class Particle {
                         constructor() {
                             this.x = Math.random() * canvas.width;
                             this.y = Math.random() * canvas.height - canvas.height;
-                            this.size = Math.random() * 14 + 7;
-                            this.speed = Math.random() * 7 + 5;
+                            this.size = Math.random() * 12 + 8;
+                            this.speed = Math.random() * 6 + 4;
                             this.angle = Math.random() * 360;
                             this.color = colors[Math.floor(Math.random()*colors.length)];
-                            this.rotationSpeed = Math.random() * 0.3 - 0.15;
+                            this.rotationSpeed = Math.random() * 0.4 - 0.2;
                         }
-                        update() {
-                            this.y += this.speed;
-                            this.angle += this.rotationSpeed;
-                        }
+                        update() { this.y += this.speed; this.angle += this.rotationSpeed; }
                         draw() {
                             ctx.save();
                             ctx.translate(this.x, this.y);
@@ -470,9 +496,7 @@
                             ctx.restore();
                         }
                     }
-                    
-                    for (let i = 0; i < 320; i++) confetti.push(new Particle());
-                    
+                    for (let i = 0; i < 280; i++) confetti.push(new Particle());
                     let animation = setInterval(() => {
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         confetti.forEach((p, i) => {
@@ -498,17 +522,19 @@
 
         function shareResults() {
             const scoreEl = document.querySelector('[x-text="totalScore"]');
-            const score = scoreEl ? scoreEl.textContent : '64';
-            const text = `Έκανα την Αξιολόγηση PELETIE TRIBE και πήρα ${score}/64! Είμαι έτοιμος/η να γίνω ασταμάτητος/η. Εσύ; Δοκίμασε τώρα 👇 https://yourquizlink.com`;
+            const score = scoreEl ? scoreEl.textContent : '80';
+            const archetypeEl = document.querySelector('[x-text="archetype"]');
+            const archetype = archetypeEl ? archetypeEl.textContent : 'Soulmate';
+            const text = `I just discovered my perfect partner is the ${archetype} 🔥 Scored ${score}/80 on the LUMINA quiz. My standards are officially dangerous. What’s yours? https://luminaquiz.com`;
             navigator.clipboard.writeText(text).then(() => {
                 const btn = document.querySelector('button[onclick="shareResults()"]');
                 const original = btn.innerHTML;
-                btn.innerHTML = '✅ Αντιγράφηκε!';
-                setTimeout(() => btn.innerHTML = original, 2000);
+                btn.innerHTML = '✅ COPIED FOR STORIES!';
+                setTimeout(() => btn.innerHTML = original, 2200);
             });
         }
 
-        console.log('%c✅ PELETIE TRIBE Αξιολόγηση – Το πιο εθιστικό τεστ στον κόσμο φορτώθηκε. Έτοιμο για μαζική κυριαρχία!', 'color:#fbbf24; font-size:13px');
+        console.log('%cLUMINA Perfect Partner Quiz loaded — ready for viral shares 🔥', 'color:#e11d48; font-size:14px');
     </script>
 </body>
 </html>
