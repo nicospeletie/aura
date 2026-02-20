@@ -372,16 +372,17 @@
 
     .card-orbit-path {
       fill: none;
-      stroke: url(#cardOrbitGradient);
-      stroke-width: 1.6;
+      stroke: rgba(255, 226, 244, 0.98);
+      stroke-width: 1.7;
       vector-effect: non-scaling-stroke;
+      shape-rendering: geometricPrecision;
       stroke-linecap: round;
       stroke-linejoin: round;
-      stroke-dasharray: 72 306;
+      stroke-dasharray: 130 870;
       stroke-dashoffset: 0;
-      animation: cardOrbitDash 4.8s linear infinite;
-      filter: drop-shadow(0 0 6px rgba(255, 122, 182, 0.54));
-      will-change: stroke-dashoffset;
+      animation: cardOrbitDash 5s linear infinite, cardOrbitGlow 2.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 7px rgba(255, 122, 182, 0.62));
+      will-change: stroke-dashoffset, filter, opacity;
     }
 
     .question-card.bump {
@@ -848,7 +849,18 @@
 
     @keyframes cardOrbitDash {
       0% { stroke-dashoffset: 0; }
-      100% { stroke-dashoffset: -378; }
+      100% { stroke-dashoffset: -1000; }
+    }
+
+    @keyframes cardOrbitGlow {
+      0%, 100% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 5px rgba(255, 122, 182, 0.48));
+      }
+      50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 11px rgba(255, 122, 182, 0.78));
+      }
     }
 
     @keyframes optionIn {
@@ -1159,14 +1171,7 @@
 
       <article class="question-card" id="questionCard">
         <svg class="card-orbit" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="cardOrbitGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#ffd8ed" stop-opacity="0"></stop>
-              <stop offset="55%" stop-color="#ffd8ed" stop-opacity="0.96"></stop>
-              <stop offset="100%" stop-color="#ffd8ed" stop-opacity="0"></stop>
-            </linearGradient>
-          </defs>
-          <rect class="card-orbit-path" x="1" y="1" width="98" height="98" rx="8" ry="8"></rect>
+          <rect class="card-orbit-path" x="1" y="1" width="98" height="98" rx="8" ry="8" pathLength="1000"></rect>
         </svg>
         <div class="category" id="qCategory">Παρουσία</div>
         <h2 class="question" id="qText">...</h2>
