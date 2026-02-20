@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>PELETIE TRIBE • Διαγνωστικό Αρχέτυπου Έλξης</title>
   <meta name="description" content="30 σύντομες και διορατικές ερωτήσεις για να ανακαλύψεις το πραγματικό σου αρχέτυπο έλξης.">
   <meta property="og:title" content="PELETIE TRIBE • Διαγνωστικό Αρχέτυπου Έλξης">
@@ -46,6 +46,7 @@
       touch-action: manipulation;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
+      scroll-behavior: auto;
     }
 
     body {
@@ -816,8 +817,8 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @keyframes questionBump {
@@ -866,14 +867,14 @@
     }
 
     @keyframes bgFlowMove {
-      0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.3; }
-      50% { transform: translate3d(2.5vw, -1.6vh, 0) scale(1.04); opacity: 0.4; }
-      100% { transform: translate3d(-2.8vw, 2vh, 0) scale(1.08); opacity: 0.33; }
+      0% { transform: translate3d(0, 0, 0); opacity: 0.3; }
+      50% { transform: translate3d(2.5vw, -1.6vh, 0); opacity: 0.4; }
+      100% { transform: translate3d(-2.8vw, 2vh, 0); opacity: 0.33; }
     }
 
     @keyframes hypnoRotate {
-      0% { transform: rotate(0deg) scale(1); }
-      100% { transform: rotate(360deg) scale(1.06); }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     @keyframes hypnoBreath {
@@ -1052,8 +1053,17 @@
       }
 
       .cta-title-line {
-        will-change: transform;
-        animation: ctaTitleSlide 11.5s ease-in-out infinite alternate;
+        white-space: normal;
+        will-change: auto;
+        animation: none;
+      }
+
+      .btn-cta {
+        animation: ctaPulse 2.8s ease-in-out infinite, ctaGradient 5.2s ease-in-out infinite;
+      }
+
+      .cta-arrow {
+        animation: ctaArrow 1.1s ease-in-out infinite alternate;
       }
     }
 
@@ -1136,7 +1146,6 @@
       <article class="question-card" id="questionCard">
         <div class="category" id="qCategory">Παρουσία</div>
         <h2 class="question" id="qText">...</h2>
-        <p class="question-note" id="qStory">...</p>
         <p class="question-spark" id="qSpark">...</p>
         <div class="options" id="options" role="listbox" aria-label="Επιλογές απάντησης"></div>
       </article>
@@ -1767,7 +1776,6 @@
         progressBar: document.getElementById("progressBar"),
         qCategory: document.getElementById("qCategory"),
         qText: document.getElementById("qText"),
-        qStory: document.getElementById("qStory"),
         qSpark: document.getElementById("qSpark"),
         options: document.getElementById("options"),
         totalScore: document.getElementById("totalScore"),
@@ -1786,7 +1794,53 @@
         tipsList: document.getElementById("tipsList")
       };
 
+      const LOCKED_VIEWPORT = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover";
+
+      function enforceViewportLock() {
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        if (!viewportMeta) return;
+        if (viewportMeta.getAttribute("content") !== LOCKED_VIEWPORT) {
+          viewportMeta.setAttribute("content", LOCKED_VIEWPORT);
+        }
+      }
+
+      function bindViewportGuards() {
+        enforceViewportLock();
+        window.addEventListener("orientationchange", () => {
+          setTimeout(enforceViewportLock, 120);
+        });
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener("resize", () => {
+            if (window.visualViewport.scale && window.visualViewport.scale !== 1) {
+              enforceViewportLock();
+            }
+          }, { passive: true });
+        }
+      }
+
+      function bindAntiZoomGestures() {
+        let lastTouchEnd = 0;
+
+        document.addEventListener("touchend", (event) => {
+          const now = Date.now();
+          if (now - lastTouchEnd <= 280) {
+            event.preventDefault();
+          }
+          lastTouchEnd = now;
+        }, { passive: false });
+
+        document.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener("gesturestart", (event) => {
+          event.preventDefault();
+        }, { passive: false });
+      }
+
       function init() {
+        bindViewportGuards();
+        bindAntiZoomGestures();
         el.scoreMax.textContent = `/${MAX_TOTAL_SCORE}`;
         bindEvents();
       }
@@ -1823,7 +1877,6 @@
         el.progressBar.style.width = `${progress}%`;
         el.qCategory.textContent = CATEGORIES[q.cat];
         el.qText.textContent = q.text;
-        el.qStory.textContent = QUESTION_NOTES[state.index];
         el.qSpark.classList.remove("flash");
         void el.qSpark.offsetWidth;
         el.qSpark.classList.add("flash");
