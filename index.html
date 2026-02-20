@@ -364,17 +364,25 @@
     .question-card::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: -24%;
-      right: auto;
-      bottom: auto;
-      width: 36%;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      box-shadow: 0 0 14px rgba(255, 122, 182, 0.56);
-      animation: cardBorderScan 5.4s linear infinite;
-      will-change: top, right, bottom, left, width, height, background;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(var(--panel), var(--panel)) padding-box,
+        conic-gradient(
+          from 0deg,
+          rgba(255, 216, 237, 0) 0deg,
+          rgba(255, 216, 237, 0) 326deg,
+          rgba(255, 216, 237, 0.24) 336deg,
+          rgba(255, 216, 237, 0.98) 347deg,
+          rgba(255, 122, 182, 0.92) 353deg,
+          rgba(255, 216, 237, 0.22) 359deg,
+          rgba(255, 216, 237, 0) 360deg
+        ) border-box;
+      background-clip: padding-box, border-box;
+      filter: drop-shadow(0 0 8px rgba(255, 122, 182, 0.48));
+      animation: cardOrbit 4.2s linear infinite, cardBreath 2.8s ease-in-out infinite;
+      will-change: transform, opacity, filter;
       pointer-events: none;
       z-index: 0;
     }
@@ -841,87 +849,19 @@
       100% { left: 140%; }
     }
 
-    @keyframes cardBorderScan {
-      0% {
-        top: 0;
-        right: auto;
-        bottom: auto;
-        left: -24%;
-        width: 36%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      }
-      24% {
-        top: 0;
-        right: auto;
-        bottom: auto;
-        left: 88%;
-        width: 36%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      }
-      25% {
-        top: -24%;
-        right: 0;
-        bottom: auto;
-        left: auto;
-        width: 2px;
-        height: 36%;
-        background: linear-gradient(180deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      }
-      49% {
-        top: 88%;
-        right: 0;
-        bottom: auto;
-        left: auto;
-        width: 2px;
-        height: 36%;
-        background: linear-gradient(180deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+    @keyframes cardOrbit {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes cardBreath {
+      0%, 100% {
+        opacity: 0.76;
+        filter: drop-shadow(0 0 6px rgba(255, 122, 182, 0.38));
       }
       50% {
-        top: auto;
-        right: auto;
-        bottom: 0;
-        left: 88%;
-        width: 36%;
-        height: 2px;
-        background: linear-gradient(270deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      }
-      74% {
-        top: auto;
-        right: auto;
-        bottom: 0;
-        left: -24%;
-        width: 36%;
-        height: 2px;
-        background: linear-gradient(270deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      }
-      75% {
-        top: 88%;
-        right: auto;
-        bottom: auto;
-        left: 0;
-        width: 2px;
-        height: 36%;
-        background: linear-gradient(0deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      }
-      99% {
-        top: -24%;
-        right: auto;
-        bottom: auto;
-        left: 0;
-        width: 2px;
-        height: 36%;
-        background: linear-gradient(0deg, transparent, rgba(255, 216, 237, 0.96), transparent);
-      }
-      100% {
-        top: 0;
-        right: auto;
-        bottom: auto;
-        left: -24%;
-        width: 36%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, rgba(255, 216, 237, 0.96), transparent);
+        opacity: 1;
+        filter: drop-shadow(0 0 12px rgba(255, 122, 182, 0.62));
       }
     }
 
