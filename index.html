@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMINA • What is the Perfect Partner for You?</title>
+    <title>LUMINA • Ποιος είναι ο Ιδανικός Σύντροφος για Σένα;</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -12,27 +12,25 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:wght@700&amp;display=swap');
         body { font-family: 'Inter', system-ui, sans-serif; }
         .title-font { font-family: 'Playfair Display', sans-serif; }
+        
         .option-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .option-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
         }
         .option-card.selected {
             border-color: #e11d48;
             background-color: #431407;
-            transform: scale(1.02);
+            transform: scale(1.015);
         }
         .progress-bar {
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .feedback {
-            animation: popIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .start-benefits {
+            font-size: 1.35rem;
+            line-height: 1.3;
         }
     </style>
 </head>
@@ -44,7 +42,7 @@
                 <div class="w-9 h-9 bg-gradient-to-br from-rose-400 to-pink-600 rounded-3xl flex items-center justify-center text-3xl font-black tracking-[-2px]">L</div>
                 <span class="text-3xl font-bold tracking-tighter title-font">LUMINA</span>
             </div>
-            <div class="text-xs uppercase tracking-[2px] font-semibold text-rose-400">THE PERFECT PARTNER QUIZ</div>
+            <div class="text-xs uppercase tracking-[2px] font-semibold text-rose-400">ΤΟ ΤΕΣΤ ΤΟΥ ΙΔΑΝΙΚΟΥ ΣΥΝΤΡΟΦΟΥ</div>
         </div>
     </header>
 
@@ -54,37 +52,45 @@
         <div x-show="step === 0" class="text-center py-20">
             <div class="inline-flex items-center gap-3 bg-rose-500/10 text-rose-400 px-8 py-3 rounded-3xl text-sm font-medium mb-8">
                 <i class="fa-solid fa-heart"></i>
-                47,291 people discovered their match this week
+                47.291 άνθρωποι ανακάλυψαν το ταίρι τους αυτή την εβδομάδα
             </div>
             
-            <h1 class="text-6xl md:text-7xl font-bold tracking-[-3px] title-font leading-none mb-6">
-                WHAT IS THE<br>PERFECT PARTNER<br>FOR YOU?
+            <h1 class="text-6xl md:text-7xl font-bold tracking-[-3px] title-font leading-none mb-8">
+                ΠΟΙΟΣ ΕΙΝΑΙ Ο<br>ΙΔΑΝΙΚΟΣ<br>ΣΥΝΤΡΟΦΟΣ<br>ΓΙΑ ΣΕΝΑ;
             </h1>
             
-            <p class="text-2xl text-zinc-400 max-w-lg mx-auto mb-12 leading-tight">
-                20 bold questions.<br>2 minutes.<br><span class="text-rose-400">Brutal honesty. Shocking clarity.</span>
+            <p class="text-2xl text-zinc-400 max-w-lg mx-auto mb-16 leading-tight">
+                20 τολμηρές ερωτήσεις.<br>2 λεπτά.<br><span class="text-rose-400">Βάρβαρη ειλικρίνεια. Συγκλονιστική διαύγεια.</span>
             </p>
+
+            <!-- BIGGER BENEFITS -->
+            <div class="start-benefits mx-auto max-w-md grid grid-cols-1 gap-6 text-zinc-300 mb-16">
+                <div class="flex items-center gap-5 justify-center">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl">⚡</div>
+                    <div class="font-medium">Άμεσα αποτελέσματα</div>
+                </div>
+                <div class="flex items-center gap-5 justify-center">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl">🔒</div>
+                    <div class="font-medium">Χωρίς εγγραφή</div>
+                </div>
+                <div class="flex items-center gap-5 justify-center">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-2xl">💎</div>
+                    <div class="font-medium">100% δωρεάν</div>
+                </div>
+            </div>
             
             <button @click="startQuiz()" 
                     class="group w-full max-w-xs mx-auto px-14 py-8 bg-gradient-to-r from-rose-400 to-pink-500 text-zinc-950 text-3xl font-bold rounded-3xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-4 shadow-2xl shadow-rose-500/30">
-                REVEAL MY MATCH
+                ΑΠΟΚΑΛΥΨΕ ΤΟ ΤΑΊΡΙ ΜΟΥ
                 <span class="text-4xl group-active:rotate-12 transition">→</span>
             </button>
-            
-            <div class="mt-10 text-xs text-zinc-500 flex items-center justify-center gap-6">
-                <div>Instant results</div>
-                <div class="w-px h-3 bg-zinc-700"></div>
-                <div>No sign-up</div>
-                <div class="w-px h-3 bg-zinc-700"></div>
-                <div>100% free</div>
-            </div>
         </div>
 
         <!-- QUIZ -->
         <div x-show="step === 1">
             <div class="sticky top-20 z-40 bg-zinc-950/90 backdrop-blur-md py-4 -mx-6 px-6 border-b border-zinc-800">
                 <div class="flex justify-between items-center text-xs font-medium text-zinc-400">
-                    <div>Question <span class="font-mono text-rose-400 text-lg" x-text="currentQuestion + 1"></span>/20</div>
+                    <div>Ερώτηση <span class="font-mono text-rose-400 text-lg" x-text="currentQuestion + 1"></span>/20</div>
                     <div class="text-emerald-400 font-mono" x-text="Math.round(progress)+'%'"></div>
                 </div>
                 <div class="h-1 bg-zinc-800 rounded-full mt-3 overflow-hidden">
@@ -94,13 +100,13 @@
             </div>
 
             <div class="mt-10 bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
-                <div class="uppercase text-rose-400 text-xs tracking-[2px] font-medium mb-4" x-text="questions[currentQuestion].category"></div>
+                <div class="uppercase text-rose-400 text-xs tracking-[2px] font-medium mb-6" x-text="questions[currentQuestion].category"></div>
                 
                 <h2 class="text-3xl leading-tight font-medium mb-12 text-balance" x-text="questions[currentQuestion].question"></h2>
                 
                 <div class="grid gap-4">
                     <template x-for="(opt, i) in questions[currentQuestion].options" :key="i">
-                        <button @click="selectAnswer(opt.score, i, opt.insight)"
+                        <button @click="selectAnswer(opt.score, i)"
                                 :class="{ 'selected': selectedIndex === i }"
                                 class="option-card text-left p-8 rounded-3xl border-2 border-transparent bg-zinc-950 hover:border-rose-400/50 flex gap-6 items-start group">
                             <span class="text-6xl transition-all group-hover:scale-110 flex-shrink-0" x-text="opt.emoji"></span>
@@ -108,12 +114,6 @@
                         </button>
                     </template>
                 </div>
-            </div>
-
-            <!-- FEEDBACK -->
-            <div x-show="feedback" 
-                 class="feedback fixed bottom-8 left-1/2 -translate-x-1/2 bg-rose-400 text-zinc-950 px-8 py-5 rounded-3xl text-xl font-semibold shadow-2xl flex items-center gap-3">
-                <span x-text="feedbackText"></span>
             </div>
         </div>
 
@@ -123,7 +123,7 @@
                 <div id="confetti" class="absolute inset-0 pointer-events-none"></div>
                 
                 <div class="inline-flex items-center gap-3 bg-emerald-400/10 px-8 py-4 rounded-3xl text-emerald-400 text-sm font-medium mb-6">
-                    <i class="fa-solid fa-trophy"></i> YOUR PERFECT PARTNER REVEALED
+                    <i class="fa-solid fa-trophy"></i> Ο ΙΔΑΝΙΚΟΣ ΣΟΥ ΣΥΝΤΡΟΦΟΣ ΑΠΟΚΑΛΥΦΘΗΚΕ
                 </div>
                 
                 <div class="text-7xl font-black title-font tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-rose-300 to-pink-400" 
@@ -141,7 +141,7 @@
             <div class="space-y-8">
                 <template x-for="(cat, i) in categories" :key="i">
                     <div class="flex items-center gap-6">
-                        <div class="w-40 text-sm font-medium shrink-0" x-text="cat.name"></div>
+                        <div class="w-44 text-sm font-medium shrink-0" x-text="cat.name"></div>
                         <div class="flex-1 h-3 bg-zinc-800 rounded-full overflow-hidden">
                             <div class="h-full rounded-full transition-all duration-1000" 
                                  :style="{ width: (cat.score / 16 * 100) + '%', background: cat.color }"></div>
@@ -157,37 +157,37 @@
                 <div class="text-zinc-300 leading-relaxed text-[17px] text-balance" x-html="insightText"></div>
                 
                 <div class="mt-12 pt-8 border-t border-zinc-700 text-sm">
-                    <div class="uppercase tracking-widest text-rose-400 mb-2">Dating coach note</div>
+                    <div class="uppercase tracking-widest text-rose-400 mb-2">Συμβουλή από τον dating coach</div>
                     <div class="text-zinc-400" x-text="weakness"></div>
                 </div>
             </div>
 
             <!-- CTA -->
             <div class="bg-gradient-to-br from-rose-400 to-pink-500 text-zinc-950 rounded-3xl p-12 text-center">
-                <div class="text-4xl font-bold mb-4">Ready to meet them?</div>
-                <div class="text-xl opacity-90 mb-9">The right partner is already out there. Start living the relationship you just described.</div>
+                <div class="text-4xl font-bold mb-4">Έτοιμος/η να τον/την συναντήσεις;</div>
+                <div class="text-xl opacity-90 mb-9">Το ταίρι που μόλις περιέγραψες είναι ήδη κάπου εκεί έξω.</div>
                 
                 <a href="#" target="_blank"
                    class="block w-full py-8 bg-zinc-950 text-white text-3xl font-bold rounded-3xl hover:bg-black transition-all active:scale-95">
-                    FIND YOUR MATCH NOW
+                    ΒΡΕΣ ΤΟ ΤΑΊΡΙ ΣΟΥ ΤΩΡΑ
                 </a>
             </div>
 
             <div class="flex gap-4">
                 <button @click="restart()" 
                         class="flex-1 py-6 border border-white/30 hover:bg-white/5 rounded-3xl text-sm font-medium transition">
-                    RETAKE THE QUIZ
+                    ΚΑΝΕ ΤΟ ΤΕΣΤ ΞΑΝΑ
                 </button>
                 <button onclick="shareResults()" 
                         class="flex-1 py-6 border border-white/30 hover:bg-white/5 rounded-3xl text-sm font-medium transition flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-share-nodes"></i> SHARE ON STORIES
+                    <i class="fa-solid fa-share-nodes"></i> ΜΟΙΡΆΣΟΥ ΣΤΑ STORIES
                 </button>
             </div>
         </div>
     </div>
 
     <footer class="text-center py-12 text-xs text-zinc-500">
-        © 2026 LUMINA • Built for those who refuse average love
+        © 2026 LUMINA • Για όσους αρνούνται τον μέσο όρο στην αγάπη
     </footer>
 
     <script>
@@ -197,145 +197,138 @@
                 currentQuestion: 0,
                 answers: [],
                 selectedIndex: null,
-                feedback: false,
-                feedbackText: "",
                 questions: [
-                    // 1-4 Romantic Polarity
-                    { category: "Romantic Polarity", question: "In your perfect relationship, who should lead the big decisions?", options: [
-                        {emoji:"⚖️", text:"Always 50/50 — true equals", score:1, insight:"Modern equality feels safe to you."},
-                        {emoji:"🌀", text:"Mostly equal, occasional lead", score:2, insight:"You like gentle polarity."},
-                        {emoji:"👑", text:"You lead, they support happily", score:3, insight:"You crave clear direction."},
-                        {emoji:"🌹", text:"You lead fully, they follow & adore", score:4, insight:"Controversial truth: Deep submission turns you on."}
+                    { category: "Ρομαντική Πόλωση", question: "Στην ιδανική σου σχέση, ποιος πρέπει να παίρνει τις μεγάλες αποφάσεις;", options: [
+                        {emoji:"⚖️", text:"Πάντα 50/50 – αληθινοί ίσοι", score:1},
+                        {emoji:"🌀", text:"Κυρίως ίσοι, μερικές φορές ο ένας", score:2},
+                        {emoji:"👑", text:"Εσύ οδηγείς, εκείνος/η υποστηρίζει", score:3},
+                        {emoji:"🌹", text:"Εσύ οδηγείς πλήρως, εκείνος/η ακολουθεί με λατρεία", score:4}
                     ]},
-                    { category: "Romantic Polarity", question: "Your perfect partner should be...", options: [
-                        {emoji:"🛡️", text:"Strong & independent — your equal", score:1, insight:"You want a warrior, not a follower."},
-                        {emoji:"🌸", text:"Soft but opinionated", score:2, insight:"Balanced femininity/masculinity."},
-                        {emoji:"🙇", text:"Supportive & yielding", score:3, insight:"You love when they let you shine."},
-                        {emoji:"❤️‍🔥", text:"Fully submissive to your frame", score:4, insight:"You desire worship-level devotion."}
+                    { category: "Ρομαντική Πόλωση", question: "Ο ιδανικός σου σύντροφος πρέπει να είναι...", options: [
+                        {emoji:"🛡️", text:"Δυνατός/ή και ανεξάρτητος/η – ίσος/η σου", score:1},
+                        {emoji:"🌸", text:"Μαλακός/ή αλλά με άποψη", score:2},
+                        {emoji:"🙇", text:"Υποστηρικτικός/ή και υποχωρητικός/ή", score:3},
+                        {emoji:"❤️‍🔥", text:"Πλήρως υποταγμένος/η στο πλαίσιο σου", score:4}
                     ]},
-                    { category: "Romantic Polarity", question: "In bed, you want your partner to...", options: [
-                        {emoji:"🤝", text:"Take equal control", score:1, insight:"You enjoy mutual power play."},
-                        {emoji:"🔥", text:"Switch roles sometimes", score:2, insight:"Variety keeps it exciting."},
-                        {emoji:"👑", text:"Let you lead most of the time", score:3, insight:"You thrive when you direct."},
-                        {emoji:"🔒", text:"Completely surrender to you", score:4, insight:"Total surrender is your ultimate turn-on."}
+                    { category: "Ρομαντική Πόλωση", question: "Στο κρεβάτι, θέλεις ο σύντροφός σου να...", options: [
+                        {emoji:"🤝", text:"Μοιράζεται τον έλεγχο", score:1},
+                        {emoji:"🔥", text:"Εναλλάσσεται ρόλους", score:2},
+                        {emoji:"👑", text:"Σου αφήνει τον έλεγχο τις περισσότερες φορές", score:3},
+                        {emoji:"🔒", text:"Παραδίνεται ολοκληρωτικά σε σένα", score:4}
                     ]},
-                    { category: "Romantic Polarity", question: "Gender roles in your ideal relationship should be...", options: [
-                        {emoji:"🌍", text:"Completely modern & fluid", score:1, insight:"You reject old rules."},
-                        {emoji:"⚖️", text:"Negotiated & flexible", score:2, insight:"You adapt as needed."},
-                        {emoji:"🏠", text:"Traditional — you provide, they nurture", score:3, insight:"You want classic polarity."},
-                        {emoji:"👑", text:"Strictly traditional — you rule, they obey", score:4, insight:"You want the old ways back."}
-                    ]},
-
-                    // 5-8 Primal Attraction
-                    { category: "Primal Attraction", question: "Your perfect partner’s body must be...", options: [
-                        {emoji:"🧘", text:"Natural & real", score:1, insight:"Looks are secondary."},
-                        {emoji:"🏋️", text:"Fit & healthy", score:2, insight:"You value effort."},
-                        {emoji:"🏆", text:"Head-turning athletic", score:3, insight:"You want them to stop traffic."},
-                        {emoji:"🔥", text:"Sculpted perfection", score:4, insight:"Visuals are non-negotiable."}
-                    ]},
-                    { category: "Primal Attraction", question: "Height preference for your perfect partner?", options: [
-                        {emoji:"📏", text:"Doesn’t matter", score:1, insight:"Personality > height."},
-                        {emoji:"🧍", text:"Slight preference", score:2, insight:"You notice it."},
-                        {emoji:"👫", text:"Noticeably shorter/taller", score:3, insight:"You love the contrast."},
-                        {emoji:"📐", text:"Must be much shorter/taller", score:4, insight:"Height is a hard filter."}
-                    ]},
-                    { category: "Primal Attraction", question: "Sexual chemistry with your perfect partner should feel...", options: [
-                        {emoji:"🌊", text:"Comfortable & sweet", score:1, insight:"Safe connection matters most."},
-                        {emoji:"⚡", text:"Strong & frequent", score:2, insight:"Passion is important."},
-                        {emoji:"🔥", text:"Electric & addictive", score:3, insight:"You crave obsession-level desire."},
-                        {emoji:"🌋", text:"Animalistic & consuming", score:4, insight:"Raw lust is your baseline."}
-                    ]},
-                    { category: "Primal Attraction", question: "Your perfect partner must turn heads when they walk in a room.", options: [
-                        {emoji:"🙈", text:"Not important", score:1, insight:"Inner beauty wins."},
-                        {emoji:"😊", text:"Sometimes", score:2, insight:"Nice bonus."},
-                        {emoji:"😎", text:"Often", score:3, insight:"You enjoy the status."},
-                        {emoji:"👀", text:"Always", score:4, insight:"Trophy partner required."}
+                    { category: "Ρομαντική Πόλωση", question: "Οι ρόλοι φύλου στην ιδανική σου σχέση πρέπει να είναι...", options: [
+                        {emoji:"🌍", text:"Πλήρως μοντέρνοι και ρευστοί", score:1},
+                        {emoji:"⚖️", text:"Διαπραγματεύσιμοι", score:2},
+                        {emoji:"🏠", text:"Παραδοσιακοί – εσύ παρέχεις, εκείνος/η φροντίζει", score:3},
+                        {emoji:"👑", text:"Αυστηρά παραδοσιακοί – εσύ κυβερνάς", score:4}
                     ]},
 
-                    // 9-12 Sacred Loyalty
-                    { category: "Sacred Loyalty", question: "Past partners / body count of your perfect match matters...", options: [
-                        {emoji:"📖", text:"Not at all", score:1, insight:"Past is past."},
-                        {emoji:"🤔", text:"A little", score:2, insight:"You prefer low drama."},
-                        {emoji:"⚠️", text:"Quite a bit", score:3, insight:"You want purity."},
-                        {emoji:"🚫", text:"It’s a dealbreaker", score:4, insight:"You demand low or zero."}
+                    { category: "Πρωτόγονη Έλξη", question: "Το σώμα του ιδανικού σου συντρόφου πρέπει να είναι...", options: [
+                        {emoji:"🧘", text:"Φυσικό και αυθεντικό", score:1},
+                        {emoji:"🏋️", text:"Γυμνασμένο και υγιές", score:2},
+                        {emoji:"🏆", text:"Εντυπωσιακό και αθλητικό", score:3},
+                        {emoji:"🔥", text:"Σμιλεμένη τελειότητα", score:4}
                     ]},
-                    { category: "Sacred Loyalty", question: "Your perfect partner should be...", options: [
-                        {emoji:"🌍", text:"Free to flirt", score:1, insight:"You believe in freedom."},
-                        {emoji:"📱", text:"Mostly exclusive", score:2, insight:"Open-ish works."},
-                        {emoji:"🔐", text:"Fully exclusive", score:3, insight:"Monogamy is sacred."},
-                        {emoji:"🛡️", text:"Possessive & obsessed with you", score:4, insight:"Jealousy = love."}
+                    { category: "Πρωτόγονη Έλξη", question: "Προτίμηση ύψους για τον ιδανικό σου σύντροφο;", options: [
+                        {emoji:"📏", text:"Δεν έχει σημασία", score:1},
+                        {emoji:"🧍", text:"Ελαφρά προτίμηση", score:2},
+                        {emoji:"👫", text:"Αισθητά πιο κοντός/ή ή ψηλός/ή", score:3},
+                        {emoji:"📐", text:"Πρέπει να είναι πολύ πιο κοντός/ή ή ψηλός/ή", score:4}
                     ]},
-                    { category: "Sacred Loyalty", question: "They must put you before...", options: [
-                        {emoji:"🧠", text:"Their career & friends", score:1, insight:"No one is above you."},
-                        {emoji:"🏠", text:"Most things", score:2, insight:"Balance matters."},
-                        {emoji:"👨‍👩‍👧", text:"Everyone except family", score:3, insight:"You come first."},
-                        {emoji:"❤️", text:"Absolutely everything", score:4, insight:"You are their entire world."}
+                    { category: "Πρωτόγονη Έλξη", question: "Η σεξουαλική χημεία με τον ιδανικό σου σύντροφο πρέπει να είναι...", options: [
+                        {emoji:"🌊", text:"Άνετη και γλυκιά", score:1},
+                        {emoji:"⚡", text:"Δυνατή και συχνή", score:2},
+                        {emoji:"🔥", text:"Ηλεκτρική και εθιστική", score:3},
+                        {emoji:"🌋", text:"Ζωώδης και κατακλυσμική", score:4}
                     ]},
-                    { category: "Sacred Loyalty", question: "Your perfect partner would never...", options: [
-                        {emoji:"📵", text:"Hide their phone", score:1, insight:"Trust is everything."},
-                        {emoji:"🚩", text:"Like others’ photos", score:2, insight:"Light boundaries."},
-                        {emoji:"🔒", text:"Go out without you", score:3, insight:"You want presence."},
-                        {emoji:"🚫", text:"Even look at others", score:4, insight:"Total devotion required."}
-                    ]},
-
-                    // 13-16 Empire Ambition
-                    { category: "Empire Ambition", question: "Your perfect partner’s career should be...", options: [
-                        {emoji:"🧘", text:"Whatever makes them happy", score:1, insight:"No pressure."},
-                        {emoji:"💼", text:"Stable & respectable", score:2, insight:"Security matters."},
-                        {emoji:"🚀", text:"Ambitious & growing", score:3, insight:"You want a power couple."},
-                        {emoji:"💰", text:"High-status & wealthy", score:4, insight:"They must match your empire."}
-                    ]},
-                    { category: "Empire Ambition", question: "Financially, your perfect partner should...", options: [
-                        {emoji:"💸", text:"Split everything", score:1, insight:"Modern equality."},
-                        {emoji:"🏦", text:"Contribute fairly", score:2, insight:"Team effort."},
-                        {emoji:"🛡️", text:"Let you provide", score:3, insight:"You love being the provider."},
-                        {emoji:"👑", text:"Be supported by you fully", score:4, insight:"Traditional provider role."}
-                    ]},
-                    { category: "Empire Ambition", question: "Children & family plans with your perfect partner...", options: [
-                        {emoji:"🚫", text:"None ever", score:1, insight:"Child-free life."},
-                        {emoji:"🤔", text:"Maybe one day", score:2, insight:"Open to discussion."},
-                        {emoji:"👨‍👩‍👧", text:"2–3 kids, traditional family", score:3, insight:"You want legacy."},
-                        {emoji:"🏡", text:"Big family, stay-at-home partner", score:4, insight:"Classic family values."}
-                    ]},
-                    { category: "Empire Ambition", question: "Your perfect partner must support your biggest goals...", options: [
-                        {emoji:"🧠", text:"With their own dreams", score:1, insight:"Two independent lives."},
-                        {emoji:"🤝", text:"Cheer you on", score:2, insight:"Supportive partner."},
-                        {emoji:"🔥", text:"Sacrifice for your vision", score:3, insight:"You come first."},
-                        {emoji:"🌍", text:"Build the empire with you", score:4, insight:"True power couple."}
+                    { category: "Πρωτόγονη Έλξη", question: "Ο ιδανικός σου σύντροφος πρέπει να γυρίζει κεφάλια όταν μπαίνει σε ένα δωμάτιο.", options: [
+                        {emoji:"🙈", text:"Δεν έχει σημασία", score:1},
+                        {emoji:"😊", text:"Μερικές φορές", score:2},
+                        {emoji:"😎", text:"Συχνά", score:3},
+                        {emoji:"👀", text:"Πάντα", score:4}
                     ]},
 
-                    // 17-20 Soul Resonance
-                    { category: "Soul Resonance", question: "Emotional vulnerability from your perfect partner should be...", options: [
-                        {emoji:"🛡️", text:"Kept private", score:1, insight:"Strength over softness."},
-                        {emoji:"🌊", text:"Balanced", score:2, insight:"Healthy sharing."},
-                        {emoji:"💬", text:"Deep & frequent", score:3, insight:"You crave soul talks."},
-                        {emoji:"❤️", text:"Total openness 24/7", score:4, insight:"You want their entire soul."}
+                    { category: "Ιερή Αφοσίωση", question: "Το παρελθόν / body count του ιδανικού σου συντρόφου έχει...", options: [
+                        {emoji:"📖", text:"Καμία σημασία", score:1},
+                        {emoji:"🤔", text:"Λίγη σημασία", score:2},
+                        {emoji:"⚠️", text:"Αρκετή σημασία", score:3},
+                        {emoji:"🚫", text:"Είναι dealbreaker", score:4}
                     ]},
-                    { category: "Soul Resonance", question: "Your perfect partner should make you feel...", options: [
-                        {emoji:"🧘", text:"Calm & secure", score:1, insight:"Peace is love."},
-                        {emoji:"🔥", text:"Excited daily", score:2, insight:"Passion + peace."},
-                        {emoji:"🌌", text:"Understood on a soul level", score:3, insight:"True twin-flame energy."},
-                        {emoji:"🌟", text:"Like a god/goddess", score:4, insight:"Worship-level connection."}
+                    { category: "Ιερή Αφοσίωση", question: "Ο ιδανικός σου σύντροφος πρέπει να είναι...", options: [
+                        {emoji:"🌍", text:"Ελεύθερος/η να φλερτάρει", score:1},
+                        {emoji:"📱", text:"Κυρίως αποκλειστικός/ή", score:2},
+                        {emoji:"🔐", text:"Πλήρως αποκλειστικός/ή", score:3},
+                        {emoji:"🛡️", text:"Κτητικός/ή και εμμονικός/ή μαζί σου", score:4}
                     ]},
-                    { category: "Soul Resonance", question: "Fights with your perfect partner should end with...", options: [
-                        {emoji:"🗣️", text:"Rational discussion", score:1, insight:"Logic wins."},
-                        {emoji:"🤝", text:"Compromise", score:2, insight:"Healthy resolution."},
-                        {emoji:"💋", text:"Make-up sex & apology", score:3, insight:"Passion heals."},
-                        {emoji:"🙇", text:"Their full submission & your forgiveness", score:4, insight:"You lead, they yield."}
+                    { category: "Ιερή Αφοσίωση", question: "Πρέπει να σε βάζει πάνω από...", options: [
+                        {emoji:"🧠", text:"Καριέρα και φίλους", score:1},
+                        {emoji:"🏠", text:"Τα περισσότερα πράγματα", score:2},
+                        {emoji:"👨‍👩‍👧", text:"Όλους εκτός από την οικογένειά του/της", score:3},
+                        {emoji:"❤️", text:"Απολύτως τα πάντα", score:4}
                     ]},
-                    { category: "Soul Resonance", question: "Your perfect partner must share your...", options: [
-                        {emoji:"🌍", text:"Political views loosely", score:1, insight:"Diversity is fine."},
-                        {emoji:"📖", text:"Core values", score:2, insight:"Values alignment."},
-                        {emoji:"🛐", text:"Faith & worldview", score:3, insight:"Spiritual match."},
-                        {emoji:"🔥", text:"Exact same mission in life", score:4, insight:"You need a mirror soul."}
+                    { category: "Ιερή Αφοσίωση", question: "Ο ιδανικός σου σύντροφος δεν θα...", options: [
+                        {emoji:"📵", text:"Κρύβει ποτέ το κινητό", score:1},
+                        {emoji:"🚩", text:"Κάνει like σε άλλους", score:2},
+                        {emoji:"🔒", text:"Βγαίνει χωρίς εσένα", score:3},
+                        {emoji:"🚫", text:"Κοιτάζει κανέναν άλλο", score:4}
+                    ]},
+
+                    { category: "Αυτοκρατορική Φιλοδοξία", question: "Η καριέρα του ιδανικού σου συντρόφου πρέπει να είναι...", options: [
+                        {emoji:"🧘", text:"Ό,τι τον/την κάνει ευτυχισμένο/η", score:1},
+                        {emoji:"💼", text:"Σταθερή και αξιοσέβαστη", score:2},
+                        {emoji:"🚀", text:"Φιλόδοξη και ανερχόμενη", score:3},
+                        {emoji:"💰", text:"Υψηλού status και πλούσια", score:4}
+                    ]},
+                    { category: "Αυτοκρατορική Φιλοδοξία", question: "Οικονομικά, ο ιδανικός σου σύντροφος πρέπει να...", options: [
+                        {emoji:"💸", text:"Μοιράζεται τα πάντα", score:1},
+                        {emoji:"🏦", text:"Συνεισφέρει δίκαια", score:2},
+                        {emoji:"🛡️", text:"Σε αφήνει να παρέχεις", score:3},
+                        {emoji:"👑", text:"Να συντηρείται πλήρως από εσένα", score:4}
+                    ]},
+                    { category: "Αυτοκρατορική Φιλοδοξία", question: "Παιδιά και οικογένεια με τον ιδανικό σου σύντροφο...", options: [
+                        {emoji:"🚫", text:"Ποτέ", score:1},
+                        {emoji:"🤔", text:"Ίσως κάποια στιγμή", score:2},
+                        {emoji:"👨‍👩‍👧", text:"2-3 παιδιά, παραδοσιακή οικογένεια", score:3},
+                        {emoji:"🏡", text:"Μεγάλη οικογένεια, εκείνος/η στο σπίτι", score:4}
+                    ]},
+                    { category: "Αυτοκρατορική Φιλοδοξία", question: "Ο ιδανικός σου σύντροφος πρέπει να υποστηρίζει τους μεγάλους σου στόχους...", options: [
+                        {emoji:"🧠", text:"Με τα δικά του/της όνειρα", score:1},
+                        {emoji:"🤝", text:"Με ενθουσιασμό", score:2},
+                        {emoji:"🔥", text:"Με θυσίες για το όραμά σου", score:3},
+                        {emoji:"🌍", text:"Χτίζοντας την αυτοκρατορία μαζί σου", score:4}
+                    ]},
+
+                    { category: "Ψυχική Συντονία", question: "Η συναισθηματική ευάλωτοτητα από τον ιδανικό σου σύντροφο πρέπει να είναι...", options: [
+                        {emoji:"🛡️", text:"Κρατημένη ιδιωτική", score:1},
+                        {emoji:"🌊", text:"Ισορροπημένη", score:2},
+                        {emoji:"💬", text:"Βαθιά και συχνή", score:3},
+                        {emoji:"❤️", text:"Ολοκληρωτική καθημερινά", score:4}
+                    ]},
+                    { category: "Ψυχική Συντονία", question: "Ο ιδανικός σου σύντροφος πρέπει να σε κάνει να νιώθεις...", options: [
+                        {emoji:"🧘", text:"Ήρεμος/η και ασφαλής", score:1},
+                        {emoji:"🔥", text:"Ενθουσιασμένος/η κάθε μέρα", score:2},
+                        {emoji:"🌌", text:"Κατανοημένος/η σε ψυχικό επίπεδο", score:3},
+                        {emoji:"🌟", text:"Σαν θεός/θεά", score:4}
+                    ]},
+                    { category: "Ψυχική Συντονία", question: "Οι καβγάδες με τον ιδανικό σου σύντροφο πρέπει να τελειώνουν με...", options: [
+                        {emoji:"🗣️", text:"Λογική συζήτηση", score:1},
+                        {emoji:"🤝", text:"Συμβιβασμό", score:2},
+                        {emoji:"💋", text:"Σεξ συμφιλίωσης και συγγνώμη", score:3},
+                        {emoji:"🙇", text:"Πλήρη υποταγή του/της και συγχώρεση από σένα", score:4}
+                    ]},
+                    { category: "Ψυχική Συντονία", question: "Ο ιδανικός σου σύντροφος πρέπει να μοιράζεται...", options: [
+                        {emoji:"🌍", text:"Τις πολιτικές σου απόψεις χαλαρά", score:1},
+                        {emoji:"📖", text:"Τις βασικές σου αξίες", score:2},
+                        {emoji:"🛐", text:"Την πίστη και κοσμοθεωρία σου", score:3},
+                        {emoji:"🔥", text:"Ακριβώς την ίδια αποστολή στη ζωή", score:4}
                     ]}
                 ],
                 categories: [
-                    {name: "Romantic Polarity", score: 0, color: "#e11d48"},
-                    {name: "Primal Attraction", score: 0, color: "#10b981"},
-                    {name: "Sacred Loyalty", score: 0, color: "#8b5cf6"},
-                    {name: "Empire Ambition", score: 0, color: "#f59e0b"},
-                    {name: "Soul Resonance", score: 0, color: "#06b6d4"}
+                    {name: "Ρομαντική Πόλωση", score: 0, color: "#e11d48"},
+                    {name: "Πρωτόγονη Έλξη", score: 0, color: "#10b981"},
+                    {name: "Ιερή Αφοσίωση", score: 0, color: "#8b5cf6"},
+                    {name: "Αυτοκρατορική Φιλοδοξία", score: 0, color: "#f59e0b"},
+                    {name: "Ψυχική Συντονία", score: 0, color: "#06b6d4"}
                 ],
                 totalScore: 0,
                 scoreTitle: "",
@@ -354,14 +347,11 @@
                     this.selectedIndex = null;
                 },
 
-                selectAnswer(score, index, insight) {
+                selectAnswer(score, index) {
                     this.answers[this.currentQuestion] = score;
                     this.selectedIndex = index;
-                    this.feedbackText = insight;
-                    this.feedback = true;
 
                     setTimeout(() => {
-                        this.feedback = false;
                         if (this.currentQuestion < this.questions.length - 1) {
                             this.currentQuestion++;
                             this.selectedIndex = null;
@@ -371,7 +361,7 @@
                             this.renderRadar();
                             this.launchConfetti();
                         }
-                    }, 1100);
+                    }, 380);
                 },
 
                 get progress() {
@@ -381,7 +371,6 @@
                 calculateResults() {
                     this.totalScore = this.answers.reduce((a, b) => a + b, 0);
                     
-                    // Calculate category scores
                     for (let i = 0; i < 5; i++) {
                         let sum = 0;
                         for (let j = 0; j < 4; j++) {
@@ -390,38 +379,34 @@
                         this.categories[i].score = sum;
                     }
 
-                    // Archetype from highest category
                     const highest = [...this.categories].sort((a, b) => b.score - a.score)[0];
                     const archetypeMap = {
-                        "Romantic Polarity": "The Polarized Leader",
-                        "Primal Attraction": "The Primal Magnet",
-                        "Sacred Loyalty": "The Devoted Guardian",
-                        "Empire Ambition": "The Empire Builder",
-                        "Soul Resonance": "The Soul Twin"
+                        "Ρομαντική Πόλωση": "Ο/Η Πόλωμένος/η Ηγέτης/ισσα",
+                        "Πρωτόγονη Έλξη": "Ο/Η Πρωτόγονος Μαγνήτης",
+                        "Ιερή Αφοσίωση": "Ο/Η Φύλακας της Αφοσίωσης",
+                        "Αυτοκρατορική Φιλοδοξία": "Ο/Η Χτίστης Αυτοκρατορίας",
+                        "Ψυχική Συντονία": "Το Ταίρι της Ψυχής"
                     };
-                    this.archetype = "Your perfect partner is the " + archetypeMap[highest.name];
+                    this.archetype = "Ο ιδανικός σου σύντροφος είναι " + archetypeMap[highest.name];
 
-                    // Score title
                     if (this.totalScore >= 68) {
-                        this.scoreTitle = "SOULMATE LEVEL UNLOCKED";
+                        this.scoreTitle = "ΕΠΙΠΕΔΟ ΨΥΧΙΚΟΥ ΤΑΙΡΙΟΥ ΞΕΚΛΕΙΔΩΘΗΚΕ";
                     } else if (this.totalScore >= 52) {
-                        this.scoreTitle = "HIGH-VOLTAGE MATCH";
+                        this.scoreTitle = "ΥΨΗΛΗΣ ΤΑΣΗΣ ΤΑΙΡΙ";
                     } else if (this.totalScore >= 36) {
-                        this.scoreTitle = "STRONG POTENTIAL";
+                        this.scoreTitle = "ΙΣΧΥΡΟ ΔΥΝΑΜΙΚΟ";
                     } else {
-                        this.scoreTitle = "YOUR STANDARDS ARE EVOLVING";
+                        this.scoreTitle = "ΤΑ ΚΡΙΤΗΡΙΑ ΣΟΥ ΕΞΕΛΙΣΣΟΝΤΑΙ";
                     }
 
-                    // Insight text (hyper-controversial + insightful)
-                    this.insightText = `You crave a partner who ${highest.score >= 13 ? 'fully submits to your frame and worships your leadership' : 'matches your energy while respecting your vision'}. 
-                    High scores in ${highest.name.toLowerCase()} mean you reject average relationships. You want polarity, obsession, and alignment that most people are too scared to admit they desire.`;
+                    this.insightText = `Θέλεις έναν σύντροφο που ${highest.score >= 13 ? 'να υποτάσσεται πλήρως στο πλαίσιο σου και να σε λατρεύει' : 'να ταιριάζει στην ενέργειά σου και να σέβεται το όραμά σου'}. 
+                    Οι υψηλές βαθμολογίες στην ${highest.name.toLowerCase()} δείχνουν ότι απορρίπτεις τις μέτριες σχέσεις. Θέλεις πόλωση, εμμονή και ευθυγράμμιση που οι περισσότεροι φοβούνται να παραδεχτούν ότι επιθυμούν.`;
 
-                    // Weakness
                     const lowest = [...this.categories].sort((a, b) => a.score - b.score)[0];
-                    this.weakness = `You scored lowest in ${lowest.name}. This might mean you're open to more balance — or avoiding your deepest desires.`;
+                    this.weakness = `Χαμηλότερη βαθμολογία στην ${lowest.name}. Ίσως αποφεύγεις τις βαθιές σου επιθυμίες ή είσαι ανοιχτός/ή σε περισσότερη ισορροπία.`;
 
                     if (this.totalScore < 40) {
-                        this.insightText += "<br><br>As a dating coach I’ll say it straight: low scores often hide fear of real polarity. Time to raise your standards.";
+                        this.insightText += "<br><br>Ως dating coach σου το λέω ευθέως: οι χαμηλές βαθμολογίες συχνά κρύβουν φόβο πραγματικής πόλωσης. Ώρα να ανεβάσεις τα standards σου.";
                     }
                 },
 
@@ -434,7 +419,7 @@
                             data: {
                                 labels: this.categories.map(c => c.name),
                                 datasets: [{
-                                    label: 'Your Desires',
+                                    label: 'Οι Επιθυμίες Σου',
                                     data: this.categories.map(c => c.score),
                                     backgroundColor: 'rgba(225, 29, 72, 0.15)',
                                     borderColor: '#e11d48',
@@ -457,11 +442,10 @@
                                 }
                             }
                         });
-                    }, 100);
+                    }, 120);
                 },
 
                 launchConfetti() {
-                    // Same high-quality confetti as original (kept for engagement)
                     const canvas = document.createElement('canvas');
                     canvas.style.position = 'fixed';
                     canvas.style.top = '0';
@@ -471,11 +455,14 @@
                     canvas.style.pointerEvents = 'none';
                     canvas.style.zIndex = '9999';
                     document.body.appendChild(canvas);
+                    
                     const ctx = canvas.getContext('2d');
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
+                    
                     const confetti = [];
                     const colors = ['#e11d48', '#10b981', '#8b5cf6', '#f59e0b', '#06b6d4'];
+                    
                     class Particle {
                         constructor() {
                             this.x = Math.random() * canvas.width;
@@ -496,7 +483,9 @@
                             ctx.restore();
                         }
                     }
+                    
                     for (let i = 0; i < 280; i++) confetti.push(new Particle());
+                    
                     let animation = setInterval(() => {
                         ctx.clearRect(0, 0, canvas.width, canvas.height);
                         confetti.forEach((p, i) => {
@@ -524,17 +513,17 @@
             const scoreEl = document.querySelector('[x-text="totalScore"]');
             const score = scoreEl ? scoreEl.textContent : '80';
             const archetypeEl = document.querySelector('[x-text="archetype"]');
-            const archetype = archetypeEl ? archetypeEl.textContent : 'Soulmate';
-            const text = `I just discovered my perfect partner is the ${archetype} 🔥 Scored ${score}/80 on the LUMINA quiz. My standards are officially dangerous. What’s yours? https://luminaquiz.com`;
+            const archetype = archetypeEl ? archetypeEl.textContent : 'Ψυχικό Ταίρι';
+            const text = `Μόλις ανακάλυψα ότι ο ιδανικός μου σύντροφος είναι ο/η ${archetype} 🔥 Πήρα ${score}/80 στο τεστ LUMINA. Τα standards μου είναι πλέον επικίνδυνα. Εσύ τι πήρες; https://luminaquiz.com`;
             navigator.clipboard.writeText(text).then(() => {
                 const btn = document.querySelector('button[onclick="shareResults()"]');
                 const original = btn.innerHTML;
-                btn.innerHTML = '✅ COPIED FOR STORIES!';
+                btn.innerHTML = '✅ ΑΝΤΙΓΡΆΦΗΚΕ ΓΙΑ STORIES!';
                 setTimeout(() => btn.innerHTML = original, 2200);
             });
         }
 
-        console.log('%cLUMINA Perfect Partner Quiz loaded — ready for viral shares 🔥', 'color:#e11d48; font-size:14px');
+        console.log('%cLUMINA – Το πιο καθαρό & τολμηρό τεστ ιδανικού συντρόφου είναι έτοιμο 🔥', 'color:#e11d48; font-size:14px');
     </script>
 </body>
 </html>
