@@ -389,7 +389,6 @@
     .card-orbit-line {
       fill: rgba(255, 227, 245, 0.98);
       filter: drop-shadow(0 0 8px rgba(255, 122, 182, 0.72));
-      vector-effect: non-scaling-stroke;
     }
 
     .question-card.bump {
@@ -1170,7 +1169,7 @@
       </div>
 
       <article class="question-card" id="questionCard">
-        <svg class="card-orbit" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg class="card-orbit" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <filter id="cardOrbitSoftGlow" x="-220%" y="-220%" width="540%" height="540%">
               <feGaussianBlur in="SourceGraphic" stdDeviation="1.35" result="soft"></feGaussianBlur>
@@ -1180,12 +1179,9 @@
               </feMerge>
             </filter>
           </defs>
-          <rect id="cardOrbitPath" class="card-orbit-track" x="1.3" y="1.3" width="97.4" height="97.4" rx="8.6" ry="8.6"></rect>
-          <g class="card-orbit-runner" filter="url(#cardOrbitSoftGlow)">
-            <rect class="card-orbit-line" x="-8.5" y="-0.9" width="17" height="1.8" rx="0.9" ry="0.9"></rect>
-            <animateMotion dur="4.6s" repeatCount="indefinite" rotate="auto">
-              <mpath href="#cardOrbitPath" xlink:href="#cardOrbitPath"></mpath>
-            </animateMotion>
+          <path id="cardOrbitPath" class="card-orbit-track" d="M9.9 1.3 H90.1 A8.6 8.6 0 0 1 98.7 9.9 V90.1 A8.6 8.6 0 0 1 90.1 98.7 H9.9 A8.6 8.6 0 0 1 1.3 90.1 V9.9 A8.6 8.6 0 0 1 9.9 1.3 Z"></path>
+          <g id="cardOrbitRunner" class="card-orbit-runner" filter="url(#cardOrbitSoftGlow)">
+            <rect class="card-orbit-line" x="-7.8" y="-0.9" width="15.6" height="1.8" rx="0.9" ry="0.9"></rect>
           </g>
         </svg>
         <div class="category" id="qCategory">Παρουσία</div>
@@ -1753,7 +1749,12 @@
         screen: "start",
         index: 0,
         answers: Array(QUESTIONS.length).fill(null),
-        result: null
+        result: null,
+        orbitRaf: null,
+        orbitPathLength: 0,
+        orbitDistance: 0,
+        orbitLastTs: 0,
+        orbitSpeed: 66
       };
 
       const el = {
@@ -1764,6 +1765,8 @@
         startBtn: document.getElementById("startBtn"),
         prevBtn: document.getElementById("prevBtn"),
         qCard: document.getElementById("questionCard"),
+        cardOrbitPath: document.getElementById("cardOrbitPath"),
+        cardOrbitRunner: document.getElementById("cardOrbitRunner"),
         progressBar: document.getElementById("progressBar"),
         qCategory: document.getElementById("qCategory"),
         qText: document.getElementById("qText"),
@@ -1877,12 +1880,64 @@
         }, { passive: false });
       }
 
+      function updateCardOrbitMetrics() {
+        if (!el.cardOrbitPath) return;
+        try {
+          const length = el.cardOrbitPath.getTotalLength();
+          if (Number.isFinite(length) && length > 0) {
+            state.orbitPathLength = length;
+          }
+        } catch (_) {
+          state.orbitPathLength = 0;
+        }
+      }
+
+      function setCardOrbitPosition(distance) {
+        if (!el.cardOrbitPath || !el.cardOrbitRunner || state.orbitPathLength <= 0) return;
+
+        const normalized = ((distance % state.orbitPathLength) + state.orbitPathLength) % state.orbitPathLength;
+        const p1 = el.cardOrbitPath.getPointAtLength(normalized);
+        const p2 = el.cardOrbitPath.getPointAtLength((normalized + 0.85) % state.orbitPathLength);
+        const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+
+        el.cardOrbitRunner.setAttribute(
+          "transform",
+          `translate(${p1.x.toFixed(2)} ${p1.y.toFixed(2)}) rotate(${angle.toFixed(2)})`
+        );
+      }
+
+      function stepCardOrbit(timestamp) {
+        if (!state.orbitLastTs) state.orbitLastTs = timestamp;
+        const dtMs = Math.min(40, timestamp - state.orbitLastTs);
+        state.orbitLastTs = timestamp;
+
+        if (state.orbitPathLength > 0) {
+          state.orbitDistance = (state.orbitDistance + state.orbitSpeed * (dtMs / 1000)) % state.orbitPathLength;
+          setCardOrbitPosition(state.orbitDistance);
+        }
+
+        state.orbitRaf = window.requestAnimationFrame(stepCardOrbit);
+      }
+
+      function initCardOrbit() {
+        if (!el.cardOrbitPath || !el.cardOrbitRunner || typeof window.requestAnimationFrame !== "function") return;
+
+        updateCardOrbitMetrics();
+        state.orbitDistance = 0;
+        state.orbitLastTs = 0;
+        setCardOrbitPosition(0);
+
+        if (state.orbitRaf) window.cancelAnimationFrame(state.orbitRaf);
+        state.orbitRaf = window.requestAnimationFrame(stepCardOrbit);
+      }
+
       function init() {
         bindViewportGuards();
         bindAntiZoomGestures();
         applyStaticWidowFix();
         el.scoreMax.textContent = `/${MAX_TOTAL_SCORE}`;
         bindEvents();
+        initCardOrbit();
       }
 
       function bindEvents() {
@@ -1894,6 +1949,8 @@
           clearTimeout(resizeTimer);
           resizeTimer = setTimeout(() => {
             applyStaticWidowFix();
+            updateCardOrbitMetrics();
+            setCardOrbitPosition(state.orbitDistance);
             if (state.screen === "quiz") renderQuestion();
             if (state.screen === "result") renderResult();
           }, 120);
