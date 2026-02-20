@@ -47,6 +47,7 @@
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
       scroll-behavior: auto;
+      overscroll-behavior-y: none;
     }
 
     body {
@@ -63,7 +64,7 @@
       background:
         radial-gradient(1000px 600px at 8% -10%, rgba(255, 79, 157, 0.3), transparent 62%),
         radial-gradient(900px 500px at 92% 0%, rgba(255, 122, 182, 0.24), transparent 64%),
-        radial-gradient(700px 420px at 50% 112%, rgba(255, 200, 171, 0.19), transparent 68%),
+        radial-gradient(700px 420px at 50% 108%, rgba(255, 200, 171, 0.08), transparent 70%),
         linear-gradient(170deg, var(--bg-0), var(--bg-1));
     }
 
@@ -74,9 +75,9 @@
       pointer-events: none;
       opacity: 0.36;
       background:
-        radial-gradient(44% 36% at 14% 18%, rgba(255, 130, 195, 0.34), transparent 72%),
-        radial-gradient(36% 32% at 84% 24%, rgba(255, 172, 215, 0.28), transparent 74%),
-        radial-gradient(42% 34% at 52% 82%, rgba(255, 196, 167, 0.24), transparent 70%);
+        radial-gradient(44% 36% at 14% 18%, rgba(255, 130, 195, 0.3), transparent 72%),
+        radial-gradient(36% 32% at 84% 24%, rgba(255, 172, 215, 0.24), transparent 74%),
+        radial-gradient(34% 28% at 52% 58%, rgba(255, 196, 167, 0.16), transparent 72%);
       mix-blend-mode: screen;
       will-change: transform, opacity;
       animation: bgFlowMove 22s ease-in-out infinite alternate;
@@ -87,7 +88,7 @@
       inset: -26%;
       z-index: -4;
       pointer-events: none;
-      opacity: 0.34;
+      opacity: 0.28;
       mix-blend-mode: screen;
       filter: blur(44px) saturate(118%);
       background:
@@ -95,6 +96,15 @@
         radial-gradient(circle at 50% 50%, rgba(255, 170, 216, 0.22), transparent 72%);
       will-change: transform, opacity;
       animation: hypnoRotate 60s linear infinite, hypnoBreath 14s ease-in-out infinite alternate;
+    }
+
+    body.result-mode .bg-hypno {
+      opacity: 0.14;
+      filter: blur(34px) saturate(104%);
+    }
+
+    body.result-mode .bg-flow {
+      opacity: 0.18;
     }
 
     .bg::before,
@@ -393,15 +403,6 @@
       font-size: clamp(20px, 4.6vw, 33px);
       line-height: 1.2;
       letter-spacing: -0.01em;
-    }
-
-    .question-note {
-      position: relative;
-      z-index: 1;
-      margin: -4px 0 12px;
-      color: #f5cfe4;
-      font-size: clamp(13px, 3.5vw, 15px);
-      line-height: 1.42;
     }
 
     .question-spark {
@@ -731,12 +732,14 @@
 
     .cta-title-line {
       margin: 0;
-      display: inline-block;
+      display: block;
       font-family: "Sora", sans-serif;
       font-size: clamp(14px, 2.45vw, 28px);
       letter-spacing: -0.01em;
-      white-space: nowrap;
+      white-space: normal;
       line-height: 1.18;
+      transform: translateX(0);
+      animation: ctaRollFromLeft 8.2s cubic-bezier(0.22, 0.68, 0.23, 1) infinite;
     }
 
     .cta p {
@@ -808,7 +811,7 @@
     }
 
     .footer {
-      margin-top: 6px;
+      margin-top: 2px;
       text-align: center;
       color: #d8a9c3;
       font-size: 10px;
@@ -932,7 +935,7 @@
 
       .bg-hypno {
         inset: -34%;
-        opacity: 0.26;
+        opacity: 0.18;
         mix-blend-mode: normal;
         filter: blur(32px) saturate(108%);
         animation-duration: 74s, 22s;
@@ -940,9 +943,17 @@
 
       .bg-flow {
         inset: -22%;
-        opacity: 0.3;
+        opacity: 0.22;
         mix-blend-mode: normal;
         animation-duration: 28s;
+      }
+
+      body.result-mode .bg-hypno {
+        opacity: 0.1;
+      }
+
+      body.result-mode .bg-flow {
+        opacity: 0.14;
       }
 
       .bg::before,
@@ -1053,9 +1064,8 @@
       }
 
       .cta-title-line {
-        white-space: normal;
-        will-change: auto;
-        animation: none;
+        font-size: clamp(15px, 4.3vw, 23px);
+        animation-duration: 9.4s;
       }
 
       .btn-cta {
@@ -1085,9 +1095,11 @@
       }
     }
 
-    @keyframes ctaTitleSlide {
-      0%, 18% { transform: translateX(0); }
-      82%, 100% { transform: translateX(-55%); }
+    @keyframes ctaRollFromLeft {
+      0% { transform: translateX(-22px); opacity: 0.55; }
+      14% { transform: translateX(0); opacity: 1; }
+      76% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(6px); opacity: 0.9; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1229,39 +1241,6 @@
         "Επικοινωνία",
         "Όρια στις σχέσεις",
         "Σταθερότητα"
-      ];
-
-      const QUESTION_NOTES = [
-        "Η πρώτη εικόνα ξεκινά πριν σε δουν.",
-        "Η είσοδός σου δείχνει αυτοπεποίθηση.",
-        "Η πίεση δεν κρύβεται, διαχειρίζεται.",
-        "Στο πρώτο ραντεβού μένει το αποτύπωμα.",
-        "Βλέμμα, στάση, φωνή: ο σιωπηλός σου κώδικας.",
-        "Το στυλ δεν είναι μόδα, είναι μήνυμα.",
-        "Σε άγνωστο χώρο φαίνεται η κοινωνική αντοχή.",
-        "Η παύση μπορεί να σε ανεβάσει ή να σε ρίξει.",
-        "Το άνοιγμα καθορίζει τη ροή.",
-        "Η ακρόαση είναι έλξη, όχι απλή ευγένεια.",
-        "Το χιούμορ δείχνει νοημοσύνη και όρια.",
-        "Χημεία χωρίς πρόταση μένει θεωρία.",
-        "Τα μηνύματα δείχνουν επίπεδο, όχι μόνο ενδιαφέρον.",
-        "Ο ρυθμός ομιλίας αποκαλύπτει νευρικότητα ή ηρεμία.",
-        "Οι σωστές ερωτήσεις ξεχωρίζουν τον ώριμο από τον επιφανειακό.",
-        "Η διαφωνία στα μηνύματα δείχνει χαρακτήρα.",
-        "Μονόπλευρη επικοινωνία σημαίνει χαμηλή επένδυση.",
-        "Τα σημάδια στην αρχή είναι συνήθως αληθινά.",
-        "Ο χρόνος σου είναι περιουσία.",
-        "Οι ανάγκες που δεν λέγονται γίνονται παράπονο.",
-        "Η έντονη έλξη θολώνει κρίση.",
-        "Οι πολλές ευκαιρίες χωρίς λόγο ρίχνουν αξία.",
-        "Τα όρια στην οικειότητα χτίζουν ασφάλεια.",
-        "Η απόρριψη θέλει αξιοπρέπεια και σχέδιο.",
-        "Στην ένταση μετρά η ψυχραιμία.",
-        "Η ζήλια θέλει διαχείριση, όχι αντίδραση.",
-        "Η συνέπεια μετά το ραντεβού χτίζει εμπιστοσύνη.",
-        "Η προσωπική πορεία κάνει την έλξη σταθερή.",
-        "Κόπωση και άγχος αλλάζουν τον τρόπο που σχετίζεσαι.",
-        "Η διαφορά ρυθμού θέλει καθαρή επικοινωνία."
       ];
 
       const SPARK_LINES = [
@@ -1863,6 +1842,7 @@
         el.startScreen.classList.toggle("active", state.screen === "start");
         el.quizScreen.classList.toggle("active", state.screen === "quiz");
         el.resultScreen.classList.toggle("active", state.screen === "result");
+        document.body.classList.toggle("result-mode", state.screen === "result");
       }
 
       function renderQuestion() {
