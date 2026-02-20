@@ -527,6 +527,42 @@
       font-weight: 700;
     }
 
+    .hero-title,
+    .hero-subtitle,
+    .question,
+    .question-spark,
+    .option-text,
+    .score-title,
+    .score-copy,
+    .panel h3,
+    .panel p,
+    .tip,
+    .focus-item,
+    .cta p,
+    .cta-points li {
+      text-wrap: pretty;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+
+    .hero-title,
+    .hero-subtitle,
+    .question,
+    .question-spark,
+    .option-text,
+    .score-title,
+    .score-copy,
+    .panel h3,
+    .panel p,
+    .tip,
+    .focus-item,
+    .cta p,
+    .cta-points li,
+    .metric,
+    .cta-title-line {
+      text-wrap: balance;
+    }
+
     .quiz-actions {
       margin-top: 10px;
       display: flex;
@@ -981,7 +1017,7 @@
 
       .score-card {
         grid-template-columns: 1fr;
-        text-align: center;
+        text-align: left;
         padding: 16px 14px;
       }
 
@@ -1027,7 +1063,7 @@
       }
 
       .mini-metrics {
-        justify-content: center;
+        justify-content: flex-start;
       }
 
       .metric {
@@ -1190,6 +1226,11 @@
         <article class="panel">
           <h3 id="archetypeName">...</h3>
           <p id="archetypeCopy"></p>
+        </article>
+
+        <article class="panel">
+          <h3>Ο Ιδανικός Σύντροφος για Σένα</h3>
+          <p id="idealMatch"></p>
         </article>
 
         <article class="panel">
@@ -1590,103 +1631,113 @@
       const CATEGORY_MAX_SCORES = CATEGORY_QUESTION_INDEXES.map((indexes) => indexes.length * 4);
       const ARCHETYPES = {
         elite: {
-          name: "Αρχηγός Επιλογής",
-          copy: "Δεν κυνηγάς, επιλέγεις. Έχεις παρουσία, καθαρό λόγο, όρια και ψυχραιμία. Αυτό το προφίλ τραβά ποιοτικούς ανθρώπους.",
+          name: "Ασφαλής Επιλογέας",
+          copy: "Δείχνεις προφίλ ασφαλούς σύνδεσης. Συνδυάζεις αυτοέλεγχο, καθαρή επικοινωνία και όρια χωρίς φόβο.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι ώριμο άτομο που επικοινωνεί καθαρά, κρατά συνέπεια και σέβεται τα όριά σου.",
           tips: [
-            "Κράτα ψηλά κριτήρια και χαμηλά την ανάγκη για επιβεβαίωση.",
-            "Λίγα λόγια, καθαρές πράξεις.",
-            "Επένδυε μόνο όπου υπάρχει αμοιβαιότητα.",
-            "Προστάτευε τον ρυθμό σου. Εκεί κερδίζεις."
+            "Κράτα υψηλά κριτήρια και χαμηλή ανάγκη επιβεβαίωσης.",
+            "Διάλεγε πράξεις, όχι υποσχέσεις.",
+            "Συνέχισε να λες ξεκάθαρα τι θέλεις.",
+            "Επένδυε μόνο όπου υπάρχει σταθερή αμοιβαιότητα."
           ]
         },
         rebuild: {
-          name: "Ακατέργαστο Διαμάντι",
-          copy: "Έχεις υλικό, αλλά σήμερα σε μπλοκάρουν συνήθειες. Με πειθαρχία 21 ημερών, η εικόνα σου αλλάζει πλήρως.",
+          name: "Αγχωμένος Αναζητητής",
+          copy: "Θες σύνδεση, αλλά το άγχος απόρριψης σε σπρώχνει να επενδύεις πολύ νωρίς. Αυτό θολώνει την κρίση σου.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι ήρεμο και ξεκάθαρο άτομο, που δίνει σταθερά σήματα χωρίς παιχνίδια.",
           tips: [
-            "Σταθερή προετοιμασία πριν από κάθε γνωριμία.",
-            "Ένα καθαρό άνοιγμα, ένα καθαρό κλείσιμο.",
-            "Όχι κυνηγητό. Μόνο αμοιβαιότητα.",
-            "Καθημερινή επανάληψη, όχι τυχαία προσπάθεια."
+            "Πρώτα ηρεμία, μετά μήνυμα ή κίνηση.",
+            "Μην επενδύεις πριν δεις συνέπεια.",
+            "Ένα καθαρό μήνυμα αρκεί. Όχι κυνηγητό.",
+            "Χτίσε ρυθμό: λίγα λόγια, σταθερές πράξεις."
           ]
         },
         sparkNoFilter: {
-          name: "Σπινθήρας Χωρίς Φρένο",
-          copy: "Μπαίνεις δυνατά και ανάβεις ένταση, αλλά όταν η έλξη ανεβαίνει χάνεις φίλτρο. Αν βάλεις όρια, γίνεσαι πραγματικά ισχυρός.",
+          name: "Παρορμητικός Σπινθήρας",
+          copy: "Δημιουργείς ένταση γρήγορα, αλλά όταν ενθουσιάζεσαι χάνεις φίλτρο και αγνοείς σημάδια ασυμβατότητας.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι σταθερό άτομο με όρια, που αγαπά το πάθος αλλά θέλει συνέπεια.",
           tips: [
-            "Πάτησε φρένο πριν στείλεις παρορμητικό μήνυμα.",
-            "Μην επενδύεις πριν δεις συνέπεια από τον άλλο άνθρωπο.",
-            "Κλείνε ραντεβού, όχι ατελείωτη συνομιλία.",
-            "Η ένταση χωρίς όρια ρίχνει την αξία σου."
+            "Όταν ενθουσιάζεσαι, μέτρα 10 λεπτά πριν απαντήσεις.",
+            "Μην βιάζεις ρυθμό αν δεν υπάρχει ισορροπία.",
+            "Κράτα πάθος, αλλά με καθαρά όρια.",
+            "Η έλξη μεγαλώνει με συνέπεια, όχι μόνο με ένταση."
           ]
         },
         talkNoFilter: {
-          name: "Μάγος Λόγου Χωρίς Κόφτη",
-          copy: "Κερδίζεις εύκολα με κουβέντα, αλλά κρατάς ανοιχτές λάθος περιπτώσεις. Όταν γίνεις πιο επιλεκτικός, ανεβαίνεις αμέσως επίπεδο.",
+          name: "Λεκτικός Διεκδικητής",
+          copy: "Κερδίζεις με λόγο και χιούμορ, αλλά συχνά μιλάς πολύ πριν ελέγξεις αν υπάρχει πραγματική συμβατότητα.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι επικοινωνιακό άτομο με καθαρές αξίες, που περνά από λόγια σε πράξεις.",
           tips: [
-            "Ρώτα νωρίς για αξίες και ρυθμό ζωής.",
-            "Αν δεν υπάρχει πράξη, μην τραβάς κουβέντα.",
-            "Δώσε δύο ευκαιρίες, όχι δέκα.",
-            "Η επιλεκτικότητα είναι δύναμη, όχι σκληρότητα."
+            "Κράτα συζήτηση ουσιαστική, όχι ατελείωτη.",
+            "Ρώτα νωρίς για αξίες και τρόπο ζωής.",
+            "Αν δεν υπάρχουν πράξεις, απομακρύνσου.",
+            "Δύο ευκαιρίες αρκούν για να κρίνεις κατεύθυνση."
           ]
         },
         coldSelector: {
-          name: "Στρατηγός με Απόσταση",
-          copy: "Έχεις καθαρά όρια και κρίση, αλλά στην αρχή φαίνεσαι απόμακρος. Λίγη ζεστασιά θα ανεβάσει άμεσα την έλξη.",
+          name: "Αποστασιοποιημένος Στρατηγός",
+          copy: "Για να προστατευτείς, κρατάς απόσταση και έλεγχο. Έχεις ισχυρά όρια, αλλά αργείς να δείξεις συναίσθημα.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι ζεστό αλλά σταθερό άτομο, που σέβεται χώρο και χτίζει εμπιστοσύνη αργά.",
           tips: [
-            "Χαμόγελο και βλέμμα στα πρώτα 30 δευτερόλεπτα.",
-            "Δείξε ενδιαφέρον χωρίς να χάσεις τα όριά σου.",
-            "Μην αφήνεις τη σοβαρότητα να μοιάζει με ψυχρότητα.",
-            "Μικρές ζεστές κινήσεις, ίδιος καθαρός πυρήνας."
+            "Δείξε μικρό σημάδι ζεστασιάς από την αρχή.",
+            "Μίλα καθαρά, χωρίς να κρύβεσαι πίσω από έλεγχο.",
+            "Τα όρια είναι δύναμη, όχι τείχος.",
+            "Η εμπιστοσύνη χτίζεται με μικρά σταθερά ανοίγματα."
           ]
         },
         calmAnchor: {
-          name: "Ήρεμη Δύναμη",
-          copy: "Κρατάς ψυχραιμία στην πίεση, όμως συχνά ξεκινάς αργά. Πιο άμεση πρωτοβουλία θα ξεκλειδώσει όλο το δυναμικό σου.",
+          name: "Ήρεμος Παρατηρητής",
+          copy: "Ρυθμίζεις καλά τα συναισθήματά σου και δεν πανικοβάλλεσαι. Η δυσκολία είναι ότι αργείς να πάρεις πρωτοβουλία.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι ενεργητικό και ειλικρινές άτομο, που κρατά ροή χωρίς πίεση.",
           tips: [
-            "Κάνε κίνηση νωρίτερα, όχι «όταν βολέψει».",
-            "Μην κρύβεις το ενδιαφέρον σου πίσω από ευγένεια.",
-            "Δώσε καθαρό επόμενο βήμα μετά τη χημεία.",
-            "Η ηρεμία σου είναι όπλο. Χρησιμοποίησέ την ενεργά."
+            "Δείξε ενδιαφέρον νωρίτερα.",
+            "Κλείνε συγκεκριμένο επόμενο βήμα.",
+            "Μην αφήνεις την υπερ-ηρεμία να μοιάζει αδιαφορία.",
+            "Η σταθερότητά σου γίνεται ελκυστική όταν περνά σε πράξη."
           ]
         },
         starter: {
           name: "Δυναμικός Εκκινητής",
-          copy: "Τραβάς προσοχή και ανοίγεις γρήγορα παιχνίδι. Το κρίσιμο κομμάτι είναι το μετά: συνέπεια, όρια και καθαρή συνέχεια.",
+          copy: "Μπαίνεις δυνατά και τραβάς βλέμματα. Το κρίσιμο σημείο είναι η συνέπεια μετά την πρώτη εντύπωση.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι άτομο με συνέπεια, που εκτιμά τη σπίθα αλλά ζητά συνέχεια και βάθος.",
           tips: [
-            "Μην βασίζεσαι μόνο στην πρώτη εντύπωση.",
-            "Κλείνε συγκεκριμένο επόμενο βήμα.",
-            "Κράτα ίδιο επίπεδο ενέργειας και μετά το πρώτο ραντεβού.",
-            "Η σταθερότητα κάνει τη σπίθα σχέση."
+            "Κράτα δυνατή αρχή και σταθερή συνέχεια.",
+            "Μετά το πρώτο ραντεβού, κράτα ίδιο επίπεδο συνέπειας.",
+            "Μην στηρίζεσαι μόνο στη χημεία της στιγμής.",
+            "Η αξιοπιστία είναι αυτό που κρατά το ενδιαφέρον."
           ]
         },
         communicator: {
-          name: "Γοητευτής με Ρυθμό",
-          copy: "Η κουβέντα σου φτιάχνει χημεία γρήγορα. Αν κόψεις τα πολλά λόγια και πας σε πράξη πιο νωρίς, θα ξεχωρίσεις ακόμη περισσότερο.",
+          name: "Συνδετικός Επικοινωνητής",
+          copy: "Διαβάζεις σωστά τον άλλον και χτίζεις σύνδεση εύκολα. Όταν αποφασίζεις πιο γρήγορα, κερδίζεις καθαρά αποτελέσματα.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι άνθρωπος που επικοινωνεί καθαρά και θέλει αποφάσεις, όχι ασάφεια.",
           tips: [
             "Λιγότερα μηνύματα, περισσότερα ραντεβού.",
-            "Μη γεμίζεις τη σιωπή από φόβο.",
-            "Κάνε ερωτήσεις που δείχνουν χαρακτήρα.",
-            "Κλείσε καθαρά, χωρίς ασάφεια."
+            "Χρησιμοποίησε ερωτήσεις που δείχνουν αξίες.",
+            "Μη γεμίζεις κάθε παύση από άγχος.",
+            "Κλείνε με σαφή πρόθεση και κατεύθυνση."
           ]
         },
         boundary: {
-          name: "Επιλεκτικός Στρατηγός",
-          copy: "Ξέρεις τι θες και προστατεύεις τον χρόνο σου. Με λίγο πιο ζωντανή προσέγγιση, θα τραβάς περισσότερο χωρίς να κυνηγάς.",
+          name: "Επιλεκτικός Προστατευτής",
+          copy: "Έχεις δυνατά κριτήρια και δεν δέχεσαι μισές συμπεριφορές. Με λίγο πιο ζεστό τόνο, η έλξη ανεβαίνει.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι ώριμο άτομο με αυτοσεβασμό, που σέβεται όρια και μιλά καθαρά.",
           tips: [
-            "Κράτα όρια, αλλά δείξε ξεκάθαρο ενδιαφέρον.",
-            "Μη μπερδεύεις την αυστηρότητα με αδιαφορία.",
-            "Δείξε χιούμορ όπου ταιριάζει.",
-            "Επίλεγε καθαρά και προχώρα."
+            "Κράτα όρια χωρίς σκληρό τόνο.",
+            "Δείξε ενδιαφέρον χωρίς να χάνεις κριτήρια.",
+            "Ξεχώριζε γρήγορα το αμοιβαίο από το μονόπλευρο.",
+            "Ό,τι δεν σε τιμά, το κλείνεις νωρίς."
           ]
         },
         stable: {
-          name: "Σταθερός Καθοδηγητής",
-          copy: "Δεν σπας σε πίεση και χτίζεις εμπιστοσύνη. Το επόμενο βήμα είναι πιο τολμηρή πρώτη κίνηση για να μη χάνεις ευκαιρίες.",
+          name: "Σταθερός Δομητής",
+          copy: "Χτίζεις εμπιστοσύνη με συνέπεια και ψυχραιμία. Το ψυχολογικό σου προφίλ στηρίζει σχέση με βάθος.",
+          idealMatch: "Ιδανικός σύντροφος για σένα είναι άτομο με κοινές αξίες και διάθεση για σταθερή, αμοιβαία εξέλιξη.",
           tips: [
-            "Πάρε πρωτοβουλία μέσα στα πρώτα λεπτά.",
-            "Μίλα καθαρά για πρόθεση.",
-            "Μην περιμένεις την «τέλεια στιγμή».",
-            "Η ηρεμία σου γίνεται μαγνητική όταν συνδυάζεται με δράση."
+            "Συνέχισε να χτίζεις εμπιστοσύνη με συνέπεια.",
+            "Πάρε λίγο πιο γρήγορα πρωτοβουλία.",
+            "Μίλα καθαρά για πρόθεση και ρυθμό.",
+            "Η ηρεμία σου γίνεται μαγνητική όταν συνοδεύεται από τόλμη."
           ]
         }
       };
@@ -1764,6 +1815,7 @@
         scoreRing: document.getElementById("scoreRing"),
         archetypeName: document.getElementById("archetypeName"),
         archetypeCopy: document.getElementById("archetypeCopy"),
+        idealMatch: document.getElementById("idealMatch"),
         storyNow: document.getElementById("storyNow"),
         metricArchetype: document.getElementById("metricArchetype"),
         metricClarity: document.getElementById("metricClarity"),
@@ -1772,6 +1824,54 @@
         focusList: document.getElementById("focusList"),
         tipsList: document.getElementById("tipsList")
       };
+
+      function normalizeSpaces(text) {
+        if (typeof text !== "string") return "";
+        return text.replace(/\u00A0/g, " ").trim().replace(/\s+/g, " ");
+      }
+
+      function resolveLockCount(text, baseLock = 2) {
+        const words = normalizeSpaces(text).split(" ").filter(Boolean);
+        if (words.length >= 20) return Math.max(baseLock, 4);
+        if (words.length >= 12) return Math.max(baseLock, 3);
+        return Math.max(1, baseLock);
+      }
+
+      function keepLastWordsTogether(text, lockCount = 2) {
+        if (typeof text !== "string") return text;
+        const normalized = normalizeSpaces(text);
+        const words = normalized.split(" ").filter(Boolean);
+        const safeLockCount = Math.min(Math.max(1, lockCount), Math.max(1, words.length - 1));
+        if (words.length <= safeLockCount) return normalized;
+        const tail = words.slice(-safeLockCount).join("\u00A0");
+        return `${words.slice(0, -safeLockCount).join(" ")} ${tail}`;
+      }
+
+      function setSmartText(element, text, lockCount = 2) {
+        if (!element) return;
+        const raw = normalizeSpaces(text);
+        element.dataset.rawText = raw;
+        element.textContent = keepLastWordsTogether(raw, resolveLockCount(raw, lockCount));
+      }
+
+      function applyStaticWidowFix() {
+        const selectors = [
+          ".hero-title",
+          ".hero-subtitle",
+          ".chip",
+          ".panel h3",
+          ".cta-title-line",
+          ".cta p",
+          ".cta-points li"
+        ];
+
+        document.querySelectorAll(selectors.join(",")).forEach((node) => {
+          const source = node.dataset.rawText || node.textContent;
+          if (!source) return;
+          const baseLock = node.matches(".chip, .panel h3, .cta-title-line") ? 2 : 3;
+          setSmartText(node, source, baseLock);
+        });
+      }
 
       const LOCKED_VIEWPORT = "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover";
 
@@ -1820,6 +1920,7 @@
       function init() {
         bindViewportGuards();
         bindAntiZoomGestures();
+        applyStaticWidowFix();
         el.scoreMax.textContent = `/${MAX_TOTAL_SCORE}`;
         bindEvents();
       }
@@ -1827,6 +1928,16 @@
       function bindEvents() {
         el.startBtn.addEventListener("click", startQuiz);
         el.prevBtn.addEventListener("click", prevQuestion);
+
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            applyStaticWidowFix();
+            if (state.screen === "quiz") renderQuestion();
+            if (state.screen === "result") renderResult();
+          }, 120);
+        }, { passive: true });
       }
 
       function startQuiz() {
@@ -1855,12 +1966,12 @@
         el.qCard.classList.add("bump");
 
         el.progressBar.style.width = `${progress}%`;
-        el.qCategory.textContent = CATEGORIES[q.cat];
-        el.qText.textContent = q.text;
+        setSmartText(el.qCategory, CATEGORIES[q.cat], 1);
+        setSmartText(el.qText, q.text, 3);
         el.qSpark.classList.remove("flash");
         void el.qSpark.offsetWidth;
         el.qSpark.classList.add("flash");
-        el.qSpark.textContent = SPARK_LINES[state.index % SPARK_LINES.length];
+        setSmartText(el.qSpark, SPARK_LINES[state.index % SPARK_LINES.length], 3);
 
         const selectedScore = state.answers[state.index];
         el.options.innerHTML = "";
@@ -1870,7 +1981,8 @@
           btn.type = "button";
           btn.className = "option" + (selectedScore === option.score ? " selected" : "");
           btn.style.animationDelay = `${i * 34}ms`;
-          btn.innerHTML = `<span class="option-emoji">${option.emoji}</span><span class="option-text">${option.text}</span>`;
+          const optionText = keepLastWordsTogether(option.text, resolveLockCount(option.text, 3));
+          btn.innerHTML = `<span class="option-emoji">${option.emoji}</span><span class="option-text">${optionText}</span>`;
           btn.setAttribute("aria-label", `Επιλογή ${i + 1}: ${option.text}`);
           btn.addEventListener("click", () => selectAnswer(option.score, btn));
           el.options.appendChild(btn);
@@ -1939,7 +2051,7 @@
 
         const scoreLevel = SCORE_LEVELS.find((level) => total >= level.min) || SCORE_LEVELS[SCORE_LEVELS.length - 1];
         const spread = Math.max(...categoryPercentages) - Math.min(...categoryPercentages);
-        const archetype = resolveArchetype(total, categoryPercentages, strongestIndex, weakestIndex, spread);
+        const archetype = resolveArchetype(total, categoryPercentages, strongestIndex, weakestIndex, spread, consistency);
 
         state.result = {
           total,
@@ -1954,11 +2066,21 @@
         };
       }
 
-      function resolveArchetype(total, categoryPercentages, strongestIndex, weakestIndex, spread) {
+      function resolveArchetype(total, categoryPercentages, strongestIndex, weakestIndex, spread, consistency) {
+        const [presence, communication, boundaries, stability] = categoryPercentages;
         const minimumPct = Math.min(...categoryPercentages);
 
-        if (total <= 57) return ARCHETYPES.rebuild;
-        if (total >= 108 && minimumPct >= 70 && spread <= 10) return ARCHETYPES.elite;
+        if (total <= 57 || consistency <= 66) return ARCHETYPES.rebuild;
+        if (total >= 108 && minimumPct >= 70 && spread <= 10 && consistency >= 86) return ARCHETYPES.elite;
+        if (stability <= 58 && boundaries <= 60 && (presence >= 68 || communication >= 68)) return ARCHETYPES.sparkNoFilter;
+        if (boundaries >= 74 && communication <= 62 && presence <= 64) return ARCHETYPES.coldSelector;
+        if (communication >= 75 && boundaries <= 60) return ARCHETYPES.talkNoFilter;
+        if (stability >= 74 && presence <= 60) return ARCHETYPES.calmAnchor;
+        if (presence >= 75 && stability <= 66) return ARCHETYPES.starter;
+        if (communication >= 74 && boundaries >= 62 && stability >= 64) return ARCHETYPES.communicator;
+        if (boundaries >= 74 && stability >= 66) return ARCHETYPES.boundary;
+        if (stability >= 74) return ARCHETYPES.stable;
+
         if (strongestIndex === 0 && weakestIndex === 2) return ARCHETYPES.sparkNoFilter;
         if (strongestIndex === 1 && weakestIndex === 2) return ARCHETYPES.talkNoFilter;
         if (strongestIndex === 2 && weakestIndex === 0) return ARCHETYPES.coldSelector;
@@ -1998,18 +2120,19 @@
         const result = state.result;
         const ringPercent = Math.round((result.total / MAX_TOTAL_SCORE) * 100);
 
-        el.totalScore.textContent = String(result.total);
-        el.scoreTitle.textContent = result.scoreLevel.title;
-        el.scoreCopy.textContent = result.scoreLevel.copy;
+        setSmartText(el.totalScore, String(result.total), 1);
+        setSmartText(el.scoreTitle, result.scoreLevel.title, 2);
+        setSmartText(el.scoreCopy, result.scoreLevel.copy, 3);
         el.scoreRing.style.setProperty("--progress", `${ringPercent}%`);
 
-        el.metricArchetype.textContent = `Αρχέτυπο: ${result.archetype.name}`;
-        el.metricClarity.textContent = `Βεβαιότητα: ${result.consistency}%`;
-        el.metricFocus.textContent = `Τομέας προτεραιότητας: ${CATEGORIES[result.weakestIndex]}`;
+        setSmartText(el.metricArchetype, `Αρχέτυπο: ${result.archetype.name}`, 3);
+        setSmartText(el.metricClarity, `Βεβαιότητα: ${result.consistency}%`, 2);
+        setSmartText(el.metricFocus, `Τομέας προτεραιότητας: ${CATEGORIES[result.weakestIndex]}`, 3);
 
-        el.archetypeName.textContent = result.archetype.name;
-        el.archetypeCopy.textContent = result.archetype.copy;
-        el.storyNow.textContent = buildStoryNow(result);
+        setSmartText(el.archetypeName, result.archetype.name, 2);
+        setSmartText(el.archetypeCopy, result.archetype.copy, 3);
+        setSmartText(el.idealMatch, result.archetype.idealMatch, 3);
+        setSmartText(el.storyNow, buildStoryNow(result), 3);
 
         renderBars(result.categoryScores);
         renderFocus(result.weakestIndex);
@@ -2074,7 +2197,7 @@
         FOCUS_PLANS[weakestIndex].forEach((item) => {
           const li = document.createElement("li");
           li.className = "focus-item";
-          li.textContent = item;
+          li.textContent = keepLastWordsTogether(item, 2);
           el.focusList.appendChild(li);
         });
       }
@@ -2084,7 +2207,7 @@
         tips.forEach((tip) => {
           const li = document.createElement("li");
           li.className = "tip";
-          li.textContent = tip;
+          li.textContent = keepLastWordsTogether(tip, 2);
           el.tipsList.appendChild(li);
         });
       }
