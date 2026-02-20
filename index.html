@@ -55,11 +55,41 @@
       position: fixed;
       inset: 0;
       z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
       background:
         radial-gradient(1000px 600px at 8% -10%, rgba(255, 79, 157, 0.3), transparent 62%),
         radial-gradient(900px 500px at 92% 0%, rgba(255, 122, 182, 0.24), transparent 64%),
         radial-gradient(700px 420px at 50% 112%, rgba(255, 200, 171, 0.19), transparent 68%),
         linear-gradient(170deg, var(--bg-0), var(--bg-1));
+    }
+
+    .bg::before,
+    .bg::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(34px);
+      opacity: 0.46;
+      will-change: transform;
+    }
+
+    .bg::before {
+      width: 58vmax;
+      height: 58vmax;
+      top: -22vmax;
+      left: -18vmax;
+      background: radial-gradient(circle at 38% 34%, rgba(255, 123, 191, 0.5), rgba(255, 123, 191, 0) 66%);
+      animation: bgFloatOne 24s ease-in-out infinite alternate;
+    }
+
+    .bg::after {
+      width: 62vmax;
+      height: 62vmax;
+      right: -24vmax;
+      bottom: -26vmax;
+      background: radial-gradient(circle at 58% 52%, rgba(255, 188, 214, 0.4), rgba(255, 188, 214, 0) 68%);
+      animation: bgFloatTwo 29s ease-in-out infinite alternate;
     }
 
     .grain {
@@ -73,6 +103,7 @@
         radial-gradient(rgba(255, 255, 255, 0.22) 0.42px, transparent 0.42px);
       background-size: 3px 3px, 3px 3px;
       background-position: 0 0, 1.5px 1.5px;
+      animation: grainDrift 24s steps(10, end) infinite;
     }
 
     .app {
@@ -422,9 +453,9 @@
     }
 
     .option:hover {
-      border-color: rgba(255, 173, 216, 0.6);
-      box-shadow: 0 12px 22px rgba(10, 2, 7, 0.4), 0 0 0 1px rgba(255, 201, 228, 0.2);
-      transform: translateY(-1px);
+      border-color: rgba(255, 173, 216, 0.2);
+      box-shadow: inset 0 0 0 1px rgba(255, 188, 220, 0.06), 0 8px 16px rgba(10, 2, 7, 0.24);
+      transform: translateY(0);
     }
 
     .option.selected {
@@ -440,9 +471,10 @@
       inset: 0;
       border-radius: inherit;
       background: radial-gradient(circle at 10% 0%, rgba(255, 176, 216, 0.24), transparent 48%);
-      opacity: 0.45;
+      opacity: 0;
       animation: optionAura 5s ease-in-out infinite;
       pointer-events: none;
+      transition: opacity 220ms ease;
     }
 
     .option::after {
@@ -459,10 +491,13 @@
       transition: opacity 180ms ease;
     }
 
-    .option:hover::after,
     .option.selected::after {
       opacity: 1;
-      animation: optionSweep 1.2s ease;
+      animation: optionSweep 900ms ease;
+    }
+
+    .option.selected::before {
+      opacity: 0.52;
     }
 
     .option-emoji {
@@ -822,6 +857,22 @@
       50% { box-shadow: 0 16px 26px rgba(255, 79, 157, 0.36), 0 0 24px rgba(255, 122, 182, 0.28); }
     }
 
+    @keyframes bgFloatOne {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      100% { transform: translate3d(7vw, 8vh, 0) scale(1.08); }
+    }
+
+    @keyframes bgFloatTwo {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      100% { transform: translate3d(-8vw, -6vh, 0) scale(1.1); }
+    }
+
+    @keyframes grainDrift {
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(-1.2%, 1.2%, 0); }
+      100% { transform: translate3d(1.2%, -1.2%, 0); }
+    }
+
     @keyframes ctaPulse {
       0%, 100% { box-shadow: 0 16px 26px rgba(255, 122, 182, 0.3); }
       50% { box-shadow: 0 20px 34px rgba(255, 122, 182, 0.52); }
@@ -849,6 +900,25 @@
     }
 
     @media (max-width: 780px) {
+      .bg::before,
+      .bg::after {
+        filter: blur(26px);
+        opacity: 0.42;
+      }
+
+      .bg::before {
+        animation-duration: 28s;
+      }
+
+      .bg::after {
+        animation-duration: 32s;
+      }
+
+      .grain {
+        opacity: 0.1;
+        animation-duration: 28s;
+      }
+
       .chips {
         grid-template-columns: 1fr;
       }
@@ -873,6 +943,23 @@
       .cta-title-line {
         will-change: transform;
         animation: ctaTitleSlide 11.5s ease-in-out infinite alternate;
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .option:hover {
+        border-color: rgba(255, 173, 216, 0.62);
+        box-shadow: 0 12px 22px rgba(10, 2, 7, 0.4), 0 0 0 1px rgba(255, 201, 228, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .option:hover::before {
+        opacity: 0.42;
+      }
+
+      .option:hover::after {
+        opacity: 1;
+        animation: optionSweep 1.05s ease;
       }
     }
 
