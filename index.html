@@ -361,41 +361,57 @@
       padding: clamp(16px, 3.8vw, 28px);
     }
 
-    .card-orbit {
+    .orbit-runner {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 999px;
+      transform-origin: 50% 50%;
+      opacity: 0.94;
+      animation: runnerGlow 5.8s ease-in-out infinite;
+      will-change: transform, opacity, filter;
+    }
+
+    .orbit-runner-card {
+      width: 38px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 252, 255, 0), rgba(255, 252, 255, 0.94) 42%, rgba(255, 252, 255, 1) 50%, rgba(255, 252, 255, 0.94) 58%, rgba(255, 252, 255, 0));
+      filter:
+        drop-shadow(0 0 7px rgba(255, 167, 210, 0.9))
+        drop-shadow(0 0 16px rgba(255, 136, 194, 0.72))
+        drop-shadow(0 0 28px rgba(255, 122, 182, 0.54));
+      z-index: 2;
+    }
+
+    .viewport-orbit {
+      position: fixed;
+      top: calc(env(safe-area-inset-top) * -1);
+      right: 0;
+      bottom: calc(env(safe-area-inset-bottom) * -1);
+      left: 0;
+      z-index: 120;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .viewport-orbit::before {
+      content: "";
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
+      border: 1px solid rgba(255, 182, 220, 0.1);
+      border-radius: 0;
     }
 
-    .card-orbit-track {
-      fill: none;
-      stroke: transparent;
-      stroke-width: 1.6;
-      vector-effect: non-scaling-stroke;
-      shape-rendering: geometricPrecision;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .card-orbit-runner {
-      opacity: 0.97;
-      animation: cardRunnerGlow 5.4s ease-in-out infinite;
-      will-change: opacity, filter;
-    }
-
-    .card-orbit-line {
-      fill: none;
-      stroke: rgba(255, 247, 252, 1);
-      stroke-width: 1.05;
-      stroke-linecap: round;
-      vector-effect: non-scaling-stroke;
+    .orbit-runner-viewport {
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 252, 255, 0), rgba(255, 252, 255, 0.96) 50%, rgba(255, 252, 255, 0));
       filter:
-        drop-shadow(0 0 6px rgba(255, 158, 206, 0.88))
-        drop-shadow(0 0 16px rgba(255, 137, 194, 0.66))
-        drop-shadow(0 0 28px rgba(255, 122, 182, 0.5));
+        drop-shadow(0 0 8px rgba(255, 170, 214, 0.9))
+        drop-shadow(0 0 20px rgba(255, 143, 198, 0.72))
+        drop-shadow(0 0 34px rgba(255, 122, 182, 0.56));
+      z-index: 2;
+      opacity: 0.86;
+      animation-duration: 7.4s;
     }
 
     .question-card.bump {
@@ -860,9 +876,9 @@
       100% { left: 140%; }
     }
 
-    @keyframes cardRunnerGlow {
+    @keyframes runnerGlow {
       0%, 100% {
-        opacity: 0.9;
+        opacity: 0.84;
       }
       50% {
         opacity: 1;
@@ -1139,6 +1155,9 @@
   </style>
 </head>
 <body>
+  <div class="viewport-orbit" id="viewportOrbit" aria-hidden="true">
+    <div class="orbit-runner orbit-runner-viewport" id="viewportRunner"></div>
+  </div>
   <div class="bg-hypno"></div>
   <div class="bg-flow"></div>
   <div class="bg"></div>
@@ -1176,12 +1195,7 @@
       </div>
 
       <article class="question-card" id="questionCard">
-        <svg class="card-orbit" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <path id="cardOrbitPath" class="card-orbit-track" d="M9.9 1.3 H90.1 A8.6 8.6 0 0 1 98.7 9.9 V90.1 A8.6 8.6 0 0 1 90.1 98.7 H9.9 A8.6 8.6 0 0 1 1.3 90.1 V9.9 A8.6 8.6 0 0 1 9.9 1.3 Z"></path>
-          <g id="cardOrbitRunner" class="card-orbit-runner">
-            <line class="card-orbit-line" x1="-16" y1="0" x2="16" y2="0"></line>
-          </g>
-        </svg>
+        <div class="orbit-runner orbit-runner-card" id="cardRunner" aria-hidden="true"></div>
         <div class="category" id="qCategory">Παρουσία</div>
         <h2 class="question" id="qText">...</h2>
         <div class="options" id="options" role="listbox" aria-label="Επιλογές απάντησης"></div>
@@ -1749,11 +1763,8 @@
         answers: Array(QUESTIONS.length).fill(null),
         result: null,
         orbitRaf: null,
-        orbitPathLength: 0,
-        orbitDistance: 0,
-        orbitLastTs: 0,
-        orbitSpeed: 30,
-        orbitAngle: 0
+        orbitTs: 0,
+        orbits: []
       };
 
       const el = {
@@ -1764,8 +1775,9 @@
         startBtn: document.getElementById("startBtn"),
         prevBtn: document.getElementById("prevBtn"),
         qCard: document.getElementById("questionCard"),
-        cardOrbitPath: document.getElementById("cardOrbitPath"),
-        cardOrbitRunner: document.getElementById("cardOrbitRunner"),
+        cardRunner: document.getElementById("cardRunner"),
+        viewportOrbit: document.getElementById("viewportOrbit"),
+        viewportRunner: document.getElementById("viewportRunner"),
         progressBar: document.getElementById("progressBar"),
         qCategory: document.getElementById("qCategory"),
         qText: document.getElementById("qText"),
@@ -1879,84 +1891,160 @@
         }, { passive: false });
       }
 
-      function updateCardOrbitMetrics() {
-        if (!el.cardOrbitPath) return;
-        try {
-          const length = el.cardOrbitPath.getTotalLength();
-          if (Number.isFinite(length) && length > 0) {
-            state.orbitPathLength = length;
-          }
-        } catch (_) {
-          state.orbitPathLength = 0;
-        }
-      }
-
-      function primeCardOrbit(attempt = 0) {
-        updateCardOrbitMetrics();
-        if (state.orbitPathLength > 0) {
-          setCardOrbitPosition(state.orbitDistance, 1);
-          return;
-        }
-        if (attempt >= 20) return;
-        window.requestAnimationFrame(() => primeCardOrbit(attempt + 1));
-      }
-
       function smoothAngle(prev, next, alpha) {
-        const delta = ((next - prev + 540) % 360) - 180;
+        const delta = ((next - prev + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
         return prev + delta * alpha;
       }
 
-      function setCardOrbitPosition(distance, smoothing = 0.24) {
-        if (!el.cardOrbitRunner) return;
-        if (!el.cardOrbitPath || state.orbitPathLength <= 0) {
-          el.cardOrbitRunner.setAttribute("transform", "translate(50 1.3) rotate(0)");
+      function buildOrbit(container, runner, config) {
+        return {
+          container,
+          runner,
+          inset: config.inset,
+          radius: config.radius,
+          speed: config.speed,
+          smoothing: config.smoothing,
+          distance: 0,
+          angle: 0,
+          valid: false,
+          w: 0,
+          h: 0,
+          r: 0,
+          perimeter: 0,
+          runnerW: 0,
+          runnerH: 0
+        };
+      }
+
+      function measureOrbit(orbit) {
+        if (!orbit.container || !orbit.runner) {
+          orbit.valid = false;
           return;
         }
 
-        const normalized = ((distance % state.orbitPathLength) + state.orbitPathLength) % state.orbitPathLength;
-        const p1 = el.cardOrbitPath.getPointAtLength(normalized);
-        const p2 = el.cardOrbitPath.getPointAtLength((normalized + 2.2) % state.orbitPathLength);
-        const rawAngle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
-        state.orbitAngle = smoothAngle(state.orbitAngle, rawAngle, smoothing);
-        const rad = state.orbitAngle * (Math.PI / 180);
-        const c = Math.cos(rad);
-        const s = Math.sin(rad);
-
-        el.cardOrbitRunner.setAttribute(
-          "transform",
-          `matrix(${c.toFixed(5)} ${s.toFixed(5)} ${(-s).toFixed(5)} ${c.toFixed(5)} ${p1.x.toFixed(2)} ${p1.y.toFixed(2)})`
-        );
-      }
-
-      function stepCardOrbit(timestamp) {
-        if (!state.orbitLastTs) state.orbitLastTs = timestamp;
-        const dtMs = Math.min(24, timestamp - state.orbitLastTs);
-        state.orbitLastTs = timestamp;
-
-        if (state.orbitPathLength <= 0) {
-          updateCardOrbitMetrics();
+        const rect = orbit.container.getBoundingClientRect();
+        const usableW = rect.width - orbit.inset * 2;
+        const usableH = rect.height - orbit.inset * 2;
+        if (usableW <= 2 || usableH <= 2) {
+          orbit.valid = false;
+          return;
         }
 
-        if (state.orbitPathLength > 0) {
-          state.orbitDistance = (state.orbitDistance + state.orbitSpeed * (dtMs / 1000)) % state.orbitPathLength;
-          setCardOrbitPosition(state.orbitDistance, 0.24);
+        const computed = window.getComputedStyle(orbit.container);
+        const cssRadius = parseFloat(computed.borderTopLeftRadius) || orbit.radius;
+        const radius = Math.max(0, Math.min(cssRadius, usableW / 2 - 0.01, usableH / 2 - 0.01));
+        const topLen = Math.max(0, usableW - radius * 2);
+        const sideLen = Math.max(0, usableH - radius * 2);
+        const perimeter = topLen * 2 + sideLen * 2 + 2 * Math.PI * radius;
+        if (!Number.isFinite(perimeter) || perimeter <= 0) {
+          orbit.valid = false;
+          return;
         }
 
-        state.orbitRaf = window.requestAnimationFrame(stepCardOrbit);
+        orbit.w = usableW;
+        orbit.h = usableH;
+        orbit.r = radius;
+        orbit.perimeter = perimeter;
+        orbit.runnerW = orbit.runner.offsetWidth || 24;
+        orbit.runnerH = orbit.runner.offsetHeight || 1;
+        orbit.valid = true;
       }
 
-      function initCardOrbit() {
-        if (!el.cardOrbitPath || !el.cardOrbitRunner || typeof window.requestAnimationFrame !== "function") return;
+      function pointOnRoundedRect(distance, orbit) {
+        const { w, h, r, perimeter } = orbit;
+        const topLen = Math.max(0, w - r * 2);
+        const sideLen = Math.max(0, h - r * 2);
+        const arcLen = r * Math.PI * 0.5;
+        let d = ((distance % perimeter) + perimeter) % perimeter;
 
-        updateCardOrbitMetrics();
-        state.orbitDistance = 0;
-        state.orbitLastTs = 0;
-        state.orbitAngle = 0;
-        setCardOrbitPosition(0, 1);
-        primeCardOrbit();
+        if (d <= topLen) return { x: r + d, y: 0, angle: 0 };
+        d -= topLen;
+
+        if (d <= arcLen) {
+          const t = d / r;
+          return { x: w - r + r * Math.sin(t), y: r - r * Math.cos(t), angle: t };
+        }
+        d -= arcLen;
+
+        if (d <= sideLen) return { x: w, y: r + d, angle: Math.PI * 0.5 };
+        d -= sideLen;
+
+        if (d <= arcLen) {
+          const t = d / r;
+          return { x: w - r + r * Math.cos(t), y: h - r + r * Math.sin(t), angle: Math.PI * 0.5 + t };
+        }
+        d -= arcLen;
+
+        if (d <= topLen) return { x: w - r - d, y: h, angle: Math.PI };
+        d -= topLen;
+
+        if (d <= arcLen) {
+          const t = d / r;
+          return { x: r - r * Math.sin(t), y: h - r + r * Math.cos(t), angle: Math.PI + t };
+        }
+        d -= arcLen;
+
+        if (d <= sideLen) return { x: 0, y: h - r - d, angle: -Math.PI * 0.5 };
+        d -= sideLen;
+
+        const t = Math.min(Math.PI * 0.5, d / r);
+        return { x: r - r * Math.cos(t), y: r - r * Math.sin(t), angle: -Math.PI * 0.5 + t };
+      }
+
+      function placeOrbitRunner(orbit, smoothing = orbit.smoothing) {
+        if (!orbit.runner) return;
+        if (!orbit.valid) {
+          orbit.runner.style.transform = "translate3d(-9999px,-9999px,0)";
+          return;
+        }
+
+        const p = pointOnRoundedRect(orbit.distance, orbit);
+        orbit.angle = smoothAngle(orbit.angle, p.angle, smoothing);
+
+        const x = orbit.inset + p.x - orbit.runnerW / 2;
+        const y = orbit.inset + p.y - orbit.runnerH / 2;
+        orbit.runner.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${orbit.angle.toFixed(4)}rad)`;
+      }
+
+      function primeOrbits(attempt = 0) {
+        state.orbits.forEach((orbit) => {
+          measureOrbit(orbit);
+          placeOrbitRunner(orbit, 1);
+        });
+
+        const hasInvalid = state.orbits.some((orbit) => !orbit.valid);
+        if (!hasInvalid || attempt >= 24) return;
+        window.requestAnimationFrame(() => primeOrbits(attempt + 1));
+      }
+
+      function stepOrbits(timestamp) {
+        if (!state.orbitTs) state.orbitTs = timestamp;
+        const dtMs = Math.min(34, timestamp - state.orbitTs);
+        state.orbitTs = timestamp;
+
+        state.orbits.forEach((orbit) => {
+          if (!orbit.valid) measureOrbit(orbit);
+          if (!orbit.valid) return;
+          orbit.distance = (orbit.distance + orbit.speed * (dtMs / 1000)) % orbit.perimeter;
+          placeOrbitRunner(orbit);
+        });
+
+        state.orbitRaf = window.requestAnimationFrame(stepOrbits);
+      }
+
+      function initOrbits() {
+        if (typeof window.requestAnimationFrame !== "function") return;
+
+        state.orbits = [
+          buildOrbit(el.qCard, el.cardRunner, { inset: 1.4, radius: 24, speed: 30, smoothing: 0.26 }),
+          buildOrbit(el.viewportOrbit, el.viewportRunner, { inset: 1.2, radius: 22, speed: 22, smoothing: 0.22 })
+        ];
+
+        state.orbitTs = 0;
+        primeOrbits();
 
         if (state.orbitRaf) window.cancelAnimationFrame(state.orbitRaf);
-        state.orbitRaf = window.requestAnimationFrame(stepCardOrbit);
+        state.orbitRaf = window.requestAnimationFrame(stepOrbits);
       }
 
       function init() {
@@ -1965,7 +2053,7 @@
         applyStaticWidowFix();
         el.scoreMax.textContent = `/${MAX_TOTAL_SCORE}`;
         bindEvents();
-        initCardOrbit();
+        initOrbits();
       }
 
       function bindEvents() {
@@ -1977,8 +2065,7 @@
           clearTimeout(resizeTimer);
           resizeTimer = setTimeout(() => {
             applyStaticWidowFix();
-            updateCardOrbitMetrics();
-            setCardOrbitPosition(state.orbitDistance, 1);
+            primeOrbits();
             if (state.screen === "quiz") renderQuestion();
             if (state.screen === "result") renderResult();
           }, 120);
@@ -1991,7 +2078,7 @@
         state.answers = Array(QUESTIONS.length).fill(null);
         state.result = null;
         updateScreens();
-        primeCardOrbit();
+        primeOrbits();
         renderQuestion();
       }
 
@@ -2001,7 +2088,7 @@
         el.resultScreen.classList.toggle("active", state.screen === "result");
         document.body.classList.toggle("result-mode", state.screen === "result");
         if (state.screen === "quiz") {
-          primeCardOrbit();
+          primeOrbits();
         }
       }
 
