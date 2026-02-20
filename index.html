@@ -424,4 +424,137 @@
                         this.insightText = "Ανήκεις στην ελίτ. Δεν ψάχνεις γυναίκες, σε ψάχνουν αυτές. Το θέμα σου πλέον δεν είναι η ποσότητα, αλλά το να επιλέξεις το κορυφαίο.";
                     } else if (this.totalScore >= 40) {
                         this.scoreTitle = "ΕΧΕΙΣ ΔΥΝΑΜΙΚΗ (ΑΛΛΑ ΘΕΣ ΔΟΥΛΕΙΑ)";
-                        this.insightText = "Είσαι πάνω από τον μέσο όρο. Έχεις πάρει τις νίκες σου, αλλά ξέρεις μέσα σου ότι αφήνεις άπειρα χρήματα και
+                        this.insightText = "Είσαι πάνω από τον μέσο όρο. Έχεις πάρει τις νίκες σου, αλλά ξέρεις μέσα σου ότι αφήνεις άπειρα χρήματα και ευκαιρίες στο τραπέζι. Ώρα να τελειοποιήσεις το παιχνίδι σου.";
+                    } else {
+                        this.scoreTitle = "ΩΡΑ ΝΑ ΞΥΠΝΗΣΕΙΣ";
+                        this.insightText = "Η αλήθεια πονάει, αλλά το να σε αγνοούν πονάει περισσότερο. Παίζεις το παιχνίδι λάθος. Το καλό; Όλα διορθώνονται αν έχεις τα κότσια να με ακούσεις.";
+                    }
+                },
+
+                getArchetypeName(idx) {
+                    const names = [
+                        "Ο ΨΥΧΡΟΣ ΕΚΤΕΛΕΣΤΗΣ (ΕΛΞΗ)",
+                        "Ο ΑΛΦΑ ΑΡΘΟΥΡΟΣ (ΣΩΜΑ/ΠΑΡΟΥΣΙΑ)",
+                        "Ο ΔΟΛΟΦΟΝΟΣ ΤΟΥ ΜΥΑΛΟΥ (ΧΑΡΙΣΜΑ)",
+                        "Ο ΑΥΤΟΚΡΑΤΟΡΑΣ (ΣΚΟΠΟΣ)"
+                    ];
+                    return names[idx];
+                },
+
+                getDatingTips(idx) {
+                    // Expert, Controversial, Functional dating tips (Nikos Peletie tone)
+                    const tips = [
+                        // Έλξη (Attraction focus)
+                        `<div class="space-y-4">
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #1: Κόψε τη Λογική</span> Οι γυναίκες δεν ερωτεύονται το πόσο καλό παιδί είσαι. Ερωτεύονται τα <i>συναισθηματικά σκαμπανεβάσματα (spikes)</i> που τους προκαλείς. Γίνε απρόβλεπτος.</div>
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #2: Το Δώρο της Απουσίας</span> Αν της απαντάς στο λεπτό, είσαι δεδομένος. Άφησέ την να αναρωτιέται τι κάνεις. Η έλξη χτίζεται στη σιωπή, όχι στα ατελείωτα texts.</div>
+                        </div>`,
+                        // Σώμα & Αυτοπεποίθηση (Body focus)
+                        `<div class="space-y-4">
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #1: Πιάσε Χώρο</span> Είσαι θηρίο; Δείξ'το. Άπλωσε τα χέρια σου, πάτα γερά στα πόδια σου. Ποτέ μην μαζεύεις το σώμα σου για να "χωρέσεις" δίπλα της. Κάντην να νιώσει μικρή δίπλα σου.</div>
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #2: Μη στηρίζεσαι στους μυς σου</span> Ένας Έλληνας Θεός που κομπιάζει όταν μιλάει, γίνεται αμέσως βαρετός. Χρησιμοποίησε τη σωματική σου επιβολή για να δημιουργήσεις tension, και μετά χτύπα τη διανοητικά.</div>
+                        </div>`,
+                        // Χάρισμα & Προσέγγιση (Charisma focus)
+                        `<div class="space-y-4">
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #1: Η Τέχνη του Teasing</span> Σταμάτα τις βαρετές ερωτήσεις συνέντευξης ("από πού είσαι;"). Πείραξέ την. Πες της κάτι αμφιλεγόμενο. Προκάλεσέ την να σου αποδείξει την αξία της.</div>
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #2: Κυριάρχησε στη Σιωπή</span> Οι αδύναμοι άντρες πανικοβάλλονται στις παύσεις και λένε βλακείες για να τις γεμίσουν. Κοίταξέ την στα μάτια με ένα μισό χαμόγελο και άστην να "σπάσει" πρώτη τη σιωπή.</div>
+                        </div>`,
+                        // Σκοπός & Σχέσεις (Purpose focus)
+                        `<div class="space-y-4">
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #1: Δεν είναι η προτεραιότητά σου</span> Αν η γυναίκα νιώσει ότι είναι ο σκοπός της ζωής σου, θα φύγει. Η αποστολή σου, τα λεφτά σου, ο σκοπός σου είναι πάντα ΠΑΝΩ από αυτήν. Είτε ακολουθεί το όραμά σου, είτε μένει εκτός.</div>
+                            <div class="bg-zinc-900/50 p-4 rounded-xl border border-zinc-800"><span class="text-pink-500 font-black block mb-1">ΚΑΝΟΝΑΣ #2: Εσύ θέτεις το Frame</span> Σε μια σχέση, αυτός που έχει τα λιγότερα να χάσει, ελέγχει τη δυναμική. Να είσαι πάντα διατεθειμένος να αποχωρήσεις αν παραβιαστούν τα όριά σου.</div>
+                        </div>`
+                    ];
+                    return tips[idx];
+                },
+
+                renderRadar() {
+                    setTimeout(() => {
+                        const ctx = document.getElementById('radarChart');
+                        if (this.radarChart) this.radarChart.destroy();
+                        
+                        // Dynamic styling config
+                        Chart.defaults.color = '#71717a';
+                        Chart.defaults.font.family = "'Inter', sans-serif";
+                        
+                        this.radarChart = new Chart(ctx, {
+                            type: 'radar',
+                            data: {
+                                labels: this.categories.map(c => c.name),
+                                datasets: [{
+                                    label: 'Η Ισχύς Σου',
+                                    data: this.categories.map(c => c.score),
+                                    backgroundColor: 'rgba(236, 72, 153, 0.2)',
+                                    borderColor: '#ec4899',
+                                    borderWidth: 3,
+                                    pointBackgroundColor: '#000',
+                                    pointBorderColor: '#ec4899',
+                                    pointBorderWidth: 3,
+                                    pointRadius: 5,
+                                    pointHoverRadius: 8
+                                }]
+                            },
+                            options: {
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    r: {
+                                        min: 0, max: 16, 
+                                        ticks: { stepSize: 4, display: false },
+                                        grid: { color: '#27272a', circular: true },
+                                        angleLines: { color: '#27272a' },
+                                        pointLabels: { 
+                                            color: '#d4d4d8', 
+                                            font: { size: 12, weight: '700' }
+                                        }
+                                    }
+                                },
+                                animation: { duration: 1500, easing: 'easeOutQuart' }
+                            }
+                        });
+                    }, 100);
+                },
+
+                launchConfetti() {
+                    // Use standard library for flawless execution across all browsers
+                    var duration = 3000;
+                    var animationEnd = Date.now() + duration;
+                    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+                    function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+                    var interval = setInterval(function() {
+                        var timeLeft = animationEnd - Date.now();
+                        if (timeLeft <= 0) return clearInterval(interval);
+                        var particleCount = 50 * (timeLeft / duration);
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#ec4899', '#f472b6', '#db2777', '#ffffff'] }));
+                        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#ec4899', '#f472b6', '#db2777', '#ffffff'] }));
+                    }, 250);
+                },
+                
+                shareResults() {
+                    const shareText = `Είμαι "${this.archetype}" με σκορ ${this.totalScore}/64 στο τεστ της PELETIE TRIBE. Εσύ πόσο σκοράρεις; Αντέχεις την αλήθεια;`;
+                    
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'PELETIE TRIBE - Elite Test',
+                            text: shareText,
+                            url: window.location.href
+                        }).catch(console.error);
+                    } else {
+                        // Fallback copy to clipboard
+                        navigator.clipboard.writeText(shareText + " " + window.location.href).then(() => {
+                            alert("Το σκορ σου αντιγράφηκε! Στείλτο στους φίλους σου.");
+                        });
+                    }
+                },
+                
+                restart() {
+                    this.step = 0;
+                    this.totalScore = 0;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
