@@ -3,279 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nikos Peletie | Attention Architect</title>
+    <title>Νίκος Πελετιέ | Αρχιτέκτονας Προσοχής</title>
     <style>
         :root {
             --bg: #000000;
             --text: #ffffff;
-            --muted: #777777;
+            --muted: #444444;
             --accent: #00f2ff;
-            --accent-dim: rgba(0, 242, 255, 0.15);
+            --accent-glow: rgba(0, 242, 255, 0.3);
             --transition: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Reset & Base */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-
+        ::-webkit-scrollbar { display: none; }
+        
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "Inter", "Segoe UI", sans-serif;
             overflow-x: hidden;
-            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            selection-background-color: var(--accent);
         }
 
-        /* Custom Elite Cursor */
+        /* Custom Cursor */
         #cursor {
-            width: 10px; height: 10px; background: var(--accent);
+            width: 8px; height: 8px; background: var(--accent);
             border-radius: 50%; position: fixed; pointer-events: none;
             z-index: 9999; box-shadow: 0 0 20px var(--accent);
-            mix-blend-mode: difference; transition: transform 0.15s ease-out;
+            transition: transform 0.1s linear;
         }
 
-        /* Neon Path Logic */
-        #scroll-path-svg {
+        /* Neon Zig-Zag Engine */
+        #svg-layer {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
         }
 
-        #neon-line {
+        #zigzag-path {
             fill: none; stroke: var(--accent); stroke-width: 1.5;
-            filter: drop-shadow(0 0 5px var(--accent));
-            stroke-linecap: round; stroke-linejoin: round;
-            opacity: 0.4;
+            filter: drop-shadow(0 0 10px var(--accent));
+            stroke-linecap: round; opacity: 0.6;
+            stroke-dasharray: 2000; stroke-dashoffset: 2000;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 7vw; position: relative; z-index: 5; }
+        /* Layout */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5vw; position: relative; z-index: 10; }
+        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 10vh 0; }
 
         /* Typography */
         .eyebrow { 
-            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5em; 
-            color: var(--accent); margin-bottom: 2rem; display: block; font-weight: 800; 
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.6em; 
+            color: var(--accent); margin-bottom: 2rem; display: block; font-weight: 900; 
         }
         
         h1 { 
-            font-size: clamp(3.5rem, 12vw, 9rem); font-weight: 800; 
-            letter-spacing: -0.06em; line-height: 0.85; margin-bottom: 5vh; 
+            font-size: clamp(3rem, 10vw, 8.5rem); font-weight: 800; 
+            letter-spacing: -0.07em; line-height: 0.8; margin-bottom: 4rem; 
         }
 
         h2 { 
-            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; 
-            letter-spacing: -0.04em; margin-bottom: 4rem; 
+            font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 700; 
+            letter-spacing: -0.05em; margin-bottom: 3rem; line-height: 1.1;
         }
 
-        p { font-size: 1.25rem; color: var(--muted); max-width: 750px; }
-        .highlight { color: var(--text); font-weight: 600; }
+        p { font-size: 1.2rem; color: #888; max-width: 650px; line-height: 1.6; }
+        .white { color: var(--text); font-weight: 500; }
 
-        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 15vh 0; }
-
-        /* Campaign Concepts - Glassmorphism */
+        /* Cards */
         .concepts-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 2rem; margin-top: 4rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 2rem; margin-top: 5rem;
         }
 
         .concept-card { 
-            background: rgba(255, 255, 255, 0.02); 
-            padding: 4rem 2.5rem; border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 4px; transition: 0.6s var(--transition);
-            position: relative; overflow: hidden;
+            background: rgba(10, 10, 10, 0.8); 
+            padding: 4rem 2.5rem; border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.5s var(--transition);
         }
 
         .concept-card:hover { 
-            background: rgba(255, 255, 255, 0.05); 
-            border-color: var(--accent); transform: translateY(-10px);
+            border-color: var(--accent); background: rgba(0, 242, 255, 0.02);
+            transform: scale(1.02);
         }
 
-        .concept-card h3 { font-size: 1.8rem; margin-bottom: 1.5rem; letter-spacing: -0.02em; color: var(--accent); }
-        .concept-card p { font-size: 1.05rem; line-height: 1.7; }
+        .concept-card h3 { font-size: 1.6rem; margin-bottom: 1rem; color: #fff; }
 
-        /* Mechanics */
-        .mechanic { 
-            border-top: 1px solid rgba(255,255,255,0.1); padding: 5rem 0; 
-            display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; 
+        /* Mechanics Section */
+        .mechanic-row {
+            padding: 4rem 0; border-top: 1px solid #111;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
         }
-        .mech-title { font-size: 2rem; font-weight: 600; letter-spacing: -0.03em; }
 
-        @media (max-width: 768px) { 
-            .mechanic { grid-template-columns: 1fr; gap: 1rem; padding: 3rem 0; }
-            .unit-grid { grid-template-columns: 1fr !important; }
+        @media (max-width: 768px) {
+            .mechanic-row { grid-template-columns: 1fr; gap: 1rem; }
+            h1 { line-height: 1; }
         }
 
         /* The Unit */
-        .unit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); margin-top: 5rem; }
-        .member { background: var(--bg); padding: 3rem 2rem; transition: 0.4s; }
-        .member:hover { background: var(--accent-dim); }
-        .member h4 { font-size: 1.3rem; margin-bottom: 0.5rem; font-weight: 600; }
-        .member span { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.2em; }
+        .unit-display {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            border: 1px solid #111; margin-top: 4rem;
+        }
 
-        /* Reveal Animation */
-        .reveal { opacity: 0; transform: translateY(60px); transition: 1.2s var(--transition); }
+        .unit-member {
+            padding: 3rem 1.5rem; border: 0.5px solid #111;
+            transition: 0.3s;
+        }
+
+        .unit-member:hover { background: #050505; color: var(--accent); }
+        .unit-member h4 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .unit-member span { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: #555; }
+
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s var(--transition); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Status Tag */
-        .status-tag {
-            position: fixed; top: 40px; right: 40px; font-size: 0.7rem;
-            letter-spacing: 0.2em; color: var(--accent); border: 1px solid var(--accent);
-            padding: 8px 16px; border-radius: 100px; z-index: 100;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+        /* Final Message */
+        .final-call { font-size: clamp(2rem, 6vw, 5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; }
+        .status-badge {
+            position: fixed; top: 40px; left: 40px; font-size: 0.6rem;
+            letter-spacing: 0.3em; color: var(--accent); z-index: 100;
+            padding-left: 20px;
+        }
+        .status-badge::before {
+            content: ''; position: absolute; left: 0; top: 50%; width: 8px; height: 8px;
+            background: var(--accent); border-radius: 50%; transform: translateY(-50%);
+            box-shadow: 0 0 10px var(--accent);
         }
 
-        footer { padding: 20vh 0 10vh 0; }
-        .direct-line { 
-            font-size: clamp(1.8rem, 5vw, 4rem); font-weight: 800; 
-            color: var(--text); text-decoration: none; display: inline-block;
-            margin-top: 2rem; position: relative;
-        }
-        .direct-line::after {
-            content: ''; position: absolute; bottom: -5px; left: 0;
-            width: 100%; height: 2px; background: var(--accent);
-            transform: scaleX(0); transform-origin: right; transition: transform 0.6s var(--transition);
-        }
-        .direct-line:hover::after { transform: scaleX(1); transform-origin: left; }
     </style>
 </head>
 <body>
 
     <div id="cursor"></div>
-    <div class="status-tag">ACTIVE CLEARANCE: PELETIE_LOG</div>
+    <div class="status-badge">ΑΠΟΡΡΗΤΟ / ΥΨΙΣΤΗ ΠΡΟΤΕΡΑΙΟΤΗΤΑ</div>
 
-    <svg id="scroll-path-svg">
-        <path id="neon-line" d="" />
+    <svg id="svg-layer">
+        <path id="zigzag-path" d="" />
     </svg>
 
     <div class="container">
         <section>
             <div class="reveal">
-                <span class="eyebrow">Attention Architect</span>
-                <h1>Η Προσοχή <br>δεν αγοράζεται.<br><span style="color:var(--accent)">Επιβάλλεται.</span></h1>
-                <p class="lead">Δεν είμαι marketer. Είμαι ο αρχιτέκτονας των στιγμών που το κοινό σας δεν μπορεί να προσπεράσει. <span class="highlight">Κατασκευάζω ψηφιακή κυριαρχία.</span></p>
+                <span class="eyebrow">Στρατηγική Επιβολής</span>
+                <h1>Κατασκευάζω<br>Αναπόφευκτα<br><span style="color:var(--accent)">Γεγονότα.</span></h1>
+                <p>Δεν ζητώ την προσοχή του κοινού σας. Την καταλαμβάνω. <br><span class="white">Είμαι η αόρατη δύναμη πίσω από τις στιγμές που καθορίζουν την αγορά.</span></p>
             </div>
         </section>
 
-        <section id="concepts">
-            <span class="eyebrow reveal">The Weaponry</span>
-            <h2 class="reveal">Στρατηγικά Concepts</h2>
+        <section>
+            <span class="eyebrow reveal">Οπλοστάσιο</span>
+            <h2 class="reveal">Δημιουργική Κυριαρχία</h2>
             <div class="concepts-grid">
                 <div class="concept-card reveal">
-                    <h3>01. The Void Launch</h3>
-                    <p>Αντί για διαφήμιση, επιβάλλουμε απόλυτη σιωπή. Εξαφανίζουμε το brand από το grid για να προκαλέσουμε μαζική αναζήτηση. Όταν όλοι ψάχνουν, εσείς ελέγχετε το narrative.</p>
-                </div>
-                <div class="concept-card reveal" style="transition-delay: 0.1s;">
-                    <h3>02. Narrative Hijacking</h3>
-                    <p>Εκτρέπουμε την προσοχή από τα εκατομμύρια του ανταγωνισμού απευθείας στο δικό σας brand. Χρησιμοποιούμε τη δική τους ορμή για να τροφοδοτήσουμε τη δική σας άνοδο.</p>
+                    <h3>01. Τεχνητή Έλλειψη</h3>
+                    <p>Μετατρέπουμε το brand σας σε "κλειστό κλαμπ". Δημιουργούμε την ψυχολογική ανάγκη της κατοχής μέσω ελεγχόμενης πρόσβασης. Η επιθυμία γεννιέται από την απαγόρευση.</p>
                 </div>
                 <div class="concept-card reveal">
-                    <h3>03. Cultural Friction</h3>
-                    <p>Σχεδιάζουμε καμπάνιες που προκαλούν υγιή διχασμό. Η ομοφωνία είναι βαρετή. Η τριβή είναι αυτή που δημιουργεί viral φωτιά και αδιαπραγμάτευτο loyalty.</p>
+                    <h3>02. Πολιτισμική Διείσδυση</h3>
+                    <p>Δεν διαφημιζόμαστε. Γινόμαστε το θέμα συζήτησης στα δείπνα των decision makers. Εισχωρούμε στο υποσυνείδητο της αγοράς χωρίς να αφήνουμε ίχνη παραδοσιακού marketing.</p>
                 </div>
-                <div class="concept-card reveal" style="transition-delay: 0.1s;">
-                    <h3>04. Status Engineering</h3>
-                    <p>Μετατρέπουμε το προϊόν σε σπάνιο προνόμιο. Χρησιμοποιούμε ψυχολογικούς μηχανισμούς αποκλειστικότητας που αναγκάζουν τον πελάτη να κυνηγήσει το brand, όχι το αντίθετο.</p>
+                <div class="concept-card reveal">
+                    <h3>03. Ψηφιακός Αντιπερισπασμός</h3>
+                    <p>Ελέγχουμε την κίνηση των ανταγωνιστών σας προκαλώντας "θόρυβο" εκεί που θέλουμε, ενώ εσείς καταλαμβάνετε τη στρατηγική θέση που μείνει κενή.</p>
+                </div>
+                <div class="concept-card reveal">
+                    <h3>04. Μνημειώδης Αντίκτυπος</h3>
+                    <p>Σχεδιάζουμε μία και μόνη κίνηση τόσο ισχυρή, που ακυρώνει την ετήσια διαφημιστική δαπάνη οποιουδήποτε άλλου στον κλάδο σας.</p>
                 </div>
             </div>
         </section>
 
         <section>
-            <span class="eyebrow reveal">The Mechanics</span>
-            <h2 class="reveal">Ψυχολογική Μηχανική</h2>
+            <span class="eyebrow reveal">Μεθοδολογία</span>
+            <h2 class="reveal">Μηχανική της Μάζας</h2>
             
-            <div class="mechanic reveal">
-                <div class="mech-title">Pattern Interruption</div>
-                <p>Ο καταναλωτής έχει αναπτύξει ανοσία στα παραδοσιακά μηνύματα. Σπάμε το μοτίβο του scrolling, αναγκάζοντας το υποσυνείδητο να σταματήσει και να επεξεργαστεί την παρουσία σας.</p>
+            <div class="mechanic-row reveal">
+                <div class="white">Διακοπή Προτύπου</div>
+                <p>Ο εγκέφαλος των δισεκατομμυρίων χρηστών είναι προγραμματισμένος να αγνοεί το αναμενόμενο. Εμείς σπάμε τον κώδικα της συνήθειας.</p>
             </div>
-            
-            <div class="mechanic reveal">
-                <div class="mech-title">Cognitive Monopoly</div>
-                <p>Στόχος δεν είναι να είστε "μία από τις επιλογές". Στόχος είναι να είστε η μόνη σύνδεση που κάνει ο εγκέφαλος του πελάτη με την έννοια της λύσης.</p>
+            <div class="mechanic-row reveal">
+                <div class="white">Γνωστικό Μονοπώλιο</div>
+                <p>Όταν ο πελάτης σκέφτεται "κύρος", πρέπει να βλέπει μόνο εσάς. Καταλαμβάνουμε τον εσωτερικό διάλογο του κοινού-στόχου.</p>
             </div>
-
-            <div class="mechanic reveal">
-                <div class="mech-title">Asymmetrical Influence</div>
-                <p>Με ελάχιστους πόρους αλλά μέγιστη στρατηγική ευφυΐα, πετυχαίνουμε αποτελέσματα που παραδοσιακά agencies με δεκαπλάσια budgets αδυνατούν να αγγίξουν.</p>
+            <div class="mechanic-row reveal">
+                <div class="white">Ασύμμετρη Επιρροή</div>
+                <p>Χρησιμοποιούμε τη δύναμη της πληροφορίας για να πετύχουμε δυσανάλογα μεγάλα αποτελέσματα με χειρουργική ακρίβεια.</p>
             </div>
         </section>
 
         <section>
-            <span class="eyebrow reveal">The Syndicate</span>
+            <span class="eyebrow reveal">Η Μονάδα</span>
             <h2 class="reveal">The Unit.</h2>
-            <p class="reveal">Μια σκιώδης ομάδα ειδικών. Χωρίς δημόσια προφίλ. Μόνο εκτέλεση.</p>
-            <div class="unit-grid reveal">
-                <div class="member"><h4>Ghost</h4><span>Viral Architect</span></div>
-                <div class="member"><h4>Cipher</h4><span>Narrative Engineer</span></div>
-                <div class="member"><h4>Onyx</h4><span>Visual Commander</span></div>
-                <div class="member"><h4>Apex</h4><span>Dealmaker</span></div>
-                <div class="member"><h4>Pulse</h4><span>Culture Scout</span></div>
-                <div class="member"><h4>Echo</h4><span>Signal Analyst</span></div>
-                <div class="member"><h4>Flux</h4><span>Media Operator</span></div>
-                <div class="member"><h4>Phantom</h4><span>Infiltrator</span></div>
+            <p class="reveal">8 Ειδικοί. Μία αποστολή. Καμία δημόσια παρουσία.</p>
+            <div class="unit-display reveal">
+                <div class="unit-member"><h4>Ghost</h4><span>Viral Architect</span></div>
+                <div class="unit-member"><h4>Cipher</h4><span>Narrative Engineer</span></div>
+                <div class="unit-member"><h4>Onyx</h4><span>Visual Commander</span></div>
+                <div class="unit-member"><h4>Apex</h4><span>Dealmaker</span></div>
+                <div class="unit-member"><h4>Pulse</h4><span>Culture Scout</span></div>
+                <div class="unit-member"><h4>Echo</h4><span>Signal Analyst</span></div>
+                <div class="unit-member"><h4>Flux</h4><span>Media Operator</span></div>
+                <div class="unit-member"><h4>Phantom</h4><span>Infiltrator</span></div>
             </div>
         </section>
 
-        <footer>
+        <section>
             <div class="reveal">
-                <span class="eyebrow">Final Brief</span>
-                <h2>Η προσοχή του κόσμου είναι στα χέρια μου.</h2>
-                <p>Αν το brand σας αξίζει να είναι το κέντρο του ψηφιακού σύμπαντος, ξέρετε πώς να επικοινωνήσετε μαζί μου.</p>
-                <a href="#" class="direct-line">Open Direct Line_</a>
+                <span class="eyebrow">Τελική Σημείωση</span>
+                <h2 class="final-call">Ο χρόνος είναι<br>η μόνη σπάνια<br><span style="color:var(--accent)">Πρώτη Ύλη.</span></h2>
+                <p style="margin-top: 2rem;">Η γραμμή επικοινωνίας παραμένει ανοιχτή μόνο για όσους αντιλαμβάνονται το μέγεθος της ευκαιρίας.</p>
+                <div style="margin-top: 4rem; font-family: monospace; color: var(--accent); font-size: 1.2rem; letter-spacing: 0.2em;">
+                    // ΑΝΑΜΟΝΗ_ΣΗΜΑΤΟΣ_
+                </div>
             </div>
-        </footer>
+        </section>
     </div>
 
     <script>
-        // 1. Cursor Logic
+        // 1. Cursor movement
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', e => {
             cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         });
 
-        // 2. Intersection Observer for High-End Reveals
-        const observerOptions = { threshold: 0.2 };
+        // 2. Reveal Observer
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
-        }, observerOptions);
-
+        }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 3. Advanced Neon Path Engine
-        const neonLine = document.getElementById('neon-line');
+        // 3. The Zig-Zag Path Engine
+        const path = document.getElementById('zigzag-path');
         
-        function drawPath() {
-            const width = window.innerWidth;
-            const height = document.body.scrollHeight;
-            const containerWidth = Math.min(1200, width * 0.85);
-            const startX = (width + containerWidth) / 2; // Right side of container
+        function updateZigZag() {
+            const h = document.body.scrollHeight;
+            const w = window.innerWidth;
+            const step = h / 12;
+            let d = `M ${w * 0.8} 0`;
             
-            // Create a complex, elegant path that weaves through sections
-            let d = `M ${startX} 0 `;
-            
-            // Draw smooth curves or sharp strategic lines through each section
-            for(let i = 1; i <= 12; i++) {
-                const y = (height / 12) * i;
-                const x = i % 2 === 0 ? (width - containerWidth) / 2 : startX;
-                d += `L ${x} ${y} `;
+            for (let i = 1; i <= 12; i++) {
+                const x = i % 2 === 0 ? w * 0.8 : w * 0.2;
+                const y = step * i;
+                d += ` L ${x} ${y}`;
             }
-            
-            neonLine.setAttribute('d', d);
-            const totalLength = neonLine.getTotalLength();
-            neonLine.style.strokeDasharray = totalLength;
-            neonLine.style.strokeDashoffset = totalLength;
+            path.setAttribute('d', d);
+            path.style.strokeDasharray = path.getTotalLength();
+            path.style.strokeDashoffset = path.getTotalLength();
         }
 
         window.addEventListener('scroll', () => {
             const scrollPercent = window.pageYOffset / (document.body.scrollHeight - window.innerHeight);
-            const totalLength = neonLine.getTotalLength();
-            neonLine.style.strokeDashoffset = totalLength - (totalLength * scrollPercent * 1.2); // Faster draw speed
+            const length = path.getTotalLength();
+            path.style.strokeDashoffset = length - (length * scrollPercent * 1.5);
         });
 
-        window.addEventListener('resize', drawPath);
-        
-        // Initialize path and slightly delay to ensure height is calculated
-        setTimeout(drawPath, 100);
+        window.addEventListener('resize', updateZigZag);
+        updateZigZag();
     </script>
 </body>
 </html>
