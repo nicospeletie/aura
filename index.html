@@ -7,117 +7,125 @@
     <style>
         :root {
             --βάση: #000000;
-            --αντίθεση: #ffffff;
-            --στίγμα: #81D8D0; /* Tiffany Blue Neon */
-            --σκιά: rgba(129, 216, 208, 0.3);
-            --κίνηση: cubic-bezier(0.2, 1, 0.3, 1);
+            --κείμενο: #ffffff;
+            --νέον: #81D8D0; /* Tiffany Blue Neon */
+            --λάμψη: rgba(129, 216, 208, 0.6);
+            --ρυθμός: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Θεμελιώδης Σχεδιασμός */
+        /* Θεμέλια */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        ::-webkit-scrollbar { display: none; }
+        
         body {
             background-color: var(--βάση);
-            color: var(--αντίθεση);
-            font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+            color: var(--κείμενο);
+            font-family: "Inter", "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        ::-webkit-scrollbar { display: none; }
-
-        /* Προσαρμοσμένος Δείκτης */
+        /* Δείκτης Υψηλής Ακρίβειας */
         #δείκτης {
-            width: 12px; height: 12px; background: var(--στίγμα);
+            width: 8px; height: 8px; background: var(--νέον);
             border-radius: 50%; position: fixed; pointer-events: none;
-            z-index: 9999; box-shadow: 0 0 15px var(--στίγμα);
-            transition: transform 0.1s var(--κίνηση);
+            z-index: 9999; box-shadow: 0 0 25px var(--νέον), 0 0 45px var(--λάμψη);
+            transition: transform 0.1s linear;
         }
 
-        /* Η Νευρωνική Γραμμή Ζιγκ-Ζαγκ */
-        #επίπεδο-τέχνης {
+        /* Η Νευρωνική Γραμμή - Marketing Genius */
+        #svg-στρώμα {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
         }
 
-        #γραμμή-στρατηγικής {
-            fill: none; stroke: var(--στίγμα); stroke-width: 2.5;
-            filter: drop-shadow(0 0 8px var(--στίγμα));
+        #γραμμή-ενέργειας {
+            fill: none; stroke: var(--νέον); stroke-width: 4;
+            filter: drop-shadow(0 0 15px var(--νέον));
             stroke-linecap: round; stroke-linejoin: round;
-            opacity: 0.7; transition: stroke-dashoffset 0.1s linear;
+            opacity: 1; transition: stroke-dashoffset 0.1s linear;
         }
 
-        /* Περιεχόμενο */
-        .περιέκτης { max-width: 1100px; margin: 0 auto; padding: 0 5vw; position: relative; z-index: 10; }
-        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 10vh 0; }
+        /* Δομή Περιεχομένου */
+        .περιέκτης { max-width: 1200px; margin: 0 auto; padding: 0 10vw; position: relative; z-index: 10; }
+        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 15vh 0; }
 
-        /* Τυπογραφία Υψηλής Ιεραρχίας */
-        .τίτλος-αρχής { 
-            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.6em; 
-            color: var(--στίγμα); margin-bottom: 2rem; display: block; font-weight: 900; 
+        /* Τυπογραφία Ηγεσίας */
+        .σήμα { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.7em; 
+            color: var(--νέον); margin-bottom: 2rem; display: block; font-weight: 900; 
         }
         
         h1 { 
-            font-size: clamp(3rem, 9vw, 7.5rem); font-weight: 900; 
-            letter-spacing: -0.06em; line-height: 0.9; margin-bottom: 3.5rem; 
+            font-size: clamp(3.5rem, 12vw, 10rem); font-weight: 900; 
+            letter-spacing: -0.07em; line-height: 0.8; margin-bottom: 5vh; 
         }
 
         h2 { 
-            font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; 
-            letter-spacing: -0.04em; margin-bottom: 3rem; 
+            font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 800; 
+            letter-spacing: -0.05em; margin-bottom: 4rem; line-height: 1;
         }
 
-        p { font-size: 1.35rem; color: #a0a0a0; max-width: 700px; }
-        .έμφαση { color: var(--αντίθεση); font-weight: 600; }
+        p { font-size: 1.4rem; color: #888; max-width: 750px; line-height: 1.6; }
+        .λευκό { color: var(--κείμενο); font-weight: 600; }
 
-        /* Πλέγμα Ικανοτήτων */
-        .πλέγμα { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 2rem; margin-top: 4rem;
+        /* Στρατηγικές Κάρτες */
+        .πλέγμα-υπηρεσιών { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 3rem; margin-top: 5rem;
         }
 
         .κάρτα { 
-            background: rgba(255, 255, 255, 0.015); 
-            padding: 4.5rem 2.5rem; border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.5s var(--κίνηση);
+            background: rgba(255, 255, 255, 0.02); 
+            padding: 5rem 3rem; border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.6s var(--ρυθμός);
+            backdrop-filter: blur(10px);
         }
 
         .κάρτα:hover { 
-            background: rgba(129, 216, 208, 0.03); 
-            border-color: var(--στίγμα); transform: translateY(-10px);
+            background: rgba(129, 216, 208, 0.05); 
+            border-color: var(--νέον); transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        .κάρτα h3 { font-size: 1.7rem; margin-bottom: 1.5rem; color: var(--στίγμα); }
+        .κάρτα h3 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--νέον); letter-spacing: -0.02em; }
 
-        /* Μεθοδολογία */
+        /* Μηχανική Επιρροής */
         .ανάλυση { 
-            border-bottom: 1px solid #1a1a1a; padding: 5rem 0; 
-            display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; 
+            border-top: 1px solid #111; padding: 6rem 0; 
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; 
         }
 
         @media (max-width: 768px) { 
-            .ανάλυση { grid-template-columns: 1fr; gap: 1.5rem; } 
-            h1 { font-size: 3.5rem; }
+            .ανάλυση { grid-template-columns: 1fr; gap: 2rem; } 
+            h1 { line-height: 0.9; }
         }
 
-        /* Η Ομάδα */
-        .δομή-ομάδας { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-            gap: 1px; background: #1a1a1a; border: 1px solid #1a1a1a; margin-top: 5rem;
+        /* Η Επίλεκτη Ομάδα (6 Μέλη) */
+        .πλέγμα-ομάδας { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 2rem; margin-top: 5rem;
         }
-        .μέλος { background: var(--βάση); padding: 3rem 2rem; transition: 0.3s; }
-        .μέλος:hover { background: #080808; }
-        .μέλος h4 { font-size: 1.2rem; margin-bottom: 0.4rem; color: var(--στίγμα); }
-        .μέλος span { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.25em; color: #555; }
+        
+        @media (max-width: 900px) { .πλέγμα-ομάδας { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 600px) { .πλέγμα-ομάδας { grid-template-columns: 1fr; } }
 
-        /* Κινήσεις */
-        .εμφάνιση { opacity: 0; transform: translateY(30px); transition: 1.2s var(--κίνηση); }
-        .εμφάνιση.ενεργό { opacity: 1; transform: translateY(0); }
+        .μέλος { 
+            background: #050505; padding: 4rem 2rem; border-bottom: 2px solid #111;
+            transition: 0.4s var(--ρυθμός);
+        }
+        .μέλος:hover { border-bottom-color: var(--νέον); background: #080808; }
+        .μέλος h4 { font-size: 1.6rem; margin-bottom: 0.5rem; color: var(--νέον); font-weight: 800; }
+        .μέλος span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3em; color: #555; font-weight: 700; }
 
-        footer { padding: 15vh 0; text-align: left; }
-        .κάλεσμα { 
-            font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; 
-            letter-spacing: -0.04em; line-height: 1; margin-bottom: 4rem;
+        /* Εφέ Εμφάνισης */
+        .αποκάλυψη { opacity: 0; transform: translateY(60px); transition: 1.2s var(--ρυθμός); }
+        .αποκάλυψη.ενεργή { opacity: 1; transform: translateY(0); }
+
+        footer { padding: 25vh 0 15vh 0; }
+        .τελικό-κάλεσμα { 
+            font-size: clamp(2.5rem, 8vw, 6.5rem); font-weight: 900; 
+            letter-spacing: -0.06em; line-height: 0.85; margin-bottom: 5rem;
         }
     </style>
 </head>
@@ -125,123 +133,123 @@
 
     <div id="δείκτης"></div>
 
-    <svg id="επίπεδο-τέχνης">
-        <path id="γραμμή-στρατηγικής" d="" />
+    <svg id="svg-στρώμα">
+        <path id="γραμμή-ενέργειας" d="" />
     </svg>
 
     <div class="περιέκτης">
-        <!-- Κύρια Παρουσίαση -->
+        <!-- Κεφαλή -->
         <section>
-            <div class="εμφάνιση">
-                <span class="τίτλος-αρχής">Νίκος Πελετιέ</span>
-                <h1>Αρχιτεκτονική <br>της Απόλυτης <br><span style="color:var(--στίγμα)">Επιρροής.</span></h1>
-                <p>Μετατρέπω την προσοχή σε κεφάλαιο και την εικόνα σε εξουσία. <span class="έμφαση">Δεν διαχειρίζομαι τη φήμη σας, την επαναπροσδιορίζω χειρουργικά.</span></p>
+            <div class="αποκάλυψη">
+                <span class="σήμα">Νίκος Πελετιέ</span>
+                <h1>Κατασκευάζω<br>Ψηφιακή<br><span style="color:var(--νέον)">Αυτοκρατορία.</span></h1>
+                <p>Δεν αγοράζω την προσοχή των ανθρώπων. Την επιβάλλω. <br><span class="λευκό">Σχεδιάζω τη στρατηγική κυριαρχία για ηγέτες και brands που αρνούνται να είναι δεύτεροι.</span></p>
             </div>
         </section>
 
-        <!-- Στρατηγικές Υπηρεσίες -->
+        <!-- Στρατηγική Υπεροχή -->
         <section>
-            <span class="τίτλος-αρχής εμφάνιση">Το Οπλοστάσιο</span>
-            <h2 class="εμφάνιση">Στρατηγική Κυριαρχίας</h2>
-            <div class="πλέγμα">
-                <div class="κάρτα εμφάνιση">
-                    <h3>Πολιτική Επιβολή</h3>
-                    <p>Σχεδιασμός δημόσιας εικόνας που αποπνέει αυθεντία και εμπνέει εμπιστοσύνη. Μετατρέπουμε το πολιτικό μήνυμα σε αδιαμφισβήτητη κοινωνική ανάγκη.</p>
+            <span class="σήμα αποκάλυψη">Η Αποστολή</span>
+            <h2 class="αποκάλυψη">Στρατηγική Επιβολής</h2>
+            <div class="πλέγμα-υπηρεσιών">
+                <div class="κάρτα αποκάλυψη">
+                    <h3>Πολιτική Κυριαρχία</h3>
+                    <p>Μετατρέπουμε το πολιτικό όραμα σε αδιαφιλονίκητη κοινωνική τάση. Σχεδιάζουμε την εικόνα του ηγέτη που η μάζα δεν μπορεί παρά να ακολουθήσει.</p>
                 </div>
-                <div class="κάρτα εμφάνιση">
-                    <h3>Εταιρική Υπεροχή</h3>
-                    <p>Τοποθέτηση brands στην κορυφή της αγοράς μέσω ψυχολογικής διαφοροποίησης. Όταν ο ανταγωνισμός διαφημίζεται, εσείς ηγείστε της συζήτησης.</p>
+                <div class="κάρτα αποκάλυψη">
+                    <h3>Εταιρική Ηγεμονία</h3>
+                    <p>Τοποθετούμε το brand σας στην κορυφή της ιεραρχίας. Καταλαμβάνουμε τον εσωτερικό διάλογο του καταναλωτή, καθιστώντας τον ανταγωνισμό αόρατο.</p>
                 </div>
-                <div class="κάρτα εμφάνιση">
-                    <h3>Διαχείριση Κρίσεων</h3>
-                    <p>Μετατροπή απειλών σε ευκαιρίες ενίσχυσης του κύρους. Ελέγχουμε την αφήγηση πριν η αγορά προλάβει να αντιδράσει.</p>
+                <div class="κάρτα αποκάλυψη">
+                    <h3>Ψυχολογικός Πόλεμος</h3>
+                    <p>Χρησιμοποιούμε προηγμένους αλγορίθμους προσοχής για να διεισδύσουμε στο υποσυνείδητο της αγοράς. Δημιουργούμε ανάγκες εκεί που δεν υπήρχαν.</p>
                 </div>
-                <div class="κάρτα εμφάνιση">
-                    <h3>Ψυχολογική Διείσδυση</h3>
-                    <p>Χρήση προηγμένων μηχανισμών προσοχής για την κατάληψη του υποσυνείδητου του κοινού-στόχου. Γινόμαστε η μόνη επιλογή.</p>
+                <div class="κάρτα αποκάλυψη">
+                    <h3>Διαχείριση Κύρους</h3>
+                    <p>Προστατεύουμε και ενισχύουμε την επιρροή σας σε περιόδους κρίσης, μετατρέποντας κάθε πρόκληση σε απόδειξη ανωτερότητας.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Μεθοδολογία -->
+        <!-- Η Ομάδα (6 Επίλεκτοι) -->
         <section>
-            <span class="τίτλος-αρχής εμφάνιση">Η Μέθοδος</span>
-            <h2 class="εμφάνιση">Μηχανική του Αντικτύπου</h2>
-            <div class="ανάλυση εμφάνιση">
-                <div class="έμφαση">Διακοπή Προτύπου</div>
-                <p>Σπάμε τον αυτοματισμό της καθημερινότητας. Δημιουργούμε στιγμές που αναγκάζουν τον θεατή να εστιάσει αποκλειστικά στη δική σας παρουσία.</p>
-            </div>
-            <div class="ανάλυση εμφάνιση">
-                <div class="έμφαση">Γνωστικό Μονοπώλιο</div>
-                <p>Εξασφαλίζουμε ότι το όνομά σας είναι το πρώτο που αναδύεται όταν ορίζεται η έννοια της επιτυχίας στον κλάδο σας.</p>
-            </div>
-            <div class="ανάλυση εμφάνιση">
-                <div class="έμφαση">Ασύμμετρη Στρατηγική</div>
-                <p>Επιτυγχάνουμε μέγιστο αποτέλεσμα με ακριβείς, στοχευμένες κινήσεις που εξουδετερώνουν την παραδοσιακή δαπάνη των αντιπάλων.</p>
+            <span class="σήμα αποκάλυψη">Η Δομή</span>
+            <h2 class="αποκάλυψη">Η Ομάδα.</h2>
+            <div class="πλέγμα-ομάδας αποκάλυψη">
+                <div class="μέλος">
+                    <h4>AΡΧΩΝ</h4>
+                    <span>Στρατηγικός Διοικητής</span>
+                </div>
+                <div class="μέλος">
+                    <h4>KΩΔΙΚΑΣ</h4>
+                    <span>Μηχανικός Αλγορίθμων</span>
+                </div>
+                <div class="μέλος">
+                    <h4>OΠΤΙΚΟΣ</h4>
+                    <span>Αρχιτέκτονας Εικόνας</span>
+                </div>
+                <div class="μέλος">
+                    <h4>ΠΑΛΜΟΣ</h4>
+                    <span>Ανιχνευτής Κοινωνικών Τάσεων</span>
+                </div>
+                <div class="μέλος">
+                    <h4>ΣΚΙΑ</h4>
+                    <span>Διεισδυτής Media</span>
+                </div>
+                <div class="μέλος">
+                    <h4>ΑΠΕΞ</h4>
+                    <span>Ψυχολόγος Μάζας</span>
+                </div>
             </div>
         </section>
 
-        <!-- Η Ομάδα -->
-        <section>
-            <span class="τίτλος-αρχής εμφάνιση">Εκτέλεση</span>
-            <h2 class="εμφάνιση">Η Ομάδα.</h2>
-            <div class="δομή-ομάδας εμφάνιση">
-                <div class="μέλος"><h4>Φάντασμα</h4><span>Αναλυτής Εξάπλωσης</span></div>
-                <div class="μέλος"><h4>Κώδικας</h4><span>Μηχανικός Αφήγησης</span></div>
-                <div class="μέλος"><h4>Όνυχας</h4><span>Οπτική Κυριαρχία</span></div>
-                <div class="μέλος"><h4>Κορυφή</h4><span>Στρατηγικός Σύμβουλος</span></div>
-                <div class="μέλος"><h4>Παλμός</h4><span>Ανιχνευτής Τάσεων</span></div>
-                <div class="μέλος"><h4>Ηχώ</h4><span>Ανάλυση Σημάτων</span></div>
-                <div class="μέλος"><h4>Ροή</h4><span>Διαχείριση Μέσων</span></div>
-                <div class="μέλος"><h4>Σκιά</h4><span>Ειδικός Διείσδυσης</span></div>
-            </div>
-        </section>
-
-        <!-- Τελικό Κάλεσμα -->
+        <!-- Τέλος -->
         <footer>
-            <div class="εμφάνιση">
-                <h2 class="κάλεσμα">Η προσοχή είναι δύναμη. <br>Ποιος την ελέγχει;</h2>
-                <div style="margin-top: 4rem; font-family: monospace; color: var(--στίγμα); font-size: 1.3rem; letter-spacing: 0.4em;">
-                    // ΑΝΑΜΟΝΗ_ΕΝΤΟΛΗΣ_ΕΝΑΡΞΗΣ_
+            <div class="αποκάλυψη">
+                <h2 class="τελικό-κάλεσμα">Η προσοχή είναι<br>η μόνη αξία.<br><span style="color:var(--νέον)">Ποιος την κατέχει;</span></h2>
+                <div style="margin-top: 3rem; font-family: monospace; color: var(--νέον); font-size: 1.4rem; letter-spacing: 0.5em;">
+                    // ΕΤΟΙΜΟΤΗΤΑ_ΣΥΝΔΕΣΗΣ_
                 </div>
             </div>
         </footer>
     </div>
 
     <script>
-        // Δείκτης Ποντικιού
+        // Δείκτης
         const δείκτης = document.getElementById('δείκτης');
         document.addEventListener('mousemove', e => {
             δείκτης.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         });
 
-        // Παρατηρητής Εμφάνισης
-        const παρατηρητής = new IntersectionObserver((στοιχεία) => {
-            στοιχεία.forEach(σ => {
-                if (σ.isIntersecting) σ.target.classList.add('ενεργό');
+        // Αποκάλυψη Στοιχείων
+        const παρατηρητής = new IntersectionObserver((εγγραφές) => {
+            εγγραφές.forEach(ε => {
+                if (ε.isIntersecting) ε.target.classList.add('ενεργή');
             });
         }, { threshold: 0.15 });
 
-        document.querySelectorAll('.εμφάνιση').forEach(ε => παρατηρητής.observe(ε));
+        document.querySelectorAll('.αποκάλυψη').forEach(στοιχείο => παρατηρητής.observe(στοιχείο));
 
-        // Η Γραμμή Ζιγκ-Ζαγκ
-        const γραμμή = document.getElementById('γραμμή-στρατηγικής');
+        // Η Νευρωνική Γραμμή - Marketing Genius Logic
+        const γραμμή = document.getElementById('γραμμή-ενέργειας');
         
-        function δημιουργίαΔιαδρομής() {
-            const h = document.body.scrollHeight;
-            const w = window.innerWidth;
-            const βήματα = 12;
-            const ύψοςΒήματος = h / βήματα;
+        function υπολογισμόςΔιαδρομής() {
+            const ύψος = document.body.scrollHeight;
+            const πλάτος = window.innerWidth;
+            const βήματα = 14; 
+            const ύψοςΒήματος = ύψος / βήματα;
             
-            let d = `M ${w * 0.9} 0`;
+            // Ξεκινάει από την κορυφή δεξιά
+            let d = `M ${πλάτος * 0.92} 0`;
             
             for (let i = 1; i <= βήματα; i++) {
-                const x = i % 2 === 0 ? w * 0.9 : w * 0.1;
+                const x = i % 2 === 0 ? πλάτος * 0.92 : πλάτος * 0.08;
                 const y = ύψοςΒήματος * i;
-                const px = (i-1) % 2 === 0 ? w * 0.9 : w * 0.1;
-                const py = ύψοςΒήματος * (i-1);
+                const προηγX = (i-1) % 2 === 0 ? πλάτος * 0.92 : πλάτος * 0.08;
+                const προηγY = ύψοςΒήματος * (i-1);
                 
-                d += ` C ${px} ${py + ύψοςΒήματος/2}, ${x} ${y - ύψοςΒήματος/2}, ${x} ${y}`;
+                // Ομαλή καμπύλη Bezier για Marketing Genius αισθητική
+                d += ` C ${προηγX} ${προηγY + ύψοςΒήματος/2.5}, ${x} ${y - ύψοςΒήματος/2.5}, ${x} ${y}`;
             }
             
             γραμμή.setAttribute('d', d);
@@ -251,14 +259,15 @@
         }
 
         window.addEventListener('scroll', () => {
-            const scrollTotal = document.body.scrollHeight - window.innerHeight;
-            const pct = window.pageYOffset / scrollTotal;
+            const μέγιστοScroll = document.body.scrollHeight - window.innerHeight;
+            const ποσοστό = window.pageYOffset / μέγιστοScroll;
             const μήκος = γραμμή.getTotalLength();
-            γραμμή.style.strokeDashoffset = μήκος - (μήκος * pct * 1.02);
+            // Η γραμμή σχεδιάζεται ομαλά καθώς κατεβαίνουμε
+            γραμμή.style.strokeDashoffset = μήκος - (μήκος * ποσοστό * 1.05);
         });
 
-        window.addEventListener('resize', δημιουργίαΔιαδρομής);
-        window.onload = δημιουργίαΔιαδρομής;
+        window.addEventListener('resize', υπολογισμόςΔιαδρομής);
+        window.onload = υπολογισμόςΔιαδρομής;
     </script>
 </body>
 </html>
