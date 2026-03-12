@@ -1,273 +1,479 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Νίκος Πελετιέ | Αρχιτέκτονας Προσοχής</title>
-    <style>
-        :root {
-            --βάση: #000000;
-            --κείμενο: #ffffff;
-            --νέον: #81D8D0; /* Tiffany Blue Neon */
-            --λάμψη: rgba(129, 216, 208, 0.6);
-            --ρυθμός: cubic-bezier(0.16, 1, 0.3, 1);
-        }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Νίκος Πελετιέ — Αρχιτέκτονας Προσοχής</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --μ:#050507;--ε1:#0d0d11;--ε2:#131318;--λ:#ededea;
+      --αμ:rgba(237,237,234,.40);--αμ2:rgba(237,237,234,.18);
+      --μπ:#00F3FF;--μπκ:0 0 12px rgba(0,243,255,.5);
+      --πλ:rgba(255,255,255,.055);
+      --ease:cubic-bezier(.16,1,.3,1);
+      --fd:'Cormorant',Georgia,serif;--fm:'DM Mono',monospace;--fb:'Jost',sans-serif;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;font-size:16px}
+    body{background:var(--μ);color:var(--λ);font-family:var(--fb);font-weight:300;line-height:1.7;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
+    ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--μ)}::-webkit-scrollbar-thumb{background:var(--μπ)}
+    a{color:inherit;text-decoration:none}
+    #δτ,#δκ{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0}
+    #δτ{width:6px;height:6px;background:var(--μπ);box-shadow:var(--μπκ);transform:translate(-50%,-50%);transition:opacity .3s}
+    #δκ{width:34px;height:34px;border:1px solid rgba(0,243,255,.32);transform:translate(-50%,-50%);transition:width .4s var(--ease),height .4s var(--ease),border-color .3s,opacity .3s}
+    body:has(.αλ:hover) #δκ{width:52px;height:52px;border-color:var(--μπ)}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ν'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23ν)' opacity='.04'/%3E%3C/svg%3E");background-size:160px 160px;opacity:.4}
+    #πρόοδος{position:fixed;top:0;left:0;height:1px;width:0%;background:linear-gradient(90deg,transparent,var(--μπ),rgba(0,243,255,.2));z-index:200;box-shadow:0 0 8px var(--μπ);transition:width .05s linear}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(24px,6vw,80px);position:relative;z-index:2}
+    .διαχ{height:1px;background:var(--πλ)}
+    section{padding:clamp(80px,13vw,150px) 0;position:relative;z-index:2}
+    .εκφ{font-family:var(--fm);font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;font-weight:400}
+    .μπχρ{color:var(--μπ);text-shadow:var(--μπκ)}
 
-        /* Θεμέλια */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        ::-webkit-scrollbar { display: none; }
-        
-        body {
-            background-color: var(--βάση);
-            color: var(--κείμενο);
-            font-family: "Inter", "Segoe UI", Roboto, sans-serif;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+    /* ΠΛΟΗΓΗΣΗ */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px clamp(24px,6vw,80px);display:flex;align-items:center;justify-content:space-between;transition:background .6s}
+    nav.κύλ{background:rgba(5,5,7,.86);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid rgba(0,243,255,.07)}
+    .ν-ταυτ{display:flex;align-items:center;gap:12px}
+    .ν-παλμ{width:6px;height:6px;border-radius:50%;background:var(--μπ);box-shadow:var(--μπκ);animation:παλμ 2.5s ease-in-out infinite}
+    @keyframes παλμ{0%,100%{opacity:1;box-shadow:0 0 8px var(--μπ)}50%{opacity:.35;box-shadow:0 0 2px var(--μπ)}}
+    .ν-όνομ{font-family:var(--fm);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--αμ)}
+    .ν-κατ{font-family:var(--fm);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,243,255,.26)}
 
-        /* Δείκτης Υψηλής Ακρίβειας */
-        #δείκτης {
-            width: 8px; height: 8px; background: var(--νέον);
-            border-radius: 50%; position: fixed; pointer-events: none;
-            z-index: 9999; box-shadow: 0 0 25px var(--νέον), 0 0 45px var(--λάμψη);
-            transition: transform 0.1s linear;
-        }
+    /* HERO */
+    #hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:100px;padding-bottom:clamp(60px,8vw,100px);position:relative;overflow:hidden}
+    #hero .wrap{display:grid;grid-template-columns:1fr 480px;gap:clamp(40px,6vw,80px);align-items:center}
+    #hero::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,243,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,243,255,.025) 1px,transparent 1px);background-size:90px 90px;mask-image:radial-gradient(ellipse 75% 80% at 60% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 75% 80% at 60% 50%,black,transparent)}
+    #hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;z-index:1;pointer-events:none;background:linear-gradient(to top,var(--μ),transparent)}
+    .ήρ-αρ{position:relative;z-index:2}
+    .ήρ-ετικ{display:flex;align-items:center;gap:14px;margin-bottom:clamp(24px,3.5vw,40px);opacity:0;transform:translateY(16px);animation:άνω .9s var(--ease) .1s forwards}
+    .γρ-μπ{width:34px;height:1px;background:var(--μπ);box-shadow:0 0 6px var(--μπ)}
+    .ήρ-τιτλ{font-family:var(--fd);font-size:clamp(3.6rem,8.5vw,8.5rem);font-weight:300;line-height:.91;letter-spacing:-.03em;opacity:0;transform:translateY(44px);animation:άνω 1.3s var(--ease) .28s forwards}
+    .ήρ-τιτλ em{font-style:italic;color:var(--μπ);text-shadow:var(--μπκ)}
+    .υπογρ{position:relative;display:inline-block}
+    .υπογρ::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--μπ);box-shadow:0 0 8px var(--μπ);transform:scaleX(0);transform-origin:left;animation:γρεμφ .9s var(--ease) 1.7s forwards}
+    @keyframes γρεμφ{to{transform:scaleX(1)}}
+    .ήρ-υποτ{margin-top:clamp(24px,3.5vw,40px);font-size:clamp(.95rem,1.5vw,1.12rem);font-weight:300;color:var(--αμ);max-width:560px;line-height:1.85;opacity:0;transform:translateY(16px);animation:άνω .9s var(--ease) .75s forwards}
+    .ήρ-υποτ strong{color:var(--λ);font-weight:400}
+    .ήρ-αρχ{display:flex;flex-direction:column;gap:16px;margin-top:clamp(32px,4.5vw,52px);opacity:0;transform:translateY(16px);animation:άνω .9s var(--ease) 1s forwards}
+    .αρχή{display:flex;align-items:flex-start;gap:14px;border-left:1px solid rgba(0,243,255,.22);padding-left:16px}
+    .αρχή-κ{font-family:var(--fm);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.28);margin-top:1px;white-space:nowrap}
+    .αρχή-π{font-size:.87rem;color:var(--αμ);line-height:1.6;font-weight:300}
+    .ήρ-δε{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+    #ραντάρ-καμβάς{width:100%;max-width:440px;aspect-ratio:1;border-radius:50%;display:block}
+    .ήρ-φκ{position:absolute;right:-2%;bottom:-8%;font-family:var(--fd);font-size:clamp(8rem,22vw,26rem);font-weight:700;line-height:.85;color:transparent;-webkit-text-stroke:1px rgba(0,243,255,.03);pointer-events:none;user-select:none;z-index:0;letter-spacing:-.04em}
 
-        /* Η Νευρωνική Γραμμή - Marketing Genius */
-        #svg-στρώμα {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1;
-        }
+    /* ΤΑΙΝΙΑ */
+    #ταινία{background:var(--μπ);overflow:hidden;position:relative;z-index:2}
+    .τ-εσ{display:flex;align-items:center;padding:18px 0;white-space:nowrap;overflow:hidden}
+    .τ-τρ{display:flex;gap:52px;animation:ταινία 30s linear infinite;flex-shrink:0}
+    .τ-τρ span{font-family:var(--fm);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--μ);font-weight:500}
+    .τ-δ{color:rgba(0,0,0,.28)!important}
+    @keyframes ταινία{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-        #γραμμή-ενέργειας {
-            fill: none; stroke: var(--νέον); stroke-width: 4;
-            filter: drop-shadow(0 0 15px var(--νέον));
-            stroke-linecap: round; stroke-linejoin: round;
-            opacity: 1; transition: stroke-dashoffset 0.1s linear;
-        }
+    /* ΚΟΙΝΕΣ ΚΕΦΑΛΙΔΕΣ */
+    .εν-κεφ{display:flex;align-items:center;gap:14px;margin-bottom:clamp(8px,1.2vw,14px)}
+    .εν-γρ{width:28px;height:1px;background:var(--μπ);box-shadow:0 0 5px var(--μπ)}
+    .εν-τιτλ{font-family:var(--fd);font-size:clamp(2.6rem,6vw,5.5rem);font-weight:300;letter-spacing:-.03em;line-height:.95}
+    .εν-τιτλ em{font-style:italic;color:var(--μπ);text-shadow:var(--μπκ)}
 
-        /* Δομή Περιεχομένου */
-        .περιέκτης { max-width: 1200px; margin: 0 auto; padding: 0 10vw; position: relative; z-index: 10; }
-        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 15vh 0; }
+    /* ΤΕΧΝΙΚΕΣ */
+    #τεχνικές{background:var(--μ)}
+    #τεχνικές .επκ-σρ{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);align-items:end;margin-bottom:clamp(48px,7vw,88px)}
+    .εν-εισ{font-size:1rem;color:var(--αμ);line-height:1.85;max-width:420px;font-weight:300}
+    .εν-εισ strong{color:var(--λ);font-weight:400}
+    .τ-λίστα{display:flex;flex-direction:column}
+    .τ-στ{border-top:1px solid var(--πλ);position:relative;overflow:hidden;transition:background .4s}
+    .τ-στ:last-child{border-bottom:1px solid var(--πλ)}
+    .τ-στ:hover{background:var(--ε1)}
+    .τ-στ::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:var(--μπ);box-shadow:0 0 8px var(--μπ);transform:scaleY(0);transform-origin:top;transition:transform .45s var(--ease)}
+    .τ-στ:hover::before{transform:scaleY(1)}
+    .τ-κεφ{display:grid;grid-template-columns:60px 1fr auto;gap:clamp(16px,2.5vw,32px);align-items:center;padding:clamp(24px,3.5vw,40px) clamp(24px,3vw,40px);cursor:default}
+    .τ-αρ{font-family:var(--fm);font-size:.58rem;letter-spacing:.2em;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.3)}
+    .τ-τιτλ-κ{font-family:var(--fd);font-size:clamp(1.5rem,2.4vw,2.1rem);font-weight:400;letter-spacing:-.02em;line-height:1.05}
+    .τ-τιτλ-κ em{font-style:italic}
+    .τ-ετικ{font-family:var(--fm);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(0,243,255,.15);border-radius:1px;color:rgba(0,243,255,.4);white-space:nowrap;transition:border-color .3s,color .3s}
+    .τ-στ:hover .τ-ετικ{border-color:var(--μπ);color:var(--μπ)}
+    .τ-σώμα{padding:0 clamp(24px,3vw,40px) clamp(24px,3.5vw,40px);padding-left:calc(60px + clamp(16px,2.5vw,32px) + clamp(24px,3vw,40px))}
+    .τ-κεφ-πλ{display:flex;align-items:flex-start;gap:clamp(20px,3vw,40px);flex-wrap:wrap}
+    .τ-κεφ-πλ>div{flex:1;min-width:220px}
+    .τ-βήμα-κ{font-family:var(--fm);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--μπ);margin-bottom:8px}
+    .τ-βήμα-π{font-size:.9rem;color:var(--αμ);line-height:1.8;font-weight:300}
+    .τ-βήμα-π strong{color:var(--λ);font-weight:400}
+    .τ-αποτ{margin-top:20px;font-family:var(--fm);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.25)}
 
-        /* Τυπογραφία Ηγεσίας */
-        .σήμα { 
-            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.7em; 
-            color: var(--νέον); margin-bottom: 2rem; display: block; font-weight: 900; 
-        }
-        
-        h1 { 
-            font-size: clamp(3.5rem, 12vw, 10rem); font-weight: 900; 
-            letter-spacing: -0.07em; line-height: 0.8; margin-bottom: 5vh; 
-        }
+    /* ΑΛΗΘΕΙΕΣ */
+    #αλήθειες{background:var(--ε1);border-top:1px solid rgba(0,243,255,.07);border-bottom:1px solid rgba(0,243,255,.07);padding:clamp(56px,10vw,110px) 0}
+    .αλ-πλέγμα{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,243,255,.07)}
+    .αλ-στ{background:var(--ε1);padding:clamp(32px,4vw,52px);transition:background .3s}
+    .αλ-στ:hover{background:var(--ε2)}
+    .αλ-φρ{font-family:var(--fd);font-style:italic;font-size:clamp(1.2rem,1.8vw,1.6rem);font-weight:300;line-height:1.35;color:var(--λ);margin-bottom:16px}
+    .αλ-φρ em{font-style:normal;color:var(--μπ)}
+    .αλ-εξ{font-size:.88rem;color:var(--αμ);line-height:1.82;font-weight:300}
+    .αλ-γρ{width:26px;height:1px;background:var(--μπ);box-shadow:0 0 5px var(--μπ);margin-top:20px}
 
-        h2 { 
-            font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 800; 
-            letter-spacing: -0.05em; margin-bottom: 4rem; line-height: 1;
-        }
+    /* ΜΗΧΑΝΙΚΗ */
+    #μηχανική{background:var(--μ)}
+    .μηχ-κεφ{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);align-items:end;margin-bottom:clamp(48px,8vw,96px)}
+    .μηχ-εισ{font-size:1rem;color:var(--αμ);line-height:1.85;max-width:420px;font-weight:300}
+    .μηχ-λίστα{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}
+    .μηχ{padding:clamp(32px,4.5vw,54px);border:1px solid var(--πλ);position:relative;transition:background .4s}
+    .μηχ:hover{background:rgba(0,243,255,.022)}
+    .μηχ:hover .μηχ-ρωμ{color:rgba(0,243,255,.28);text-shadow:0 0 20px rgba(0,243,255,.18)}
+    .μηχ-ρωμ{font-family:var(--fd);font-size:3.6rem;font-weight:300;color:rgba(0,243,255,.08);line-height:1;margin-bottom:18px;transition:color .4s}
+    .μηχ-όν{font-family:var(--fd);font-size:clamp(1.45rem,2.1vw,1.9rem);font-weight:400;letter-spacing:-.02em;margin-bottom:12px;line-height:1.1}
+    .μηχ-όν em{font-style:italic;color:var(--μπ);text-shadow:0 0 10px rgba(0,243,255,.25)}
+    .μηχ-κ{font-size:.9rem;color:var(--αμ);line-height:1.85;font-weight:300}
+    .μηχ-απ{margin-top:16px;font-family:var(--fm);font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.25)}
 
-        p { font-size: 1.4rem; color: #888; max-width: 750px; line-height: 1.6; }
-        .λευκό { color: var(--κείμενο); font-weight: 600; }
+    /* ΜΟΝΑΔΑ */
+    #ομάδα{background:var(--ε1);border-top:1px solid rgba(0,243,255,.07)}
+    .ομ-κεφ{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:clamp(48px,8vw,96px)}
+    .ομ-σύν{font-family:var(--fm);font-size:.64rem;letter-spacing:.2em;color:var(--αμ2)}
+    .ομ-πλ{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(0,243,255,.06)}
+    .μέλ{background:var(--ε1);padding:clamp(22px,3.5vw,42px) clamp(18px,3vw,32px);transition:background .35s;position:relative;overflow:hidden}
+    .μέλ::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--μπ);box-shadow:0 0 8px var(--μπ);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+    .μέλ:hover::before{transform:scaleX(1)}
+    .μέλ:hover{background:var(--ε2)}
+    .μ-αρ{font-family:var(--fm);font-size:.55rem;letter-spacing:.2em;color:rgba(0,243,255,.22);margin-bottom:16px}
+    .μ-ψευ{font-family:var(--fd);font-size:clamp(1.35rem,2vw,1.9rem);font-weight:600;letter-spacing:.03em;text-transform:uppercase;line-height:1;margin-bottom:6px;transition:color .3s}
+    .μέλ:hover .μ-ψευ{color:var(--μπ);text-shadow:var(--μπκ)}
+    .μ-ρόλ{font-family:var(--fm);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.2);margin-bottom:12px}
+    .μ-πε{font-size:.82rem;color:var(--αμ);line-height:1.7;font-weight:300}
 
-        /* Στρατηγικές Κάρτες */
-        .πλέγμα-υπηρεσιών { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-            gap: 3rem; margin-top: 5rem;
-        }
+    /* ΚΛΕΙΣΙΜΟ */
+    #κλείσιμο{background:var(--μ);border-top:1px solid rgba(0,243,255,.07);position:relative;overflow:hidden}
+    #κλείσιμο::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(0,243,255,.035) 0%,transparent 65%);pointer-events:none}
+    .κλ-εσ{max-width:920px;position:relative;z-index:1}
+    .κλ-τιτ{font-family:var(--fd);font-size:clamp(3.4rem,8vw,8rem);font-weight:300;letter-spacing:-.035em;line-height:.91;margin:clamp(22px,3vw,38px) 0 clamp(26px,4vw,44px)}
+    .κλ-τιτ em{font-style:italic;color:var(--μπ);text-shadow:var(--μπκ)}
+    .κλ-κ{font-size:clamp(1rem,1.5vw,1.14rem);color:var(--αμ);line-height:1.9;max-width:660px;font-weight:300}
+    .κλ-κ strong{color:var(--λ);font-weight:400}
+    .κλ-τέλ{margin-top:clamp(40px,6vw,70px);display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+    .κλ-υπγ{font-family:var(--fd);font-style:italic;font-size:clamp(1.7rem,2.6vw,2.4rem);font-weight:300;color:var(--λ);letter-spacing:-.01em}
+    .κλ-γρ{flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,var(--μπ),transparent);box-shadow:0 0 6px rgba(0,243,255,.25)}
+    .κλ-επ{font-family:var(--fm);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--αμ2)}
 
-        .κάρτα { 
-            background: rgba(255, 255, 255, 0.02); 
-            padding: 5rem 3rem; border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.6s var(--ρυθμός);
-            backdrop-filter: blur(10px);
-        }
+    /* ΥΠΟΣΕΛΙΔΟ */
+    footer{padding:22px clamp(24px,6vw,80px);border-top:1px solid var(--πλ);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:2}
+    footer span{font-family:var(--fm);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.14)}
+    .υπ-τ{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--μπ);box-shadow:0 0 6px var(--μπ);margin:0 8px;vertical-align:middle}
 
-        .κάρτα:hover { 
-            background: rgba(129, 216, 208, 0.05); 
-            border-color: var(--νέον); transform: translateY(-15px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
+    /* ΑΠΟΚΑΛΥΨΕΙΣ */
+    @keyframes άνω{to{opacity:1;transform:translateY(0)}}
+    .α{opacity:0;transform:translateY(30px);transition:opacity .95s var(--ease),transform .95s var(--ease)}
+    .α.ε{opacity:1;transform:translateY(0)}
+    .α1{transition-delay:.1s}.α2{transition-delay:.2s}.α3{transition-delay:.3s}.α4{transition-delay:.4s}.α5{transition-delay:.5s}
 
-        .κάρτα h3 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--νέον); letter-spacing: -0.02em; }
-
-        /* Μηχανική Επιρροής */
-        .ανάλυση { 
-            border-top: 1px solid #111; padding: 6rem 0; 
-            display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; 
-        }
-
-        @media (max-width: 768px) { 
-            .ανάλυση { grid-template-columns: 1fr; gap: 2rem; } 
-            h1 { line-height: 0.9; }
-        }
-
-        /* Η Επίλεκτη Ομάδα (6 Μέλη) */
-        .πλέγμα-ομάδας { 
-            display: grid; grid-template-columns: repeat(3, 1fr); 
-            gap: 2rem; margin-top: 5rem;
-        }
-        
-        @media (max-width: 900px) { .πλέγμα-ομάδας { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px) { .πλέγμα-ομάδας { grid-template-columns: 1fr; } }
-
-        .μέλος { 
-            background: #050505; padding: 4rem 2rem; border-bottom: 2px solid #111;
-            transition: 0.4s var(--ρυθμός);
-        }
-        .μέλος:hover { border-bottom-color: var(--νέον); background: #080808; }
-        .μέλος h4 { font-size: 1.6rem; margin-bottom: 0.5rem; color: var(--νέον); font-weight: 800; }
-        .μέλος span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3em; color: #555; font-weight: 700; }
-
-        /* Εφέ Εμφάνισης */
-        .αποκάλυψη { opacity: 0; transform: translateY(60px); transition: 1.2s var(--ρυθμός); }
-        .αποκάλυψη.ενεργή { opacity: 1; transform: translateY(0); }
-
-        footer { padding: 25vh 0 15vh 0; }
-        .τελικό-κάλεσμα { 
-            font-size: clamp(2.5rem, 8vw, 6.5rem); font-weight: 900; 
-            letter-spacing: -0.06em; line-height: 0.85; margin-bottom: 5rem;
-        }
-    </style>
+    /* ΑΠΟΚΡΙΣΗ */
+    @media(max-width:1024px){#hero .wrap{grid-template-columns:1fr}.ήρ-δε{display:none}#τεχνικές .επκ-σρ,.μηχ-κεφ{grid-template-columns:1fr}}
+    @media(max-width:900px){.αλ-πλέγμα{grid-template-columns:1fr}.ομ-πλ{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.ομ-πλ{grid-template-columns:1fr 1fr}.τ-κεφ{grid-template-columns:40px 1fr}.τ-ετικ{display:none}}
+  </style>
 </head>
 <body>
+  <div id="πρόοδος"></div>
+  <div id="δτ"></div>
+  <div id="δκ"></div>
 
-    <div id="δείκτης"></div>
+  <nav id="πλοήγηση">
+    <div class="ν-ταυτ"><div class="ν-παλμ"></div><span class="ν-όνομ">Νίκος Πελετιέ</span></div>
+    <span class="ν-κατ">Εμπιστευτικό Έγγραφο · 2026</span>
+  </nav>
 
-    <svg id="svg-στρώμα">
-        <path id="γραμμή-ενέργειας" d="" />
-    </svg>
-
-    <div class="περιέκτης">
-        <!-- Κεφαλή -->
-        <section>
-            <div class="αποκάλυψη">
-                <span class="σήμα">Νίκος Πελετιέ</span>
-                <h1>Κατασκευάζω<br>Ψηφιακή<br><span style="color:var(--νέον)">Αυτοκρατορία.</span></h1>
-                <p>Δεν αγοράζω την προσοχή των ανθρώπων. Την επιβάλλω. <br><span class="λευκό">Σχεδιάζω τη στρατηγική κυριαρχία για ηγέτες και brands που αρνούνται να είναι δεύτεροι.</span></p>
-            </div>
-        </section>
-
-        <!-- Στρατηγική Υπεροχή -->
-        <section>
-            <span class="σήμα αποκάλυψη">Η Αποστολή</span>
-            <h2 class="αποκάλυψη">Στρατηγική Επιβολής</h2>
-            <div class="πλέγμα-υπηρεσιών">
-                <div class="κάρτα αποκάλυψη">
-                    <h3>Πολιτική Κυριαρχία</h3>
-                    <p>Μετατρέπουμε το πολιτικό όραμα σε αδιαφιλονίκητη κοινωνική τάση. Σχεδιάζουμε την εικόνα του ηγέτη που η μάζα δεν μπορεί παρά να ακολουθήσει.</p>
-                </div>
-                <div class="κάρτα αποκάλυψη">
-                    <h3>Εταιρική Ηγεμονία</h3>
-                    <p>Τοποθετούμε το brand σας στην κορυφή της ιεραρχίας. Καταλαμβάνουμε τον εσωτερικό διάλογο του καταναλωτή, καθιστώντας τον ανταγωνισμό αόρατο.</p>
-                </div>
-                <div class="κάρτα αποκάλυψη">
-                    <h3>Ψυχολογικός Πόλεμος</h3>
-                    <p>Χρησιμοποιούμε προηγμένους αλγορίθμους προσοχής για να διεισδύσουμε στο υποσυνείδητο της αγοράς. Δημιουργούμε ανάγκες εκεί που δεν υπήρχαν.</p>
-                </div>
-                <div class="κάρτα αποκάλυψη">
-                    <h3>Διαχείριση Κύρους</h3>
-                    <p>Προστατεύουμε και ενισχύουμε την επιρροή σας σε περιόδους κρίσης, μετατρέποντας κάθε πρόκληση σε απόδειξη ανωτερότητας.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Η Ομάδα (6 Επίλεκτοι) -->
-        <section>
-            <span class="σήμα αποκάλυψη">Η Δομή</span>
-            <h2 class="αποκάλυψη">Η Ομάδα.</h2>
-            <div class="πλέγμα-ομάδας αποκάλυψη">
-                <div class="μέλος">
-                    <h4>AΡΧΩΝ</h4>
-                    <span>Στρατηγικός Διοικητής</span>
-                </div>
-                <div class="μέλος">
-                    <h4>KΩΔΙΚΑΣ</h4>
-                    <span>Μηχανικός Αλγορίθμων</span>
-                </div>
-                <div class="μέλος">
-                    <h4>OΠΤΙΚΟΣ</h4>
-                    <span>Αρχιτέκτονας Εικόνας</span>
-                </div>
-                <div class="μέλος">
-                    <h4>ΠΑΛΜΟΣ</h4>
-                    <span>Ανιχνευτής Κοινωνικών Τάσεων</span>
-                </div>
-                <div class="μέλος">
-                    <h4>ΣΚΙΑ</h4>
-                    <span>Διεισδυτής Media</span>
-                </div>
-                <div class="μέλος">
-                    <h4>ΑΠΕΞ</h4>
-                    <span>Ψυχολόγος Μάζας</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- Τέλος -->
-        <footer>
-            <div class="αποκάλυψη">
-                <h2 class="τελικό-κάλεσμα">Η προσοχή είναι<br>η μόνη αξία.<br><span style="color:var(--νέον)">Ποιος την κατέχει;</span></h2>
-                <div style="margin-top: 3rem; font-family: monospace; color: var(--νέον); font-size: 1.4rem; letter-spacing: 0.5em;">
-                    // ΕΤΟΙΜΟΤΗΤΑ_ΣΥΝΔΕΣΗΣ_
-                </div>
-            </div>
-        </footer>
+  <section id="hero">
+    <div class="wrap">
+      <div class="ήρ-αρ">
+        <div class="ήρ-ετικ"><span class="γρ-μπ"></span><span class="εκφ μπχρ">Αρχιτέκτονας Προσοχής</span></div>
+        <h1 class="ήρ-τιτλ">Η αγορά δεν<br><em>θυμάται</em><br>τους <span class="υπογρ">καλούς.</span></h1>
+        <p class="ήρ-υποτ">Ο Νίκος Πελετιέ δεν φτιάχνει διαφημίσεις. <strong>Σχεδιάζει πολιτισμικές στιγμές που η αγορά αδυνατεί να αγνοήσει.</strong> Κάθε κίνηση υπολογίζεται με ακρίβεια. Κάθε αντίδραση προβλέπεται. Το αποτέλεσμα δεν είναι τύχη — είναι αρχιτεκτονική.</p>
+        <div class="ήρ-αρχ">
+          <div class="αρχή αλ"><div class="αρχή-κ">Αφήγηση</div><p class="αρχή-π">Ελέγχουμε ποια ιστορία λέει η αγορά για εσάς — πριν την πει κανείς άλλος.</p></div>
+          <div class="αρχή αλ"><div class="αρχή-κ">Χρονισμός</div><p class="αρχή-π">Η σωστή κίνηση τη λάθος στιγμή είναι θόρυβος. Η σωστή κίνηση τη σωστή στιγμή είναι ιστορία.</p></div>
+          <div class="αρχή αλ"><div class="αρχή-κ">Επιρροή</div><p class="αρχή-π">Δεν αγοράζουμε προσοχή. Την αρχιτεκτονούμε ώστε να έρχεται μόνη της.</p></div>
+        </div>
+      </div>
+      <div class="ήρ-δε"><canvas id="ραντάρ-καμβάς"></canvas></div>
     </div>
+    <div class="ήρ-φκ" aria-hidden="true">ΝΠ</div>
+  </section>
 
-    <script>
-        // Δείκτης
-        const δείκτης = document.getElementById('δείκτης');
-        document.addEventListener('mousemove', e => {
-            δείκτης.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        });
+  <div id="ταινία" aria-hidden="true">
+    <div class="τ-εσ"><div class="τ-τρ">
+      <span>Χαρτογράφηση Αγοράς</span><span class="τ-δ">·</span><span>Αρχιτεκτονική Αφήγησης</span><span class="τ-δ">·</span><span>Ιογενής Σχεδιασμός</span><span class="τ-δ">·</span><span>Πολιτισμικός Χρονισμός</span><span class="τ-δ">·</span><span>Ενίσχυση Σήματος</span><span class="τ-δ">·</span><span>Στρατηγική Σπανιότητα</span><span class="τ-δ">·</span><span>Ελεγχόμενη Αντιπαράθεση</span><span class="τ-δ">·</span><span>Διακοπή Αφήγησης</span><span class="τ-δ">·</span>
+      <span>Χαρτογράφηση Αγοράς</span><span class="τ-δ">·</span><span>Αρχιτεκτονική Αφήγησης</span><span class="τ-δ">·</span><span>Ιογενής Σχεδιασμός</span><span class="τ-δ">·</span><span>Πολιτισμικός Χρονισμός</span><span class="τ-δ">·</span><span>Ενίσχυση Σήματος</span><span class="τ-δ">·</span><span>Στρατηγική Σπανιότητα</span><span class="τ-δ">·</span><span>Ελεγχόμενη Αντιπαράθεση</span><span class="τ-δ">·</span><span>Διακοπή Αφήγησης</span><span class="τ-δ">·</span>
+    </div></div>
+  </div>
 
-        // Αποκάλυψη Στοιχείων
-        const παρατηρητής = new IntersectionObserver((εγγραφές) => {
-            εγγραφές.forEach(ε => {
-                if (ε.isIntersecting) ε.target.classList.add('ενεργή');
-            });
-        }, { threshold: 0.15 });
+  <section id="τεχνικές">
+    <div class="wrap">
+      <div class="επκ-σρ α">
+        <div>
+          <div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">02 — Τεχνικές Συνεργασίας</span></div>
+          <h2 class="εν-τιτλ">Πώς δουλεύουμε<br><em>μαζί.</em></h2>
+        </div>
+        <p class="εν-εισ">Πέντε μεθοδολογίες που εφαρμόζονται σε κάθε συνεργασία — με συγκεκριμένη σειρά, συγκεκριμένο σκοπό και <strong>μετρήσιμο αποτέλεσμα σε κάθε στάδιο.</strong></p>
+      </div>
+      <div class="τ-λίστα α α2">
 
-        document.querySelectorAll('.αποκάλυψη').forEach(στοιχείο => παρατηρητής.observe(στοιχείο));
+        <div class="τ-στ αλ">
+          <div class="τ-κεφ"><span class="τ-αρ">01</span><h3 class="τ-τιτλ-κ">Χαρτογράφηση <em>Πολιτισμικής Τριβής</em></h3><span class="τ-ετικ">Ανάλυση Αγοράς</span></div>
+          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
+            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Αναλύουμε τον κλάδο για να εντοπίσουμε τα σημεία όπου η αγορά αισθάνεται ανεκπλήρωτη — τις παραδοχές που κανείς δεν έχει τολμήσει να αμφισβητήσει και τα κενά που κανείς δεν έχει αποφασίσει να γεμίσει.</p></div>
+            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Χάρτης τριβής</strong> με τα τρία κρίσιμα κενά της αγοράς σας και αξιολόγηση ποιο από αυτά μπορεί να γίνει το θεμέλιο της επόμενης κίνησής σας.</p></div>
+          </div><div class="τ-αποτ">↑ Στρατηγική Ευκρίνεια · ↑ Ανταγωνιστικό Πλεονέκτημα</div></div>
+        </div>
 
-        // Η Νευρωνική Γραμμή - Marketing Genius Logic
-        const γραμμή = document.getElementById('γραμμή-ενέργειας');
-        
-        function υπολογισμόςΔιαδρομής() {
-            const ύψος = document.body.scrollHeight;
-            const πλάτος = window.innerWidth;
-            const βήματα = 14; 
-            const ύψοςΒήματος = ύψος / βήματα;
-            
-            // Ξεκινάει από την κορυφή δεξιά
-            let d = `M ${πλάτος * 0.92} 0`;
-            
-            for (let i = 1; i <= βήματα; i++) {
-                const x = i % 2 === 0 ? πλάτος * 0.92 : πλάτος * 0.08;
-                const y = ύψοςΒήματος * i;
-                const προηγX = (i-1) % 2 === 0 ? πλάτος * 0.92 : πλάτος * 0.08;
-                const προηγY = ύψοςΒήματος * (i-1);
-                
-                // Ομαλή καμπύλη Bezier για Marketing Genius αισθητική
-                d += ` C ${προηγX} ${προηγY + ύψοςΒήματος/2.5}, ${x} ${y - ύψοςΒήματος/2.5}, ${x} ${y}`;
-            }
-            
-            γραμμή.setAttribute('d', d);
-            const μήκος = γραμμή.getTotalLength();
-            γραμμή.style.strokeDasharray = μήκος;
-            γραμμή.style.strokeDashoffset = μήκος;
-        }
+        <div class="τ-στ αλ">
+          <div class="τ-κεφ"><span class="τ-αρ">02</span><h3 class="τ-τιτλ-κ">Αρχιτεκτονική <em>Αφήγησης</em></h3><span class="τ-ετικ">Κατασκευή Ταυτότητας</span></div>
+          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
+            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Κατασκευάζουμε την κεντρική αφήγηση που θα ορίζει τον τρόπο με τον οποίο η αγορά μιλά για εσάς. Δεν πρόκειται για σλόγκαν — πρόκειται για τη δομή της ιστορίας που θα αναπαράγεται χωρίς να το ζητάτε.</p></div>
+            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Αφηγηματικό πλαίσιο</strong> με τον κεντρικό μύθο της εμπορικής σας ταυτότητας, τους ρόλους που παίζουν οι ανταγωνιστές και τον τρόπο που κάθε επικοινωνία ενισχύει το πλαίσιο.</p></div>
+          </div><div class="τ-αποτ">↑ Συνοχή Επικοινωνίας · ↑ Αναγνωρισιμότητα Ταυτότητας</div></div>
+        </div>
 
-        window.addEventListener('scroll', () => {
-            const μέγιστοScroll = document.body.scrollHeight - window.innerHeight;
-            const ποσοστό = window.pageYOffset / μέγιστοScroll;
-            const μήκος = γραμμή.getTotalLength();
-            // Η γραμμή σχεδιάζεται ομαλά καθώς κατεβαίνουμε
-            γραμμή.style.strokeDashoffset = μήκος - (μήκος * ποσοστό * 1.05);
-        });
+        <div class="τ-στ αλ">
+          <div class="τ-κεφ"><span class="τ-αρ">03</span><h3 class="τ-τιτλ-κ">Σχεδιασμός <em>Πολιτισμικής Παρέμβασης</em></h3><span class="τ-ετικ">Στρατηγική Ενέργειας</span></div>
+          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
+            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Σχεδιάζουμε συγκεκριμένες ενέργειες — εκδηλώσεις, αντικείμενα, στιγμές επικοινωνίας — που εισάγουν την εμπορική σας ταυτότητα σε ζωντανές συνομιλίες με τρόπο που αισθάνεται οργανικός, όχι διαφημιστικός.</p></div>
+            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Σχέδιο παρέμβασης</strong> με χρονοδιάγραμμα, ρόλους εκτέλεσης και κριτήρια επιτυχίας για κάθε στιγμή που επιλέγουμε να ενεργοποιήσουμε.</p></div>
+          </div><div class="τ-αποτ">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Παρουσία</div></div>
+        </div>
 
-        window.addEventListener('resize', υπολογισμόςΔιαδρομής);
-        window.onload = υπολογισμόςΔιαδρομής;
-    </script>
+        <div class="τ-στ αλ">
+          <div class="τ-κεφ"><span class="τ-αρ">04</span><h3 class="τ-τιτλ-κ">Χαρτογράφηση <em>Δικτύου Επιρροής</em></h3><span class="τ-ετικ">Ανάπτυξη Σήματος</span></div>
+          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
+            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Εντοπίζουμε τους κρίσιμους κόμβους επιρροής στον κλάδο σας — τα πρόσωπα, τις κοινότητες και τα κανάλια που πραγματικά κινούν την αγορά — και σχεδιάζουμε πώς το μήνυμά σας θα αναπτυχθεί μέσα σε αυτά με ακρίβεια.</p></div>
+            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Χάρτης δικτύου</strong> με τους σημαντικότερους κόμβους επιρροής για την κατηγορία σας και στρατηγική άμεσης εμπλοκής για κάθε έναν.</p></div>
+          </div><div class="τ-αποτ">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Διάδοσης</div></div>
+        </div>
+
+        <div class="τ-στ αλ">
+          <div class="τ-κεφ"><span class="τ-αρ">05</span><h3 class="τ-τιτλ-κ">Αξιολόγηση <em>Πολιτισμικής Εγκατάστασης</em></h3><span class="τ-ετικ">Μέτρηση Αντίκτυπου</span></div>
+          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
+            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Αξιολογούμε αν η εμπορική ταυτότητα έχει καταφέρει να εγκατασταθεί στη μνήμη και στη συνομιλία της αγοράς — όχι μόνο μέσα από αριθμούς, αλλά μέσα από ποιοτικές ενδείξεις πολιτισμικής παρουσίας.</p></div>
+            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Αναφορά εγκατάστασης</strong> με ποιοτική και ποσοτική αξιολόγηση της παρουσίας σας στη συνείδηση της αγοράς και συστάσεις για την επόμενη φάση.</p></div>
+          </div><div class="τ-αποτ">↑ Ορατότητα Αποτελεσμάτων · ↑ Βελτιστοποίηση Στρατηγικής</div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="διαχ"></div>
+
+  <section id="αλήθειες">
+    <div class="wrap">
+      <div class="εν-κεφ α" style="margin-bottom:clamp(32px,5vw,54px)"><span class="εν-γρ"></span><span class="εκφ μπχρ">Γιατί λειτουργεί</span></div>
+      <div class="αλ-πλέγμα α α2">
+        <div class="αλ-στ αλ"><p class="αλ-φρ">«Δεν αγοράζουμε προϊόντα.<br>Αγοράζουμε <em>ταυτότητες.</em>»</p><p class="αλ-εξ">Κάθε αγοραστική απόφαση είναι πρώτα συναισθηματική και μετά ορθολογική. Ο σχεδιασμός που αγνοεί αυτό δεν είναι στρατηγική — είναι απλώς θόρυβος.</p><div class="αλ-γρ"></div></div>
+        <div class="αλ-στ αλ"><p class="αλ-φρ">«Η <em>εμπιστοσύνη</em> χτίζεται<br>με αυτά που δεν λες.»</p><p class="αλ-εξ">Οι εμπορικές ταυτότητες που εξηγούν υπερβολικά πολλά, δικαιολογούνται. Αυτές που δεν εξηγούν, προκαλούν. Η στρατηγική σιωπή είναι ένα από τα πιο υποτιμημένα εργαλεία επικοινωνίας.</p><div class="αλ-γρ"></div></div>
+        <div class="αλ-στ αλ"><p class="αλ-φρ">«Η <em>προσοχή</em> είναι<br>το νέο νόμισμα.»</p><p class="αλ-εξ">Δεν υπάρχει ανταγωνισμός κατηγορίας. Υπάρχει μόνο ανταγωνισμός για τη στιγμή που κάποιος αποφασίζει τι θυμάται. Αυτή τη στιγμή τη σχεδιάζουμε εμείς.</p><div class="αλ-γρ"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="μηχανική">
+    <div class="wrap">
+      <div class="μηχ-κεφ α">
+        <div><div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">03 — Μηχανική Προσοχής</span></div><h2 class="εν-τιτλ">Οι μοχλοί<br>της <em>επιρροής.</em></h2></div>
+        <p class="μηχ-εισ">Έξι μηχανισμοί που εφαρμόζονται σε κάθε έργο. Λειτουργούν ανεξάρτητα από κλάδο ή αγορά — γιατί βασίζονται στον τρόπο που λειτουργεί η ανθρώπινη προσοχή, όχι στις τάσεις της εποχής.</p>
+      </div>
+      <div class="μηχ-λίστα">
+        <div class="μηχ α α1"><div class="μηχ-ρωμ">Ι.</div><h3 class="μηχ-όν"><em>Διακοπή</em> Αφήγησης</h3><p class="μηχ-κ">Κάθε κλάδος έχει ένα αποδεκτό σενάριο. Εντοπίζουμε την ανεκπλήρωτη υπόσχεση μέσα σε αυτό και σχεδιάζουμε μια αντίφαση τόσο ακριβή που δεν μπορεί να αγνοηθεί. Δεν κάνουμε κραυγή — κάνουμε χειρουργική τομή.</p><div class="μηχ-απ">↑ Εξουσία Κατηγορίας · ↑ Εύρος Ταυτότητας</div></div>
+        <div class="μηχ α α2"><div class="μηχ-ρωμ">ΙΙ.</div><h3 class="μηχ-όν">Ελεγχόμενη <em>Αντιπαράθεση</em></h3><p class="μηχ-κ">Η αντιπαράθεση είναι εργαλείο ακριβείας, όχι χειροβομβίδα. Σχεδιάζουμε τον ακριβή βαθμό τριβής που γεννά συζήτηση χωρίς να προκαλεί αντίδραση — ένα χιλιοστό πίσω από τη γραμμή που δεν διασχίζεις.</p><div class="μηχ-απ">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Σχετικότητα</div></div>
+        <div class="μηχ α α3"><div class="μηχ-ρωμ">ΙΙΙ.</div><h3 class="μηχ-όν">Στρατηγική <em>Σπανιότητα</em></h3><p class="μηχ-κ">Η απρόσιτη κατάσταση αναδιαμορφώνει την επιθυμία. Σχεδιάζουμε συστήματα πρόσβασης — λίστες αναμονής, δομές πρόσκλησης, γεωγραφικοί αποκλεισμοί — που μετατρέπουν την απόκτηση σε σήμα κοινωνικού κύρους.</p><div class="μηχ-απ">↑ Αντιλαμβανόμενη Αξία · ↑ Οργανική Ενίσχυση</div></div>
+        <div class="μηχ α α4"><div class="μηχ-ρωμ">ΙV.</div><h3 class="μηχ-όν">Πολιτισμικός <em>Χρονισμός</em></h3><p class="μηχ-κ">Το ίδιο μήνυμα αποδίδει πολλαπλάσια όταν αναπτύσσεται στο σωστό συναισθηματικό παράθυρο. Διατηρούμε συνεχή παρακολούθηση πολιτισμικών σημάτων για να γνωρίζουμε πότε η αγορά είναι έτοιμη να ακούσει.</p><div class="μηχ-απ">↑ Απήχηση Μηνύματος · ↑ Πολιτισμική Μνήμη</div></div>
+        <div class="μηχ α α1"><div class="μηχ-ρωμ">V.</div><h3 class="μηχ-όν">Ιογενής <em>Σχεδιασμός</em></h3><p class="μηχ-κ">Οι ιδέες εξαπλώνονται όταν περιέχουν εγγενή ανάγκη αναπαραγωγής — ένα κενό που θέλεις να γεμίσεις, μια ερώτηση που δεν αντέχεις να μη θέσεις. Ενσωματώνουμε αυτό στη δομή κάθε καμπάνιας.</p><div class="μηχ-απ">↑ Οργανική Εμβέλεια · ↑ Σχηματισμός Κοινότητας</div></div>
+        <div class="μηχ α α2"><div class="μηχ-ρωμ">VΙ.</div><h3 class="μηχ-όν">Ενίσχυση <em>Σήματος</em></h3><p class="μηχ-κ">Ένα σήμα στο σωστό δίκτυο αξίζει περισσότερο από εκατομμύρια εμφανίσεις στο λάθος. Χαρτογραφούμε την αρχιτεκτονική επιρροής στον κλάδο σας και αναπτύσσουμε με ακρίβεια στα σημεία που έχουν πραγματικό βάρος.</p><div class="μηχ-απ">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Μετατροπής</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="διαχ"></div>
+
+  <section id="ομάδα">
+    <div class="wrap">
+      <div class="ομ-κεφ α">
+        <div><div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">04 — Η Μονάδα</span></div><h2 class="εν-τιτλ">Οκτώ μυαλά.<br><em>Ένας</em> στόχος.</h2></div>
+        <span class="ομ-σύν">08 Ειδικοί</span>
+      </div>
+      <div class="ομ-πλ α α2">
+        <div class="μέλ αλ"><div class="μ-αρ">01</div><div class="μ-ψευ">Αρχιτέκτονας</div><div class="μ-ρόλ">Ιογενής Αρχιτεκτονική</div><p class="μ-πε">Σχεδιάζει τη δομική λογική κάθε καμπάνιας. Αν δεν υπάρχει μηχανισμός που κάνει τον κόσμο να μοιράζεται, δεν βγαίνει τίποτα έξω.</p></div>
+        <div class="μέλ αλ"><div class="μ-αρ">02</div><div class="μ-ψευ">Κρυπτογράφος</div><div class="μ-ρόλ">Μηχανικός Αφήγησης</div><p class="μ-πε">Γράφει ιστορίες εμπορικής ταυτότητας με ακρίβεια σεναριογράφου και ταχύτητα ρεπόρτερ. Τα λόγια που παραμένουν δεν είναι τυχαία.</p></div>
+        <div class="μέλ αλ"><div class="μ-αρ">03</div><div class="μ-ψευ">Ανιχνευτής</div><div class="μ-ρόλ">Ανάγνωση Πολιτισμού</div><p class="μ-πε">Ζει μέσα στις υποκουλτούρες. Εντοπίζει τι θα γίνει κυρίαρχο ρεύμα μήνες πριν το δει κανείς άλλος.</p></div>
+        <div class="μέλ αλ"><div class="μ-αρ">04</div><div class="μ-ψευ">Πρίσμα</div><div class="μ-ρόλ">Οπτική Διεύθυνση</div><p class="μ-πε">Δημιουργεί οπτικές γλώσσες που αισθάνονται αναπόφευκτες. Ένα καλό οπτικό δεν εξηγεί — αποκαλύπτει.</p></div>
+        <div class="μέλ αλ"><div class="μ-αρ">05</div><div class="μ-ψευ">Σήμα</div><div class="μ-ρόλ">Ανάλυση Δεδομένων</div><p class="μ-πε">Μετατρέπει δεδομένα σε ενστικτώδεις αποφάσεις. Γνωρίζει ποιο κοινό είναι έτοιμο, ποιο μήνυμα θα ανάψει και πότε ακριβώς να κινηθεί.</p></div>
+        <div class="μέλ αλ"><div class="μ-αρ">06</div><div class="μ-ψευ">Χειριστής</div><div class="μ-ρόλ">Στρατηγική Διανομής</div><p class="μ-πε">Αναπτύσσει υλικό μέσα από τα σωστά κανάλια, τη σωστή στιγμή. Η διανομή δεν είναι εφοδιαστική — είναι στρατηγική επιλογή.</p></div>
+        <div class="μέλ αλ"><div class="μ-αρ">07</div><div class="μ-ψευ">Σκιά</div><div class="μ-ρόλ">Διείσδυση Δικτύων</div><p class="μ-πε">Κινείται σε δίκτυα που δεν ξέρεις ότι υπάρχουν. Φυτεύει ιδέες σε συνομιλίες και χώρους που δεν φτάνεις με καμία διαφήμιση.</p></div>
+        <div class="μέλ αλ"><div class="μ-αρ">08</div><div class="μ-ψευ">Φορέας</div><div class="μ-ρόλ">Στρατηγικές Συμφωνίες</div><p class="μ-πε">Μετατρέπει τη δυναμική σε συμφωνίες. Γνωρίζει πότε να πιέσει, πότε να σιωπήσει και ποια πρόταση κλείνει μια συνεργασία.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="διαχ"></div>
+
+  <section id="κλείσιμο">
+    <div class="wrap">
+      <div class="κλ-εσ">
+        <div class="α"><div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">05 — Η Φιλοσοφία</span></div></div>
+        <h2 class="κλ-τιτ α α2">Δεν χτίζουμε<br><em>καμπάνιες.</em><br>Χτίζουμε αλήθειες.</h2>
+        <p class="κλ-κ α α3">Τα σημαντικότερα εμπορικά σήματα του κόσμου δεν κυνηγούν την προσοχή. <strong>Την ορίζουν.</strong> Κατανοούν ότι κάθε πολιτισμική στιγμή που δεν σχεδίασαν οι ίδιοι, τη σχεδίασε κάποιος άλλος εναντίον τους. Δεν υπάρχει ουδετερότητα: ή κινείς τη συνομιλία — ή είσαι μέρος του φόντου.</p>
+        <p class="κλ-κ α α4" style="margin-top:20px;">Αυτό κάνουμε: <strong>σχεδιάζουμε την αναπόφευκτη παρουσία της εμπορικής σας ταυτότητας στις συνομιλίες που έχουν σημασία</strong> — πριν, κατά τη διάρκεια και μετά την αγοραστική απόφαση. Όχι με προϋπολογισμό. Με αρχιτεκτονική.</p>
+        <div class="κλ-τέλ α α5"><span class="κλ-υπγ">Νίκος Πελετιέ</span><span class="κλ-γρ"></span><span class="κλ-επ">Αρχιτέκτονας Προσοχής · 2026</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Νίκος Πελετιέ</span>
+    <span><span class="υπ-τ"></span>Εμπιστευτικό Έγγραφο · Σχεδιασμένο για αντίκτυπο</span>
+  </footer>
+
+  <script>
+  (function(){
+    const δτ=document.getElementById('δτ'),δκ=document.getElementById('δκ');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;δτ.style.left=mx+'px';δτ.style.top=my+'px';});
+    (function κ(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;δκ.style.left=rx+'px';δκ.style.top=ry+'px';requestAnimationFrame(κ);})();
+    document.addEventListener('mouseleave',()=>{δτ.style.opacity='0';δκ.style.opacity='0';});
+    document.addEventListener('mouseenter',()=>{δτ.style.opacity='1';δκ.style.opacity='1';});
+
+    const πλ=document.getElementById('πλοήγηση');
+    window.addEventListener('scroll',()=>πλ.classList.toggle('κύλ',scrollY>40),{passive:true});
+
+    const πρ=document.getElementById('πρόοδος');
+    window.addEventListener('scroll',()=>{πρ.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
+
+    const παρ=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('ε');παρ.unobserve(e.target);}});},{threshold:.07});
+    document.querySelectorAll('.α').forEach(el=>παρ.observe(el));
+
+    /* ΡΑΝΤΆΡ ΣΗΜΑΤΟΣ */
+    const καμ=document.getElementById('ραντάρ-καμβάς');
+    if(!καμ)return;
+    const ctx=καμ.getContext('2d');
+
+    function αλλ(){
+      const δ=Math.min(καμ.parentElement.offsetWidth,440);
+      καμ.width=δ;καμ.height=δ;
+    }
+    αλλ();
+    window.addEventListener('resize',αλλ,{passive:true});
+
+    const σήματα=[];
+    const ΜΕΓΣ=16;
+
+    function νέοΣ(){
+      return{γ:Math.random()*Math.PI*2,απ:Math.random()*.78+.12,α:0,φ:'εμφ',ζ:0,δ:Math.random()*130+70};
+    }
+
+    function ζωγρ(){
+      const Κ=καμ.width/2,Α=Κ,Ρ=Κ*.88;
+      ctx.clearRect(0,0,καμ.width,καμ.height);
+
+      /* Φόντο */
+      ctx.beginPath();ctx.arc(Κ,Α,Ρ,0,Math.PI*2);
+      ctx.fillStyle='rgba(2,8,12,.9)';ctx.fill();
+
+      /* Ομόκεντροι κύκλοι */
+      [.25,.5,.75,1].forEach(π=>{
+        ctx.beginPath();ctx.arc(Κ,Α,Ρ*π,0,Math.PI*2);
+        ctx.strokeStyle=π===1?'rgba(0,243,255,.22)':'rgba(0,243,255,.07)';
+        ctx.lineWidth=π===1?1:.6;ctx.stroke();
+      });
+
+      /* Σταυρόνημα */
+      ctx.strokeStyle='rgba(0,243,255,.06)';ctx.lineWidth=.5;
+      ctx.beginPath();ctx.moveTo(Κ-Ρ,Α);ctx.lineTo(Κ+Ρ,Α);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(Κ,Α-Ρ);ctx.lineTo(Κ,Α+Ρ);ctx.stroke();
+
+      /* Ωρολογιακές ενδείξεις */
+      for(let ι=0;ι<24;ι++){
+        const θ=ι*(Math.PI*2/24);
+        const μ=ι%6===0?0.88:0.92;
+        ctx.beginPath();
+        ctx.moveTo(Κ+Math.cos(θ)*Ρ*μ,Α+Math.sin(θ)*Ρ*μ);
+        ctx.lineTo(Κ+Math.cos(θ)*Ρ,Α+Math.sin(θ)*Ρ);
+        ctx.strokeStyle=ι%6===0?'rgba(0,243,255,.3)':'rgba(0,243,255,.12)';
+        ctx.lineWidth=ι%6===0?1:.5;ctx.stroke();
+      }
+
+      /* Ετικέτες αποστάσεων */
+      ctx.font=`${Κ*.055}px 'DM Mono',monospace`;
+      ctx.fillStyle='rgba(0,243,255,.2)';ctx.textAlign='center';
+      ['25','50','75'].forEach((ε,ι)=>{
+        ctx.fillText(ε,Κ+4,Α-(Ρ*(.25*(ι+1)))-5);
+      });
+
+      /* Δέσμη σάρωσης */
+      const τ=Date.now()/1000;
+      const θσ=(τ*.6)%(Math.PI*2);
+
+      /* Ουρά φωτός */
+      const ΟΥΡΑ=Math.PI*.65;
+      const βήμ=ΟΥΡΑ/80;
+      for(let ι=0;ι<80;ι++){
+        const θτ=θσ-ι*βήμ;
+        const α=(1-ι/80)*.16;
+        ctx.beginPath();
+        ctx.moveTo(Κ,Α);
+        ctx.arc(Κ,Α,Ρ*.86,θτ-βήμ,θτ);
+        ctx.closePath();
+        ctx.fillStyle=`rgba(0,243,255,${α})`;
+        ctx.fill();
+      }
+
+      /* Κύρια δέσμη */
+      ctx.beginPath();
+      ctx.moveTo(Κ,Α);
+      ctx.lineTo(Κ+Math.cos(θσ)*Ρ*.86,Α+Math.sin(θσ)*Ρ*.86);
+      ctx.strokeStyle='rgba(0,243,255,.9)';ctx.lineWidth=1.5;
+      ctx.shadowBlur=14;ctx.shadowColor='rgba(0,243,255,.9)';
+      ctx.stroke();ctx.shadowBlur=0;
+
+      /* Σήματα */
+      for(let ι=σήματα.length-1;ι>=0;ι--){
+        const σ=σήματα[ι];σ.ζ++;
+        if(σ.φ==='εμφ'){σ.α=Math.min(σ.α+.07,1);if(σ.α>=1)σ.φ='σταθ';}
+        else if(σ.φ==='σταθ'){if(σ.ζ>σ.δ)σ.φ='σβ';}
+        else{σ.α=Math.max(σ.α-.05,0);if(σ.α<=0){σήματα.splice(ι,1);continue;}}
+        const σχ=Κ+Math.cos(σ.γ)*σ.απ*Ρ,σψ=Α+Math.sin(σ.γ)*σ.απ*Ρ;
+        ctx.beginPath();ctx.arc(σχ,σψ,Ρ*.032,0,Math.PI*2);
+        ctx.strokeStyle=`rgba(0,243,255,${σ.α*.45})`;ctx.lineWidth=.8;ctx.stroke();
+        ctx.beginPath();ctx.arc(σχ,σψ,Ρ*.011,0,Math.PI*2);
+        ctx.fillStyle=`rgba(0,243,255,${σ.α})`;
+        ctx.shadowBlur=8;ctx.shadowColor='rgba(0,243,255,.9)';
+        ctx.fill();ctx.shadowBlur=0;
+      }
+      if(Math.random()<.04&&σήματα.length<ΜΕΓΣ){
+        const ν=νέοΣ();ν.γ=θσ+(Math.random()-.5)*.2;σήματα.push(ν);
+      }
+
+      /* Κεντρικός κόμβος */
+      ctx.beginPath();ctx.arc(Κ,Α,Ρ*.055,0,Math.PI*2);
+      ctx.strokeStyle='rgba(0,243,255,.35)';ctx.lineWidth=1;ctx.stroke();
+      ctx.beginPath();ctx.arc(Κ,Α,3,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,243,255,.95)';
+      ctx.shadowBlur=12;ctx.shadowColor='rgba(0,243,255,1)';
+      ctx.fill();ctx.shadowBlur=0;
+
+      /* Ετικέτα */
+      ctx.font=`${Κ*.057}px 'DM Mono',monospace`;
+      ctx.fillStyle='rgba(0,243,255,.25)';ctx.textAlign='left';
+      ctx.fillText('ΣΑΡΩΣΗ ΣΗΜΑΤΟΣ',Κ-Ρ*.88+6,Α+Ρ*.94);
+      ctx.textAlign='right';
+      const ώ=new Date();
+      ctx.fillText(
+        `${String(ώ.getHours()).padStart(2,'0')}:${String(ώ.getMinutes()).padStart(2,'0')}:${String(ώ.getSeconds()).padStart(2,'0')}`,
+        Κ+Ρ*.88-6,Α+Ρ*.94
+      );
+
+      requestAnimationFrame(ζωγρ);
+    }
+    ζωγρ();
+  })();
+  </script>
 </body>
 </html>
