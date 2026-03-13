@@ -321,10 +321,34 @@
   .close-title em { font-style:italic; color:var(--c); text-shadow:0 0 50px rgba(0,243,255,.2); }
   .close-body { font-size:clamp(.96rem,1.35vw,1.1rem); color:var(--d1); line-height:1.88; max-width:58ch; font-weight:300; }
   .close-body strong { color:var(--fg); font-weight:400; }
+
+  /* ── FIX 1: prevent "φόντου" orphan on its own line ── */
+  .no-break { white-space:nowrap; }
+
   .close-sig { margin-top:clamp(40px,6vw,68px); display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
   .sig-name { font-family:var(--F); font-style:italic; font-size:clamp(1.55rem,2.4vw,2.2rem); font-weight:300; letter-spacing:-.01em; }
   .sig-rule { flex:1; max-width:68px; height:1px; background:linear-gradient(90deg,var(--c),transparent); box-shadow:0 0 6px rgba(0,243,255,.2); }
-  .sig-label { font-family:var(--M); font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; color:var(--d2); }
+
+  /* ── FIX 2: "Αρχιτέκτονας Προσοχής" glowing pulse ── */
+  .sig-label {
+    font-family:var(--M); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--c);
+    animation:sig-glow 3.2s ease-in-out infinite;
+  }
+  @keyframes sig-glow {
+    0%,100% {
+      opacity:.5;
+      text-shadow:0 0 6px rgba(0,243,255,.25), 0 0 14px rgba(0,243,255,.08);
+    }
+    50% {
+      opacity:1;
+      text-shadow:
+        0 0 10px rgba(0,243,255,1),
+        0 0 26px rgba(0,243,255,.65),
+        0 0 60px rgba(0,243,255,.28),
+        0 0 120px rgba(0,243,255,.1);
+    }
+  }
 
   /* footer */
   footer { padding:20px var(--pad); border-top:1px solid var(--d3); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; position:relative; z-index:2; }
@@ -358,6 +382,8 @@
     .s-title{font-size:clamp(2.1rem,7.5vw,3.2rem)}
     .close-title{font-size:clamp(2.5rem,9vw,3.8rem)}
     .s-pad{padding:clamp(56px,10vw,120px) 0}
+    .close-sig{flex-direction:column;align-items:flex-start;gap:10px}
+    .sig-rule{display:none}
   }
   @media(max-width:360px){
     .team-grid{grid-template-columns:1fr}
@@ -471,11 +497,11 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Εντοπίζουμε τα σημεία όπου η αγορά αισθάνεται ανεκπλήρωτη — τις παραδοχές που κανείς δεν έχει τολμήσει να αμφισβητήσει.</p>
+            <p class="tech-col-v">Εντοπίζουμε τα σημεία όπου η αγορά αισθάνεται ανεκπλήρωτη — τις παραδοχές που κανείς δεν έχει τολμήσει να αμφισβητήσει και τα κενά που παραμένουν αναξιοποίητα.</p>
           </div>
           <div class="tech-col">
             <div class="tech-col-k">Αποτέλεσμα</div>
-            <p class="tech-col-v"><strong>Χάρτης τριβής</strong> με τα τρία κρίσιμα κενά της αγοράς σας και αξιολόγηση ποιο γίνεται η επόμενη κίνησή σας.</p>
+            <p class="tech-col-v"><strong>Χάρτης τριβής</strong> με τα τρία κρίσιμα κενά της αγοράς σας και αξιολόγηση ποιο από αυτά γίνεται το θεμέλιο της επόμενης κίνησής σας.</p>
           </div>
           <div class="tech-result">↑ Στρατηγική Ευκρίνεια · ↑ Ανταγωνιστικό Πλεονέκτημα</div>
         </div></div></div>
@@ -490,11 +516,11 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Κατασκευάζουμε την κεντρική αφήγηση που ορίζει πώς η αγορά μιλά για εσάς — τη δομή που αναπαράγεται χωρίς να το ζητάτε.</p>
+            <p class="tech-col-v">Κατασκευάζουμε την κεντρική αφήγηση που ορίζει πώς η αγορά μιλά για εσάς — τη δομή που αναπαράγεται αυθόρμητα, χωρίς να το ζητάτε.</p>
           </div>
           <div class="tech-col">
             <div class="tech-col-k">Αποτέλεσμα</div>
-            <p class="tech-col-v"><strong>Αφηγηματικό πλαίσιο</strong> με τον κεντρικό μύθο της ταυτότητάς σας και τον τρόπο που κάθε επικοινωνία το ενισχύει.</p>
+            <p class="tech-col-v"><strong>Αφηγηματικό πλαίσιο</strong> με τον κεντρικό μύθο της ταυτότητάς σας και τον τρόπο που κάθε επικοινωνία τον ενισχύει.</p>
           </div>
           <div class="tech-result">↑ Συνοχή Επικοινωνίας · ↑ Αναγνωρισιμότητα</div>
         </div></div></div>
@@ -513,7 +539,7 @@
           </div>
           <div class="tech-col">
             <div class="tech-col-k">Αποτέλεσμα</div>
-            <p class="tech-col-v"><strong>Σχέδιο παρέμβασης</strong> με χρονοδιάγραμμα, ρόλους εκτέλεσης και κριτήρια επιτυχίας.</p>
+            <p class="tech-col-v"><strong>Σχέδιο παρέμβασης</strong> με χρονοδιάγραμμα, ρόλους εκτέλεσης και κριτήρια επιτυχίας για κάθε στάδιο.</p>
           </div>
           <div class="tech-result">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Παρουσία</div>
         </div></div></div>
@@ -547,11 +573,11 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Μετράμε αν η ταυτότητά σας έχει εγκατασταθεί στη μνήμη και στη συνομιλία της αγοράς.</p>
+            <p class="tech-col-v">Μετράμε αν η ταυτότητά σας έχει εγκατασταθεί στη μνήμη και στη συνομιλία της αγοράς — μέσα από ποιοτικές ενδείξεις πολιτισμικής παρουσίας, όχι μόνο αριθμούς.</p>
           </div>
           <div class="tech-col">
             <div class="tech-col-k">Αποτέλεσμα</div>
-            <p class="tech-col-v"><strong>Αναφορά εγκατάστασης</strong> με ποιοτική και ποσοτική αξιολόγηση της παρουσίας σας στη συνείδηση της αγοράς.</p>
+            <p class="tech-col-v"><strong>Αναφορά εγκατάστασης</strong> με ποιοτική και ποσοτική αξιολόγηση της παρουσίας σας στη συνείδηση της αγοράς και συστάσεις για την επόμενη φάση.</p>
           </div>
           <div class="tech-result">↑ Ορατότητα Αποτελεσμάτων · ↑ Βελτιστοποίηση Στρατηγικής</div>
         </div></div></div>
@@ -600,12 +626,51 @@
       <p class="s-intro">Έξι μηχανισμοί βασισμένοι στον τρόπο που λειτουργεί η ανθρώπινη προσοχή — ανεξάρτητα από κλάδο ή εποχή.</p>
     </div>
     <div class="mech-grid">
-      <div class="mech-card r d1"><div class="mech-rom">Ι.</div><h3 class="mech-title"><em>Διακοπή</em> Αφήγησης</h3><p class="mech-body">Εντοπίζουμε την ανεκπλήρωτη υπόσχεση κάθε κλάδου και σχεδιάζουμε μια αντίφαση τόσο ακριβή που δεν μπορεί να αγνοηθεί. Χειρουργική τομή, όχι κραυγή.</p><div class="mech-out">↑ Εξουσία Κατηγορίας</div></div>
-      <div class="mech-card r d2"><div class="mech-rom">ΙΙ.</div><h3 class="mech-title">Ελεγχόμενη <em>Αντιπαράθεση</em></h3><p class="mech-body">Σχεδιάζουμε τον ακριβή βαθμό τριβής που γεννά συζήτηση χωρίς να προκαλεί αντίδραση. Εργαλείο ακριβείας, όχι χειροβομβίδα.</p><div class="mech-out">↑ Κερδισμένη Προβολή</div></div>
-      <div class="mech-card r d3"><div class="mech-rom">ΙΙΙ.</div><h3 class="mech-title">Στρατηγική <em>Σπανιότητα</em></h3><p class="mech-body">Σχεδιάζουμε συστήματα πρόσβασης που μετατρέπουν την απόκτηση σε σήμα κοινωνικού κύρους.</p><div class="mech-out">↑ Αντιλαμβανόμενη Αξία</div></div>
-      <div class="mech-card r d1"><div class="mech-rom">ΙV.</div><h3 class="mech-title">Πολιτισμικός <em>Χρονισμός</em></h3><p class="mech-body">Το ίδιο μήνυμα αποδίδει πολλαπλάσια στο σωστό συναισθηματικό παράθυρο. Παρακολουθούμε συνεχώς τα πολιτισμικά σήματα.</p><div class="mech-out">↑ Απήχηση Μηνύματος</div></div>
-      <div class="mech-card r d2"><div class="mech-rom">V.</div><h3 class="mech-title">Ιογενής <em>Σχεδιασμός</em></h3><p class="mech-body">Οι ιδέες εξαπλώνονται όταν περιέχουν εγγενή ανάγκη αναπαραγωγής — ένα κενό που θέλεις να γεμίσεις, μια ερώτηση που δεν αντέχεις να μη θέσεις.</p><div class="mech-out">↑ Οργανική Εμβέλεια</div></div>
-      <div class="mech-card r d3"><div class="mech-rom">VΙ.</div><h3 class="mech-title">Ενίσχυση <em>Σήματος</em></h3><p class="mech-body">Ένα σήμα στο σωστό δίκτυο αξίζει περισσότερο από εκατομμύρια εμφανίσεις στο λάθος. Χαρτογραφούμε την αρχιτεκτονική επιρροής στον κλάδο σας.</p><div class="mech-out">↑ Ποιότητα Μετατροπής</div></div>
+
+      <div class="mech-card r d1">
+        <div class="mech-rom">Ι.</div>
+        <h3 class="mech-title"><em>Διακοπή</em> Αφήγησης</h3>
+        <!-- Proofread: cleaner, no odd metaphors -->
+        <p class="mech-body">Εντοπίζουμε την ανεκπλήρωτη υπόσχεση κάθε κλάδου και σχεδιάζουμε μια αντίφαση τόσο ακριβή που δεν μπορεί να αγνοηθεί. Χειρουργική τομή — ποτέ ανεξέλεγκτη κραυγή.</p>
+        <div class="mech-out">↑ Εξουσία Κατηγορίας</div>
+      </div>
+
+      <div class="mech-card r d2">
+        <div class="mech-rom">ΙΙ.</div>
+        <h3 class="mech-title">Ελεγχόμενη <em>Αντιπαράθεση</em></h3>
+        <!-- FIX 3: "χειροβομβίδα" → professional language -->
+        <p class="mech-body">Σχεδιάζουμε τον ακριβή βαθμό τριβής που γεννά συζήτηση χωρίς να προκαλεί αντίδραση. Εργαλείο ακριβείας — ποτέ ανεξέλεγκτη ένταση.</p>
+        <div class="mech-out">↑ Κερδισμένη Προβολή</div>
+      </div>
+
+      <div class="mech-card r d3">
+        <div class="mech-rom">ΙΙΙ.</div>
+        <h3 class="mech-title">Στρατηγική <em>Σπανιότητα</em></h3>
+        <p class="mech-body">Σχεδιάζουμε συστήματα πρόσβασης — λίστες αναμονής, δομές πρόσκλησης, γεωγραφικοί αποκλεισμοί — που μετατρέπουν την απόκτηση σε σήμα κοινωνικού κύρους.</p>
+        <div class="mech-out">↑ Αντιλαμβανόμενη Αξία</div>
+      </div>
+
+      <div class="mech-card r d1">
+        <div class="mech-rom">ΙV.</div>
+        <h3 class="mech-title">Πολιτισμικός <em>Χρονισμός</em></h3>
+        <p class="mech-body">Το ίδιο μήνυμα αποδίδει πολλαπλάσια στο σωστό συναισθηματικό παράθυρο. Παρακολουθούμε συνεχώς τα πολιτισμικά σήματα για να γνωρίζουμε πότε η αγορά είναι έτοιμη να ακούσει.</p>
+        <div class="mech-out">↑ Απήχηση Μηνύματος</div>
+      </div>
+
+      <div class="mech-card r d2">
+        <div class="mech-rom">V.</div>
+        <h3 class="mech-title">Ιογενής <em>Σχεδιασμός</em></h3>
+        <p class="mech-body">Οι ιδέες εξαπλώνονται όταν περιέχουν εγγενή ανάγκη αναπαραγωγής — ένα κενό που θέλεις να γεμίσεις, μια ερώτηση που δεν αντέχεις να αφήσεις αναπάντητη.</p>
+        <div class="mech-out">↑ Οργανική Εμβέλεια</div>
+      </div>
+
+      <div class="mech-card r d3">
+        <div class="mech-rom">VΙ.</div>
+        <h3 class="mech-title">Ενίσχυση <em>Σήματος</em></h3>
+        <p class="mech-body">Ένα σήμα στο σωστό δίκτυο αξίζει περισσότερο από εκατομμύρια εμφανίσεις στο λάθος. Χαρτογραφούμε την αρχιτεκτονική επιρροής στον κλάδο σας και αναπτύσσουμε εκεί που έχει πραγματικό βάρος.</p>
+        <div class="mech-out">↑ Ποιότητα Μετατροπής</div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -629,7 +694,7 @@
         <span class="m-god">Ζευς</span>
         <div class="m-name">Πελετιέ</div>
         <span class="m-role">Στρατηγική &amp; Διεύθυνση</span>
-        <p class="m-desc">Ορίζει την κατεύθυνση κάθε έργου. Μεταφράζει τη φιλοσοφία σε απόφαση.</p>
+        <p class="m-desc">Ορίζει την κατεύθυνση κάθε έργου. Μεταφράζει τη φιλοσοφία σε απόφαση και την απόφαση σε κίνηση.</p>
       </div>
 
       <div class="member">
@@ -645,7 +710,7 @@
         <span class="m-god">Άρτεμις</span>
         <div class="m-name">Ανιχνεύτρια</div>
         <span class="m-role">Ανάγνωση Πολιτισμού</span>
-        <p class="m-desc">Ζει μέσα στις υποκουλτούρες. Εντοπίζει τι θα κυριαρχήσει μήνες πριν το δει κανείς.</p>
+        <p class="m-desc">Ζει μέσα στις υποκουλτούρες. Εντοπίζει τι θα κυριαρχήσει μήνες πριν το δει κανείς άλλος.</p>
       </div>
 
       <div class="member">
@@ -661,7 +726,7 @@
         <span class="m-god">Αθηνά</span>
         <div class="m-name">Αναλύτρια</div>
         <span class="m-role">Στρατηγική Δεδομένων</span>
-        <p class="m-desc">Μετατρέπει δεδομένα σε ενστικτώδεις αποφάσεις. Γνωρίζει ποιο κοινό είναι έτοιμο και πότε να κινηθεί.</p>
+        <p class="m-desc">Μετατρέπει δεδομένα σε ενστικτώδεις αποφάσεις. Γνωρίζει ποιο κοινό είναι έτοιμο και πότε ακριβώς να κινηθεί.</p>
       </div>
 
       <div class="member">
@@ -669,7 +734,7 @@
         <span class="m-god">Ποσειδών</span>
         <div class="m-name">Χειριστής</div>
         <span class="m-role">Στρατηγική Διανομής</span>
-        <p class="m-desc">Αναπτύσσει υλικό μέσα από τα σωστά κανάλια τη σωστή στιγμή. Η διανομή είναι στρατηγική επιλογή.</p>
+        <p class="m-desc">Αναπτύσσει υλικό μέσα από τα σωστά κανάλια τη σωστή στιγμή. Η διανομή είναι στρατηγική επιλογή — όχι εκτέλεση.</p>
       </div>
 
       <div class="member">
@@ -685,7 +750,7 @@
         <span class="m-god">Ήφαιστος</span>
         <div class="m-name">Φορέας</div>
         <span class="m-role">Στρατηγικές Συμφωνίες</span>
-        <p class="m-desc">Κατασκευάζει συμφωνίες με ακρίβεια. Γνωρίζει πότε να πιέσει, πότε να σιωπήσει.</p>
+        <p class="m-desc">Κατασκευάζει συμφωνίες με ακρίβεια. Γνωρίζει πότε να πιέσει, πότε να σιωπήσει και ποια λέξη κλείνει μια συνεργασία.</p>
       </div>
 
     </div>
@@ -704,12 +769,21 @@
         <em>καμπάνιες.</em><br>
         Χτίζουμε αλήθειες.
       </h2>
+      <!--
+        FIX 1: "brands" → "εμπορικά σήματα"
+        FIX 2: last phrase wrapped in .no-break so "φόντου"
+                can never be left alone on its own line
+      -->
       <p class="close-body r d2">
-        Τα σημαντικότερα brands του κόσμου δεν κυνηγούν την προσοχή — <strong>την ορίζουν.</strong>
+        Τα σημαντικότερα εμπορικά σήματα του κόσμου δεν κυνηγούν την προσοχή — <strong>την ορίζουν.</strong>
         Γνωρίζουν ότι κάθε πολιτισμική στιγμή που δεν σχεδίασαν οι ίδιοι,
         τη σχεδίασε κάποιος άλλος εναντίον τους.
-        Ή κινείς τη συνομιλία — ή είσαι <strong>μέρος του φόντου.</strong>
+        Ή κινείς τη συνομιλία — <strong><span class="no-break">ή είσαι μέρος του φόντου.</span></strong>
       </p>
+      <!--
+        FIX 3: sig-label changed from color:var(--d2) to var(--c)
+                and gets the sig-glow animation defined above
+      -->
       <div class="close-sig r d3">
         <span class="sig-name">Νίκος Πελετιέ</span>
         <span class="sig-rule"></span>
@@ -865,7 +939,6 @@ function spawnPulse(){
   pulses.push({ax:a.x,ay:a.y,bx:b.x,by:b.y,t:0,spd:.008+Math.random()*.005});
 }
 
-/* clear old interval before creating new one */
 function startPulseTimer(){
   if(intervalId)clearInterval(intervalId);
   intervalId=setInterval(spawnPulse,800);
@@ -962,7 +1035,6 @@ function draw(){
     const py=p.ay+(p.by-p.ay)*p.t;
     ctx.beginPath();ctx.arc(px,py,2.2,0,Math.PI*2);
     ctx.fillStyle=`rgba(0,243,255,${(1-p.t)*.92})`;
-    /* shadow only every 3rd pulse for perf */
     if(i%3===0){ctx.shadowBlur=8;ctx.shadowColor='rgba(0,243,255,.8)';}
     ctx.fill();ctx.shadowBlur=0;
   }
