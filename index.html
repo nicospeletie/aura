@@ -7,10 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
-
   <style>
   /* ══════════════════════════════════════════
-     DESIGN TOKENS
+     TOKENS
   ══════════════════════════════════════════ */
   :root {
     --bg:   #040406;
@@ -25,7 +24,7 @@
     --ease: cubic-bezier(.16,1,.3,1);
     --F:    'Cormorant', Georgia, serif;
     --M:    'DM Mono', monospace;
-    --pad:  clamp(24px, 6.5vw, 96px);
+    --pad:  clamp(20px, 6vw, 96px);
   }
 
   *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -34,7 +33,6 @@
     background:var(--bg); color:var(--fg);
     font-family:var(--F); font-weight:300;
     line-height:1.65; overflow-x:hidden;
-    cursor:none;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
   }
@@ -42,25 +40,28 @@
   ::-webkit-scrollbar { width:1px; }
   ::-webkit-scrollbar-thumb { background:var(--c); }
 
+  /* cursor — desktop only */
+  @media (pointer:fine) {
+    body { cursor:none; }
+    #cd,#cr {
+      position:fixed; border-radius:50%; pointer-events:none;
+      z-index:9999; top:0; left:0; transform:translate(-50%,-50%);
+    }
+    #cd { width:5px; height:5px; background:var(--c); box-shadow:0 0 10px var(--cg); transition:opacity .3s; }
+    #cr {
+      width:32px; height:32px; border:1px solid rgba(0,243,255,.28);
+      transition:width .4s var(--ease),height .4s var(--ease),border-color .3s,opacity .3s;
+    }
+    body:has(a:hover) #cr { width:46px; height:46px; border-color:var(--c); }
+  }
+  @media (pointer:coarse) { #cd,#cr { display:none; } }
+
   /* noise grain */
   body::before {
     content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.032'/%3E%3C/svg%3E");
     background-size:220px 220px; opacity:.5;
   }
-
-  /* ── cursor ── */
-  #cd,#cr {
-    position:fixed; border-radius:50%; pointer-events:none;
-    z-index:9999; top:0; left:0; transform:translate(-50%,-50%);
-  }
-  #cd { width:5px; height:5px; background:var(--c); box-shadow:0 0 10px var(--cg); transition:opacity .3s; }
-  #cr {
-    width:32px; height:32px; border:1px solid rgba(0,243,255,.28);
-    transition:width .4s var(--ease),height .4s var(--ease),border-color .3s,opacity .3s;
-  }
-  body:has(a:hover) #cr,
-  body:has(button:hover) #cr { width:46px; height:46px; border-color:var(--c); }
 
   /* progress bar */
   #bar {
@@ -73,29 +74,30 @@
   .W { max-width:1280px; margin:0 auto; padding:0 var(--pad); position:relative; z-index:2; }
   .rule { height:1px; background:var(--d3); }
   section { position:relative; z-index:2; }
-  .s-pad { padding:clamp(88px,13vw,160px) 0; }
+  .s-pad { padding:clamp(72px,12vw,156px) 0; }
 
   /* ── NAV ── */
   nav {
     position:fixed; top:0; left:0; right:0; z-index:100;
-    padding:24px var(--pad);
+    padding:22px var(--pad);
     display:flex; align-items:center; justify-content:space-between;
     transition:background .5s,border-bottom .5s,padding .4s;
   }
   nav.on {
-    background:rgba(4,4,6,.92); backdrop-filter:blur(24px);
+    background:rgba(4,4,6,.94); backdrop-filter:blur(24px);
     -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--d3);
-    padding-top:16px; padding-bottom:16px;
+    padding-top:14px; padding-bottom:14px;
   }
-  .n-id { display:flex; align-items:center; gap:11px; }
+  .n-id { display:flex; align-items:center; gap:10px; }
   .n-dot {
-    width:6px; height:6px; border-radius:50%;
+    width:6px; height:6px; flex-shrink:0; border-radius:50%;
     background:var(--c); box-shadow:0 0 8px var(--cg);
     animation:blink 2.6s ease-in-out infinite;
   }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-  .n-name { font-family:var(--M); font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:var(--d1); }
-  .n-tag  { font-family:var(--M); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,243,255,.28); }
+  .n-name { font-family:var(--M); font-size:.64rem; letter-spacing:.22em; text-transform:uppercase; color:var(--d1); }
+  .n-tag  { font-family:var(--M); font-size:.54rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,243,255,.28); }
+  @media(max-width:480px){ .n-tag{display:none} }
 
   /* ══════════════════════════════════════════
      HERO
@@ -103,16 +105,15 @@
   #hero {
     min-height:100svh;
     display:flex; flex-direction:column; justify-content:center;
-    padding-top:110px; padding-bottom:clamp(56px,8vw,100px);
+    padding-top:100px; padding-bottom:clamp(48px,8vw,96px);
     overflow:hidden;
   }
   #hero .W {
     display:grid;
-    grid-template-columns:1fr 500px;
-    gap:clamp(40px,5vw,72px);
+    grid-template-columns:1fr 480px;
+    gap:clamp(36px,5vw,72px);
     align-items:center;
   }
-  /* subtle grid overlay */
   #hero::before {
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
     background-image:
@@ -124,7 +125,7 @@
   }
   #hero::after {
     content:''; position:absolute; bottom:0; left:0; right:0;
-    height:220px; z-index:1; pointer-events:none;
+    height:200px; z-index:1; pointer-events:none;
     background:linear-gradient(to top,var(--bg),transparent);
   }
 
@@ -132,18 +133,18 @@
 
   .h-eyebrow {
     display:flex; align-items:center; gap:14px;
-    margin-bottom:clamp(22px,3.5vw,38px);
+    margin-bottom:clamp(20px,3.5vw,36px);
     opacity:0; transform:translateY(14px);
     animation:rise .9s var(--ease) .1s forwards;
   }
-  .h-eyebrow-line { width:32px; height:1px; flex-shrink:0; background:var(--c); box-shadow:0 0 6px var(--cg); }
-  .h-eyebrow span { font-family:var(--M); font-size:.62rem; letter-spacing:.26em; text-transform:uppercase; color:var(--c); text-shadow:0 0 12px var(--cg); }
+  .h-eyebrow-line { width:30px; height:1px; flex-shrink:0; background:var(--c); box-shadow:0 0 6px var(--cg); }
+  .h-eyebrow span { font-family:var(--M); font-size:.6rem; letter-spacing:.26em; text-transform:uppercase; color:var(--c); text-shadow:0 0 12px var(--cg); }
 
   .h-title {
     font-family:var(--F); font-weight:300;
-    font-size:clamp(3.8rem,9vw,9rem);
+    font-size:clamp(3.6rem,8.5vw,9rem);
     line-height:.9; letter-spacing:-.025em;
-    opacity:0; transform:translateY(44px);
+    opacity:0; transform:translateY(40px);
     animation:rise 1.3s var(--ease) .26s forwards;
   }
   .h-title em { font-style:italic; color:var(--c); text-shadow:0 0 60px rgba(0,243,255,.22); }
@@ -157,215 +158,215 @@
   @keyframes drawline { to{transform:scaleX(1);} }
 
   .h-sub {
-    margin-top:clamp(22px,3.5vw,38px);
-    font-size:clamp(.95rem,1.4vw,1.1rem);
-    color:var(--d1); line-height:1.85; max-width:52ch;
+    margin-top:clamp(20px,3vw,36px);
+    font-size:clamp(.92rem,1.3vw,1.05rem);
+    color:var(--d1); line-height:1.85; max-width:50ch;
     opacity:0; transform:translateY(14px);
     animation:rise .9s var(--ease) .72s forwards;
   }
   .h-sub strong { color:var(--fg); font-weight:400; }
 
   .h-pillars {
-    display:flex; flex-direction:column; gap:14px;
-    margin-top:clamp(30px,4.5vw,50px);
+    display:flex; flex-direction:column; gap:12px;
+    margin-top:clamp(26px,4vw,46px);
     opacity:0; transform:translateY(14px);
     animation:rise .9s var(--ease) .96s forwards;
   }
-  .pillar { display:flex; align-items:flex-start; gap:16px; border-left:1px solid rgba(0,243,255,.2); padding-left:16px; }
-  .pillar-k { font-family:var(--M); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.3); margin-top:2px; flex-shrink:0; min-width:76px; }
-  .pillar-v { font-size:.88rem; color:var(--d1); line-height:1.65; font-weight:300; }
+  .pillar { display:flex; align-items:flex-start; gap:14px; border-left:1px solid rgba(0,243,255,.2); padding-left:14px; }
+  .pillar-k { font-family:var(--M); font-size:.54rem; letter-spacing:.18em; text-transform:uppercase; color:var(--c); margin-top:2px; flex-shrink:0; min-width:72px; }
+  .pillar-v { font-size:.86rem; color:var(--d1); line-height:1.6; font-weight:300; }
 
-  /* ghost watermark */
   .h-ghost {
-    position:absolute; right:-2%; bottom:-6%;
+    position:absolute; right:-2%; bottom:-8%;
     font-family:var(--F); font-style:italic;
-    font-size:clamp(9rem,23vw,28rem); font-weight:300; line-height:.85;
-    color:transparent; -webkit-text-stroke:1px rgba(0,243,255,.025);
+    font-size:clamp(8rem,22vw,26rem); font-weight:300; line-height:.85;
+    color:transparent; -webkit-text-stroke:1px rgba(0,243,255,.022);
     pointer-events:none; user-select:none; z-index:0; letter-spacing:-.03em;
   }
 
   @keyframes rise { to{opacity:1;transform:translateY(0);} }
 
-  /* ── MATRIX VISUAL ── */
-  .h-right {
-    position:relative; z-index:2;
-    display:flex; align-items:center; justify-content:center;
-  }
-  #mtx {
-    width:100%; max-width:500px; aspect-ratio:1/1;
-    display:block;
-  }
+  /* matrix canvas */
+  .h-right { position:relative; z-index:2; display:flex; align-items:center; justify-content:center; }
+  #mtx { width:100%; max-width:480px; aspect-ratio:1/1; display:block; }
 
   /* ══════════════════════════════════════════
      TICKER
   ══════════════════════════════════════════ */
   .ticker-wrap { background:var(--c); overflow:hidden; position:relative; z-index:2; }
-  .ticker-inner { display:flex; padding:16px 0; white-space:nowrap; overflow:hidden; }
-  .ticker-track { display:flex; flex-shrink:0; animation:roll 32s linear infinite; }
+  .ticker-inner { display:flex; padding:14px 0; white-space:nowrap; overflow:hidden; }
+  .ticker-track { display:flex; flex-shrink:0; animation:roll 30s linear infinite; }
   .ticker-item {
-    display:flex; align-items:center; gap:44px; padding:0 44px;
-    font-family:var(--M); font-size:.68rem; letter-spacing:.22em;
+    display:flex; align-items:center; gap:40px; padding:0 40px;
+    font-family:var(--M); font-size:.66rem; letter-spacing:.2em;
     text-transform:uppercase; color:var(--bg); font-weight:500;
   }
-  .t-sep { color:rgba(0,0,0,.2)!important; letter-spacing:0!important; }
+  .t-sep { color:rgba(0,0,0,.2)!important; letter-spacing:0!important; padding:0 10px!important; gap:0!important; }
   @keyframes roll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
   /* ══════════════════════════════════════════
-     SHARED SECTION HEADER
+     SHARED SECTION STYLES
   ══════════════════════════════════════════ */
-  .s-head { display:flex; align-items:center; gap:14px; margin-bottom:clamp(6px,1vw,12px); }
-  .s-head-line { width:26px; height:1px; flex-shrink:0; background:var(--c); box-shadow:0 0 5px var(--cg); }
-  .s-head span { font-family:var(--M); font-size:.6rem; letter-spacing:.24em; text-transform:uppercase; color:var(--c); text-shadow:0 0 10px var(--cg); }
-  .s-title { font-family:var(--F); font-weight:300; font-size:clamp(2.6rem,6vw,5.8rem); letter-spacing:-.025em; line-height:.93; }
+  .s-head { display:flex; align-items:center; gap:12px; margin-bottom:clamp(6px,1vw,10px); }
+  .s-head-line { width:24px; height:1px; flex-shrink:0; background:var(--c); box-shadow:0 0 5px var(--cg); }
+  .s-head span { font-family:var(--M); font-size:.58rem; letter-spacing:.24em; text-transform:uppercase; color:var(--c); text-shadow:0 0 10px var(--cg); }
+  .s-title { font-family:var(--F); font-weight:300; font-size:clamp(2.4rem,5.5vw,5.5rem); letter-spacing:-.025em; line-height:.93; }
   .s-title em { font-style:italic; color:var(--c); text-shadow:0 0 30px rgba(0,243,255,.18); }
-  .s-intro { font-size:1rem; color:var(--d1); line-height:1.88; max-width:44ch; font-weight:300; }
+  .s-intro { font-size:.98rem; color:var(--d1); line-height:1.85; max-width:44ch; font-weight:300; }
   .s-intro strong { color:var(--fg); font-weight:400; }
 
   /* ══════════════════════════════════════════
-     TECHNIQUES — interactive accordion
+     TECHNIQUES — accordion
   ══════════════════════════════════════════ */
   #tech { background:var(--bg); }
   .tech-top {
     display:grid; grid-template-columns:1fr 1fr;
     gap:clamp(24px,4vw,60px); align-items:end;
-    margin-bottom:clamp(44px,7vw,80px);
+    margin-bottom:clamp(40px,7vw,76px);
   }
   .tech-list { display:flex; flex-direction:column; }
-  .tech-row { border-top:1px solid var(--d3); position:relative; overflow:hidden; transition:background .4s; }
+  .tech-row { border-top:1px solid var(--d3); position:relative; overflow:hidden; transition:background .35s; }
   .tech-row:last-child { border-bottom:1px solid var(--d3); }
   .tech-row:hover { background:var(--s1); }
   .tech-row::before {
     content:''; position:absolute; top:0; left:0; bottom:0; width:2px;
     background:var(--c); box-shadow:0 0 8px var(--cg);
-    transform:scaleY(0); transform-origin:top; transition:transform .45s var(--ease);
+    transform:scaleY(0); transform-origin:top; transition:transform .4s var(--ease);
   }
   .tech-row:hover::before { transform:scaleY(1); }
   .tech-hd {
-    display:grid; grid-template-columns:56px 1fr auto;
-    gap:clamp(14px,2.5vw,28px); align-items:center;
-    padding:clamp(20px,3vw,34px); cursor:pointer;
+    display:grid; grid-template-columns:52px 1fr auto;
+    gap:clamp(12px,2.5vw,28px); align-items:center;
+    padding:clamp(18px,2.8vw,32px); cursor:pointer;
     -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
   }
-  .tech-n { font-family:var(--M); font-size:.55rem; letter-spacing:.2em; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.3); }
-  .tech-name { font-family:var(--F); font-size:clamp(1.4rem,2.3vw,2rem); font-weight:400; letter-spacing:-.02em; line-height:1.05; }
+  .tech-n { font-family:var(--M); font-size:.54rem; letter-spacing:.2em; color:var(--c); }
+  .tech-name { font-family:var(--F); font-size:clamp(1.25rem,2.2vw,1.95rem); font-weight:400; letter-spacing:-.02em; line-height:1.05; }
   .tech-name em { font-style:italic; }
   .tech-tag {
-    font-family:var(--M); font-size:.56rem; letter-spacing:.15em; text-transform:uppercase;
-    padding:5px 12px; border:1px solid rgba(0,243,255,.14); color:rgba(0,243,255,.38);
+    font-family:var(--M); font-size:.54rem; letter-spacing:.14em; text-transform:uppercase;
+    padding:5px 11px; border:1px solid rgba(0,243,255,.14); color:rgba(0,243,255,.36);
     white-space:nowrap; transition:border-color .3s,color .3s;
   }
   .tech-row:hover .tech-tag { border-color:var(--c); color:var(--c); }
-  .tech-bd { display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s var(--ease); }
+  .tech-bd { display:grid; grid-template-rows:0fr; transition:grid-template-rows .48s var(--ease); }
   .tech-bd.open { grid-template-rows:1fr; }
   .tech-bd-inner { overflow:hidden; }
   .tech-bd-pad {
-    padding:0 clamp(20px,3vw,34px) clamp(20px,3vw,34px);
-    padding-left:calc(56px + clamp(14px,2.5vw,28px) + clamp(20px,3vw,34px));
-    display:flex; gap:clamp(20px,3vw,44px); flex-wrap:wrap;
+    padding:0 clamp(18px,2.8vw,32px) clamp(18px,2.8vw,32px);
+    padding-left:calc(52px + clamp(12px,2.5vw,28px) + clamp(18px,2.8vw,32px));
+    display:flex; gap:clamp(18px,3vw,42px); flex-wrap:wrap;
   }
-  .tech-col { flex:1; min-width:200px; }
-  .tech-col-k { font-family:var(--M); font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--c); margin-bottom:8px; }
-  .tech-col-v { font-size:.9rem; color:var(--d1); line-height:1.82; font-weight:300; }
+  .tech-col { flex:1; min-width:180px; }
+  .tech-col-k { font-family:var(--M); font-size:.56rem; letter-spacing:.2em; text-transform:uppercase; color:var(--c); margin-bottom:8px; }
+  .tech-col-v { font-size:.88rem; color:var(--d1); line-height:1.8; font-weight:300; }
   .tech-col-v strong { color:var(--fg); font-weight:400; }
-  .tech-result { margin-top:18px; font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.22); }
+  .tech-result { margin-top:16px; font-family:var(--M); font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.2); }
 
   /* ══════════════════════════════════════════
      TRUTHS
   ══════════════════════════════════════════ */
   #truths { background:var(--s1); border-top:1px solid rgba(0,243,255,.07); border-bottom:1px solid rgba(0,243,255,.07); }
   .truths-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(0,243,255,.06); }
-  .truth { background:var(--s1); padding:clamp(28px,4vw,50px); transition:background .3s; }
+  .truth { background:var(--s1); padding:clamp(24px,3.8vw,48px); transition:background .3s; }
   .truth:hover { background:var(--s2); }
-  .truth-q { font-family:var(--F); font-style:italic; font-size:clamp(1.1rem,1.75vw,1.5rem); font-weight:300; line-height:1.35; color:var(--fg); margin-bottom:16px; }
+  .truth-q { font-family:var(--F); font-style:italic; font-size:clamp(1.05rem,1.7vw,1.45rem); font-weight:300; line-height:1.35; margin-bottom:14px; }
   .truth-q em { font-style:normal; color:var(--c); }
-  .truth-line { width:24px; height:1px; background:var(--c); box-shadow:0 0 5px var(--cg); margin:0 0 16px; }
-  .truth-body { font-size:.88rem; color:var(--d1); line-height:1.82; font-weight:300; }
+  .truth-line { width:22px; height:1px; background:var(--c); box-shadow:0 0 5px var(--cg); margin:0 0 14px; }
+  .truth-body { font-size:.86rem; color:var(--d1); line-height:1.8; font-weight:300; }
 
   /* ══════════════════════════════════════════
      MECHANICS
   ══════════════════════════════════════════ */
   #mech { background:var(--bg); }
-  .mech-top { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,60px); align-items:end; margin-bottom:clamp(44px,7vw,80px); }
-  .mech-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr)); }
-  .mech-card { padding:clamp(28px,4vw,48px); border:1px solid var(--d3); position:relative; overflow:hidden; transition:background .4s; }
+  .mech-top { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,60px); align-items:end; margin-bottom:clamp(40px,7vw,76px); }
+  .mech-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr)); }
+  .mech-card { padding:clamp(24px,3.8vw,46px); border:1px solid var(--d3); position:relative; overflow:hidden; transition:background .35s; }
   .mech-card:hover { background:rgba(0,243,255,.02); }
-  .mech-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--c); transform:scaleX(0); transform-origin:left; transition:transform .5s var(--ease); }
+  .mech-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--c); transform:scaleX(0); transform-origin:left; transition:transform .48s var(--ease); }
   .mech-card:hover::before { transform:scaleX(1); }
-  .mech-rom { font-family:var(--F); font-size:3.4rem; font-weight:300; color:rgba(0,243,255,.07); line-height:1; margin-bottom:16px; transition:color .4s; }
-  .mech-card:hover .mech-rom { color:rgba(0,243,255,.22); }
-  .mech-title { font-family:var(--F); font-size:clamp(1.35rem,2vw,1.8rem); font-weight:400; letter-spacing:-.02em; margin-bottom:12px; line-height:1.05; }
-  .mech-title em { font-style:italic; color:var(--c); text-shadow:0 0 10px rgba(0,243,255,.22); }
-  .mech-body { font-size:.9rem; color:var(--d1); line-height:1.85; font-weight:300; }
-  .mech-out { margin-top:16px; font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.22); }
+  .mech-rom { font-family:var(--F); font-size:3rem; font-weight:300; color:rgba(0,243,255,.07); line-height:1; margin-bottom:14px; transition:color .35s; }
+  .mech-card:hover .mech-rom { color:rgba(0,243,255,.2); }
+  .mech-title { font-family:var(--F); font-size:clamp(1.25rem,1.9vw,1.75rem); font-weight:400; letter-spacing:-.02em; margin-bottom:10px; line-height:1.05; }
+  .mech-title em { font-style:italic; color:var(--c); }
+  .mech-body { font-size:.88rem; color:var(--d1); line-height:1.82; font-weight:300; }
+  .mech-out { margin-top:14px; font-family:var(--M); font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c); opacity:.7; }
 
   /* ══════════════════════════════════════════
      TEAM
   ══════════════════════════════════════════ */
   #team { background:var(--s1); border-top:1px solid rgba(0,243,255,.07); }
-  .team-top { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:clamp(40px,7vw,80px); }
-  .team-count { font-family:var(--M); font-size:.62rem; letter-spacing:.2em; color:var(--d2); }
-  .team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(0,243,255,.055); }
-  .member { background:var(--s1); padding:clamp(22px,3.5vw,40px) clamp(18px,2.5vw,30px); position:relative; overflow:hidden; transition:background .35s; }
-  .member::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--c); box-shadow:0 0 8px var(--cg); transform:scaleX(0); transform-origin:left; transition:transform .45s var(--ease); }
+  .team-top { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:clamp(36px,7vw,76px); }
+  .team-count { font-family:var(--M); font-size:.6rem; letter-spacing:.2em; color:var(--d2); }
+  .team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(0,243,255,.05); }
+  .member { background:var(--s1); padding:clamp(20px,3.2vw,38px) clamp(16px,2.4vw,28px); position:relative; overflow:hidden; transition:background .3s; }
+  .member::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--c); box-shadow:0 0 8px var(--cg); transform:scaleX(0); transform-origin:left; transition:transform .42s var(--ease); }
   .member:hover { background:var(--s2); }
   .member:hover::after { transform:scaleX(1); }
-  .m-n { font-family:var(--M); font-size:.52rem; letter-spacing:.2em; color:rgba(0,243,255,.22); margin-bottom:16px; display:block; }
-  .m-god { font-family:var(--M); font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; color:var(--c); text-shadow:0 0 10px var(--cg); margin-bottom:6px; display:block; opacity:.7; }
-  .m-name { font-family:var(--F); font-size:clamp(1.3rem,1.9vw,1.8rem); font-weight:600; letter-spacing:.02em; text-transform:uppercase; line-height:1; margin-bottom:6px; transition:color .3s; }
-  .member:hover .m-name { color:var(--c); text-shadow:0 0 12px var(--cg); }
-  .m-role { font-family:var(--M); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--c); opacity:.55; margin-bottom:12px; display:block; }
-  .m-desc { font-size:.84rem; color:var(--d1); line-height:1.72; font-weight:300; }
+  .m-n { font-family:var(--M); font-size:.5rem; letter-spacing:.2em; color:rgba(0,243,255,.2); margin-bottom:14px; display:block; }
+  .m-god { font-family:var(--M); font-size:.56rem; letter-spacing:.22em; text-transform:uppercase; color:var(--c); margin-bottom:5px; display:block; opacity:.65; }
+  .m-name { font-family:var(--F); font-size:clamp(1.2rem,1.8vw,1.7rem); font-weight:600; letter-spacing:.02em; text-transform:uppercase; line-height:1; margin-bottom:6px; transition:color .3s; }
+  .member:hover .m-name { color:var(--c); text-shadow:0 0 10px var(--cg); }
+  .m-role { font-family:var(--M); font-size:.54rem; letter-spacing:.17em; text-transform:uppercase; color:var(--c); opacity:.5; margin-bottom:10px; display:block; }
+  .m-desc { font-size:.82rem; color:var(--d1); line-height:1.7; font-weight:300; }
 
   /* ══════════════════════════════════════════
      CLOSING
   ══════════════════════════════════════════ */
   #close { background:var(--bg); border-top:1px solid rgba(0,243,255,.07); position:relative; overflow:hidden; }
-  #close::before { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:800px; background:radial-gradient(circle,rgba(0,243,255,.03) 0%,transparent 62%); pointer-events:none; }
-  .close-inner { max-width:960px; position:relative; z-index:1; }
-  .close-title { font-family:var(--F); font-weight:300; font-size:clamp(3.2rem,8.5vw,8.5rem); letter-spacing:-.03em; line-height:.9; margin:clamp(20px,3vw,34px) 0 clamp(28px,4.5vw,50px); }
+  #close::before { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:700px; height:700px; background:radial-gradient(circle,rgba(0,243,255,.028) 0%,transparent 62%); pointer-events:none; }
+  .close-inner { max-width:940px; position:relative; z-index:1; }
+  .close-title { font-family:var(--F); font-weight:300; font-size:clamp(3rem,8vw,8rem); letter-spacing:-.03em; line-height:.9; margin:clamp(18px,3vw,32px) 0 clamp(26px,4vw,48px); }
   .close-title em { font-style:italic; color:var(--c); text-shadow:0 0 50px rgba(0,243,255,.2); }
-  .close-body { font-size:clamp(.98rem,1.4vw,1.12rem); color:var(--d1); line-height:1.9; max-width:60ch; font-weight:300; }
+  .close-body { font-size:clamp(.96rem,1.35vw,1.1rem); color:var(--d1); line-height:1.88; max-width:58ch; font-weight:300; }
   .close-body strong { color:var(--fg); font-weight:400; }
-  .close-sig { margin-top:clamp(44px,6.5vw,70px); display:flex; align-items:center; gap:22px; flex-wrap:wrap; }
-  .sig-name { font-family:var(--F); font-style:italic; font-size:clamp(1.65rem,2.5vw,2.35rem); font-weight:300; letter-spacing:-.01em; }
-  .sig-rule { flex:1; max-width:72px; height:1px; background:linear-gradient(90deg,var(--c),transparent); box-shadow:0 0 6px rgba(0,243,255,.22); }
-  .sig-label { font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:var(--d2); }
+  .close-sig { margin-top:clamp(40px,6vw,68px); display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+  .sig-name { font-family:var(--F); font-style:italic; font-size:clamp(1.55rem,2.4vw,2.2rem); font-weight:300; letter-spacing:-.01em; }
+  .sig-rule { flex:1; max-width:68px; height:1px; background:linear-gradient(90deg,var(--c),transparent); box-shadow:0 0 6px rgba(0,243,255,.2); }
+  .sig-label { font-family:var(--M); font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; color:var(--d2); }
 
   /* footer */
-  footer { padding:22px var(--pad); border-top:1px solid var(--d3); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; position:relative; z-index:2; }
-  footer span { font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.12); }
-  .f-dot { display:inline-block; width:4px; height:4px; border-radius:50%; background:var(--c); box-shadow:0 0 6px var(--cg); margin:0 8px; vertical-align:middle; }
+  footer { padding:20px var(--pad); border-top:1px solid var(--d3); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; position:relative; z-index:2; }
+  footer span { font-family:var(--M); font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.11); }
+  .f-dot { display:inline-block; width:4px; height:4px; border-radius:50%; background:var(--c); box-shadow:0 0 6px var(--cg); margin:0 7px; vertical-align:middle; }
 
-  /* ── REVEAL ── */
-  .r { opacity:0; transform:translateY(26px); transition:opacity .95s var(--ease),transform .95s var(--ease); }
+  /* reveal */
+  .r { opacity:0; transform:translateY(24px); transition:opacity .9s var(--ease),transform .9s var(--ease); }
   .r.in { opacity:1; transform:none; }
-  .r.d1{transition-delay:.1s} .r.d2{transition-delay:.2s} .r.d3{transition-delay:.3s} .r.d4{transition-delay:.4s} .r.d5{transition-delay:.5s}
+  .r.d1{transition-delay:.1s} .r.d2{transition-delay:.2s} .r.d3{transition-delay:.3s} .r.d4{transition-delay:.4s}
 
   /* ══════════════════════════════════════════
      RESPONSIVE
   ══════════════════════════════════════════ */
-  @media(max-width:1080px){
+  @media(max-width:1060px){
     #hero .W{grid-template-columns:1fr}
     .h-right{display:none}
     .tech-top,.mech-top{grid-template-columns:1fr}
   }
-  @media(max-width:860px){
+  @media(max-width:840px){
     .truths-grid{grid-template-columns:1fr}
     .team-grid{grid-template-columns:repeat(2,1fr)}
     .tech-hd{grid-template-columns:44px 1fr}
     .tech-tag{display:none}
-    .tech-bd-pad{padding-left:clamp(20px,3vw,34px)}
+    .tech-bd-pad{padding-left:clamp(18px,2.8vw,32px)}
   }
-  @media(max-width:540px){
+  @media(max-width:520px){
     .team-grid{grid-template-columns:1fr 1fr}
-    .h-title{font-size:clamp(3rem,10.5vw,4.8rem)}
-    .s-title{font-size:clamp(2.2rem,8vw,3.4rem)}
-    .close-title{font-size:clamp(2.6rem,9.5vw,4rem)}
     .mech-grid{grid-template-columns:1fr}
+    .h-title{font-size:clamp(2.9rem,10vw,4.6rem)}
+    .s-title{font-size:clamp(2.1rem,7.5vw,3.2rem)}
+    .close-title{font-size:clamp(2.5rem,9vw,3.8rem)}
+    .s-pad{padding:clamp(56px,10vw,120px) 0}
   }
-  @media(max-width:380px){
+  @media(max-width:360px){
     .team-grid{grid-template-columns:1fr}
-    .h-title{font-size:2.9rem}
+    .h-title{font-size:2.75rem}
+  }
+
+  /* reduce motion */
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
   }
   </style>
 </head>
@@ -398,8 +399,7 @@
         τους <span class="ul">καλούς.</span>
       </h1>
       <p class="h-sub">
-        Ο Νίκος Πελετιέ δεν φτιάχνει διαφημίσεις.
-        <strong>Σχεδιάζει πολιτισμικές στιγμές που η αγορά αδυνατεί να αγνοήσει.</strong>
+        <strong>Σχεδιάζουμε πολιτισμικές στιγμές που η αγορά αδυνατεί να αγνοήσει.</strong>
         Κάθε κίνηση υπολογίζεται. Κάθε αντίδραση προβλέπεται.
         Το αποτέλεσμα δεν είναι τύχη — είναι αρχιτεκτονική.
       </p>
@@ -410,7 +410,7 @@
         </div>
         <div class="pillar">
           <span class="pillar-k">Χρονισμός</span>
-          <p class="pillar-v">Η σωστή κίνηση τη λάθος στιγμή είναι θόρυβος. Τη σωστή στιγμή — είναι ιστορία.</p>
+          <p class="pillar-v">Η σωστή κίνηση τη λάθος στιγμή είναι θόρυβος. Τη σωστή — είναι ιστορία.</p>
         </div>
         <div class="pillar">
           <span class="pillar-k">Επιρροή</span>
@@ -418,10 +418,8 @@
         </div>
       </div>
     </div>
-
-    <!-- MATRIX VISUAL -->
     <div class="h-right">
-      <canvas id="mtx"></canvas>
+      <canvas id="mtx" aria-hidden="true"></canvas>
     </div>
   </div>
   <div class="h-ghost" aria-hidden="true">ΝΠ</div>
@@ -439,7 +437,6 @@
       <div class="ticker-item">Στρατηγική Σπανιότητα</div><div class="ticker-item t-sep">·</div>
       <div class="ticker-item">Ελεγχόμενη Αντιπαράθεση</div><div class="ticker-item t-sep">·</div>
       <div class="ticker-item">Διακοπή Αφήγησης</div><div class="ticker-item t-sep">·</div>
-      <!-- duplicate for seamless loop -->
       <div class="ticker-item">Χαρτογράφηση Αγοράς</div><div class="ticker-item t-sep">·</div>
       <div class="ticker-item">Αρχιτεκτονική Αφήγησης</div><div class="ticker-item t-sep">·</div>
       <div class="ticker-item">Ιογενής Σχεδιασμός</div><div class="ticker-item t-sep">·</div>
@@ -460,7 +457,7 @@
         <div class="s-head"><span class="s-head-line"></span><span>02 — Τεχνικές Συνεργασίας</span></div>
         <h2 class="s-title">Πώς δουλεύουμε<br><em>μαζί.</em></h2>
       </div>
-      <p class="s-intro">Πέντε μεθοδολογίες εφαρμοσμένες σε συγκεκριμένη σειρά — με <strong>μετρήσιμο αποτέλεσμα σε κάθε στάδιο.</strong></p>
+      <p class="s-intro">Πέντε μεθοδολογίες με <strong>μετρήσιμο αποτέλεσμα σε κάθε στάδιο.</strong></p>
     </div>
 
     <div class="tech-list r d2">
@@ -474,11 +471,11 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Αναλύουμε τον κλάδο για να εντοπίσουμε τα σημεία όπου η αγορά αισθάνεται ανεκπλήρωτη — τις παραδοχές που κανείς δεν έχει τολμήσει να αμφισβητήσει.</p>
+            <p class="tech-col-v">Εντοπίζουμε τα σημεία όπου η αγορά αισθάνεται ανεκπλήρωτη — τις παραδοχές που κανείς δεν έχει τολμήσει να αμφισβητήσει.</p>
           </div>
           <div class="tech-col">
-            <div class="tech-col-k">Τι παράγει</div>
-            <p class="tech-col-v"><strong>Χάρτης τριβής</strong> με τα τρία κρίσιμα κενά της αγοράς σας και αξιολόγηση ποιο θα γίνει το θεμέλιο της επόμενης κίνησής σας.</p>
+            <div class="tech-col-k">Αποτέλεσμα</div>
+            <p class="tech-col-v"><strong>Χάρτης τριβής</strong> με τα τρία κρίσιμα κενά της αγοράς σας και αξιολόγηση ποιο γίνεται η επόμενη κίνησή σας.</p>
           </div>
           <div class="tech-result">↑ Στρατηγική Ευκρίνεια · ↑ Ανταγωνιστικό Πλεονέκτημα</div>
         </div></div></div>
@@ -493,13 +490,13 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Κατασκευάζουμε την κεντρική αφήγηση που θα ορίζει τον τρόπο που η αγορά μιλά για εσάς — τη δομή που αναπαράγεται χωρίς να το ζητάτε.</p>
+            <p class="tech-col-v">Κατασκευάζουμε την κεντρική αφήγηση που ορίζει πώς η αγορά μιλά για εσάς — τη δομή που αναπαράγεται χωρίς να το ζητάτε.</p>
           </div>
           <div class="tech-col">
-            <div class="tech-col-k">Τι παράγει</div>
-            <p class="tech-col-v"><strong>Αφηγηματικό πλαίσιο</strong> με τον κεντρικό μύθο της εμπορικής σας ταυτότητας και τον τρόπο που κάθε επικοινωνία ενισχύει το πλαίσιο.</p>
+            <div class="tech-col-k">Αποτέλεσμα</div>
+            <p class="tech-col-v"><strong>Αφηγηματικό πλαίσιο</strong> με τον κεντρικό μύθο της ταυτότητάς σας και τον τρόπο που κάθε επικοινωνία το ενισχύει.</p>
           </div>
-          <div class="tech-result">↑ Συνοχή Επικοινωνίας · ↑ Αναγνωρισιμότητα Ταυτότητας</div>
+          <div class="tech-result">↑ Συνοχή Επικοινωνίας · ↑ Αναγνωρισιμότητα</div>
         </div></div></div>
       </div>
 
@@ -512,11 +509,11 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Σχεδιάζουμε συγκεκριμένες ενέργειες — εκδηλώσεις, αντικείμενα, στιγμές επικοινωνίας — που εισάγουν την εμπορική σας ταυτότητα σε ζωντανές συνομιλίες με τρόπο οργανικό, όχι διαφημιστικό.</p>
+            <p class="tech-col-v">Σχεδιάζουμε ενέργειες — εκδηλώσεις, αντικείμενα, στιγμές επικοινωνίας — που εισάγουν την ταυτότητά σας σε ζωντανές συνομιλίες χωρίς διαφημιστική λογική.</p>
           </div>
           <div class="tech-col">
-            <div class="tech-col-k">Τι παράγει</div>
-            <p class="tech-col-v"><strong>Σχέδιο παρέμβασης</strong> με χρονοδιάγραμμα, ρόλους εκτέλεσης και κριτήρια επιτυχίας για κάθε στιγμή που επιλέγουμε να ενεργοποιήσουμε.</p>
+            <div class="tech-col-k">Αποτέλεσμα</div>
+            <p class="tech-col-v"><strong>Σχέδιο παρέμβασης</strong> με χρονοδιάγραμμα, ρόλους εκτέλεσης και κριτήρια επιτυχίας.</p>
           </div>
           <div class="tech-result">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Παρουσία</div>
         </div></div></div>
@@ -531,11 +528,11 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Εντοπίζουμε τους κρίσιμους κόμβους επιρροής στον κλάδο σας — τα πρόσωπα, τις κοινότητες και τα κανάλια που πραγματικά κινούν την αγορά.</p>
+            <p class="tech-col-v">Εντοπίζουμε τους κρίσιμους κόμβους επιρροής στον κλάδο σας — πρόσωπα, κοινότητες και κανάλια που πραγματικά κινούν την αγορά.</p>
           </div>
           <div class="tech-col">
-            <div class="tech-col-k">Τι παράγει</div>
-            <p class="tech-col-v"><strong>Χάρτης δικτύου</strong> με τους σημαντικότερους κόμβους επιρροής και στρατηγική άμεσης εμπλοκής για κάθε έναν.</p>
+            <div class="tech-col-k">Αποτέλεσμα</div>
+            <p class="tech-col-v"><strong>Χάρτης δικτύου</strong> με τους κόμβους υψηλής επιρροής και στρατηγική άμεσης εμπλοκής για κάθε έναν.</p>
           </div>
           <div class="tech-result">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Διάδοσης</div>
         </div></div></div>
@@ -550,10 +547,10 @@
         <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
           <div class="tech-col">
             <div class="tech-col-k">Τι κάνουμε</div>
-            <p class="tech-col-v">Αξιολογούμε αν η εμπορική ταυτότητα έχει εγκατασταθεί στη μνήμη και στη συνομιλία της αγοράς — μέσα από ποιοτικές ενδείξεις πολιτισμικής παρουσίας.</p>
+            <p class="tech-col-v">Μετράμε αν η ταυτότητά σας έχει εγκατασταθεί στη μνήμη και στη συνομιλία της αγοράς.</p>
           </div>
           <div class="tech-col">
-            <div class="tech-col-k">Τι παράγει</div>
+            <div class="tech-col-k">Αποτέλεσμα</div>
             <p class="tech-col-v"><strong>Αναφορά εγκατάστασης</strong> με ποιοτική και ποσοτική αξιολόγηση της παρουσίας σας στη συνείδηση της αγοράς.</p>
           </div>
           <div class="tech-result">↑ Ορατότητα Αποτελεσμάτων · ↑ Βελτιστοποίηση Στρατηγικής</div>
@@ -569,24 +566,24 @@
 <!-- ══════ TRUTHS ══════ -->
 <section id="truths" class="s-pad">
   <div class="W">
-    <div class="s-head r" style="margin-bottom:clamp(32px,5vw,56px)">
+    <div class="s-head r" style="margin-bottom:clamp(28px,5vw,52px)">
       <span class="s-head-line"></span><span>Γιατί λειτουργεί</span>
     </div>
     <div class="truths-grid r d2">
       <div class="truth">
         <p class="truth-q">«Δεν αγοράζουμε προϊόντα.<br>Αγοράζουμε <em>ταυτότητες.</em>»</p>
         <div class="truth-line"></div>
-        <p class="truth-body">Κάθε αγοραστική απόφαση είναι πρώτα συναισθηματική και μετά ορθολογική. Ο σχεδιασμός που αγνοεί αυτό δεν είναι στρατηγική — είναι απλώς θόρυβος.</p>
+        <p class="truth-body">Κάθε αγοραστική απόφαση είναι πρώτα συναισθηματική. Ο σχεδιασμός που αγνοεί αυτό δεν είναι στρατηγική — είναι θόρυβος.</p>
       </div>
       <div class="truth">
         <p class="truth-q">«Η <em>εμπιστοσύνη</em> χτίζεται<br>με αυτά που δεν λες.»</p>
         <div class="truth-line"></div>
-        <p class="truth-body">Οι ταυτότητες που εξηγούν υπερβολικά πολλά, δικαιολογούνται. Αυτές που δεν εξηγούν, προκαλούν. Η στρατηγική σιωπή είναι ένα από τα πιο υποτιμημένα εργαλεία.</p>
+        <p class="truth-body">Οι ταυτότητες που εξηγούν υπερβολικά, δικαιολογούνται. Αυτές που δεν εξηγούν, προκαλούν. Η στρατηγική σιωπή είναι το πιο υποτιμημένο εργαλείο.</p>
       </div>
       <div class="truth">
         <p class="truth-q">«Η <em>προσοχή</em> είναι<br>το νέο νόμισμα.»</p>
         <div class="truth-line"></div>
-        <p class="truth-body">Δεν υπάρχει ανταγωνισμός κατηγορίας. Υπάρχει μόνο ανταγωνισμός για τη στιγμή που κάποιος αποφασίζει τι θυμάται. Αυτή τη στιγμή τη σχεδιάζουμε εμείς.</p>
+        <p class="truth-body">Δεν υπάρχει ανταγωνισμός κατηγορίας. Υπάρχει μόνο ανταγωνισμός για τη στιγμή που κάποιος αποφασίζει τι θυμάται.</p>
       </div>
     </div>
   </div>
@@ -603,12 +600,12 @@
       <p class="s-intro">Έξι μηχανισμοί βασισμένοι στον τρόπο που λειτουργεί η ανθρώπινη προσοχή — ανεξάρτητα από κλάδο ή εποχή.</p>
     </div>
     <div class="mech-grid">
-      <div class="mech-card r d1"><div class="mech-rom">Ι.</div><h3 class="mech-title"><em>Διακοπή</em> Αφήγησης</h3><p class="mech-body">Κάθε κλάδος έχει ένα αποδεκτό σενάριο. Εντοπίζουμε την ανεκπλήρωτη υπόσχεση και σχεδιάζουμε μια αντίφαση τόσο ακριβή που δεν μπορεί να αγνοηθεί. Δεν κάνουμε κραυγή — κάνουμε χειρουργική τομή.</p><div class="mech-out">↑ Εξουσία Κατηγορίας · ↑ Εύρος Ταυτότητας</div></div>
-      <div class="mech-card r d2"><div class="mech-rom">ΙΙ.</div><h3 class="mech-title">Ελεγχόμενη <em>Αντιπαράθεση</em></h3><p class="mech-body">Η αντιπαράθεση είναι εργαλείο ακριβείας, όχι χειροβομβίδα. Σχεδιάζουμε τον ακριβή βαθμό τριβής που γεννά συζήτηση χωρίς να προκαλεί αντίδραση.</p><div class="mech-out">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Σχετικότητα</div></div>
-      <div class="mech-card r d3"><div class="mech-rom">ΙΙΙ.</div><h3 class="mech-title">Στρατηγική <em>Σπανιότητα</em></h3><p class="mech-body">Η απρόσιτη κατάσταση αναδιαμορφώνει την επιθυμία. Σχεδιάζουμε συστήματα πρόσβασης που μετατρέπουν την απόκτηση σε σήμα κοινωνικού κύρους.</p><div class="mech-out">↑ Αντιλαμβανόμενη Αξία · ↑ Οργανική Ενίσχυση</div></div>
-      <div class="mech-card r d1"><div class="mech-rom">ΙV.</div><h3 class="mech-title">Πολιτισμικός <em>Χρονισμός</em></h3><p class="mech-body">Το ίδιο μήνυμα αποδίδει πολλαπλάσια στο σωστό συναισθηματικό παράθυρο. Διατηρούμε συνεχή παρακολούθηση πολιτισμικών σημάτων.</p><div class="mech-out">↑ Απήχηση Μηνύματος · ↑ Πολιτισμική Μνήμη</div></div>
-      <div class="mech-card r d2"><div class="mech-rom">V.</div><h3 class="mech-title">Ιογενής <em>Σχεδιασμός</em></h3><p class="mech-body">Οι ιδέες εξαπλώνονται όταν περιέχουν εγγενή ανάγκη αναπαραγωγής — ένα κενό που θέλεις να γεμίσεις, μια ερώτηση που δεν αντέχεις να μη θέσεις.</p><div class="mech-out">↑ Οργανική Εμβέλεια · ↑ Σχηματισμός Κοινότητας</div></div>
-      <div class="mech-card r d3"><div class="mech-rom">VΙ.</div><h3 class="mech-title">Ενίσχυση <em>Σήματος</em></h3><p class="mech-body">Ένα σήμα στο σωστό δίκτυο αξίζει περισσότερο από εκατομμύρια εμφανίσεις στο λάθος. Χαρτογραφούμε την αρχιτεκτονική επιρροής στον κλάδο σας.</p><div class="mech-out">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Μετατροπής</div></div>
+      <div class="mech-card r d1"><div class="mech-rom">Ι.</div><h3 class="mech-title"><em>Διακοπή</em> Αφήγησης</h3><p class="mech-body">Εντοπίζουμε την ανεκπλήρωτη υπόσχεση κάθε κλάδου και σχεδιάζουμε μια αντίφαση τόσο ακριβή που δεν μπορεί να αγνοηθεί. Χειρουργική τομή, όχι κραυγή.</p><div class="mech-out">↑ Εξουσία Κατηγορίας</div></div>
+      <div class="mech-card r d2"><div class="mech-rom">ΙΙ.</div><h3 class="mech-title">Ελεγχόμενη <em>Αντιπαράθεση</em></h3><p class="mech-body">Σχεδιάζουμε τον ακριβή βαθμό τριβής που γεννά συζήτηση χωρίς να προκαλεί αντίδραση. Εργαλείο ακριβείας, όχι χειροβομβίδα.</p><div class="mech-out">↑ Κερδισμένη Προβολή</div></div>
+      <div class="mech-card r d3"><div class="mech-rom">ΙΙΙ.</div><h3 class="mech-title">Στρατηγική <em>Σπανιότητα</em></h3><p class="mech-body">Σχεδιάζουμε συστήματα πρόσβασης που μετατρέπουν την απόκτηση σε σήμα κοινωνικού κύρους.</p><div class="mech-out">↑ Αντιλαμβανόμενη Αξία</div></div>
+      <div class="mech-card r d1"><div class="mech-rom">ΙV.</div><h3 class="mech-title">Πολιτισμικός <em>Χρονισμός</em></h3><p class="mech-body">Το ίδιο μήνυμα αποδίδει πολλαπλάσια στο σωστό συναισθηματικό παράθυρο. Παρακολουθούμε συνεχώς τα πολιτισμικά σήματα.</p><div class="mech-out">↑ Απήχηση Μηνύματος</div></div>
+      <div class="mech-card r d2"><div class="mech-rom">V.</div><h3 class="mech-title">Ιογενής <em>Σχεδιασμός</em></h3><p class="mech-body">Οι ιδέες εξαπλώνονται όταν περιέχουν εγγενή ανάγκη αναπαραγωγής — ένα κενό που θέλεις να γεμίσεις, μια ερώτηση που δεν αντέχεις να μη θέσεις.</p><div class="mech-out">↑ Οργανική Εμβέλεια</div></div>
+      <div class="mech-card r d3"><div class="mech-rom">VΙ.</div><h3 class="mech-title">Ενίσχυση <em>Σήματος</em></h3><p class="mech-body">Ένα σήμα στο σωστό δίκτυο αξίζει περισσότερο από εκατομμύρια εμφανίσεις στο λάθος. Χαρτογραφούμε την αρχιτεκτονική επιρροής στον κλάδο σας.</p><div class="mech-out">↑ Ποιότητα Μετατροπής</div></div>
     </div>
   </div>
 </section>
@@ -632,7 +629,7 @@
         <span class="m-god">Ζευς</span>
         <div class="m-name">Πελετιέ</div>
         <span class="m-role">Στρατηγική &amp; Διεύθυνση</span>
-        <p class="m-desc">Ορίζει την κατεύθυνση κάθε έργου. Μεταφράζει τη φιλοσοφία σε απόφαση και κάθε απόφαση σε αποτέλεσμα.</p>
+        <p class="m-desc">Ορίζει την κατεύθυνση κάθε έργου. Μεταφράζει τη φιλοσοφία σε απόφαση.</p>
       </div>
 
       <div class="member">
@@ -640,7 +637,7 @@
         <span class="m-god">Ερμής</span>
         <div class="m-name">Κρυπτογράφος</div>
         <span class="m-role">Μηχανικός Αφήγησης</span>
-        <p class="m-desc">Γράφει ιστορίες εμπορικής ταυτότητας με ακρίβεια σεναριογράφου και ταχύτητα ρεπόρτερ. Τα λόγια που παραμένουν δεν είναι τυχαία.</p>
+        <p class="m-desc">Γράφει ιστορίες ταυτότητας με ακρίβεια σεναριογράφου. Τα λόγια που παραμένουν δεν είναι τυχαία.</p>
       </div>
 
       <div class="member">
@@ -648,7 +645,7 @@
         <span class="m-god">Άρτεμις</span>
         <div class="m-name">Ανιχνεύτρια</div>
         <span class="m-role">Ανάγνωση Πολιτισμού</span>
-        <p class="m-desc">Ζει μέσα στις υποκουλτούρες. Εντοπίζει τι θα γίνει κυρίαρχο ρεύμα μήνες πριν το δει κανείς άλλος.</p>
+        <p class="m-desc">Ζει μέσα στις υποκουλτούρες. Εντοπίζει τι θα κυριαρχήσει μήνες πριν το δει κανείς.</p>
       </div>
 
       <div class="member">
@@ -664,7 +661,7 @@
         <span class="m-god">Αθηνά</span>
         <div class="m-name">Αναλύτρια</div>
         <span class="m-role">Στρατηγική Δεδομένων</span>
-        <p class="m-desc">Μετατρέπει δεδομένα σε ενστικτώδεις αποφάσεις. Γνωρίζει ποιο κοινό είναι έτοιμο και πότε ακριβώς να κινηθεί.</p>
+        <p class="m-desc">Μετατρέπει δεδομένα σε ενστικτώδεις αποφάσεις. Γνωρίζει ποιο κοινό είναι έτοιμο και πότε να κινηθεί.</p>
       </div>
 
       <div class="member">
@@ -672,7 +669,7 @@
         <span class="m-god">Ποσειδών</span>
         <div class="m-name">Χειριστής</div>
         <span class="m-role">Στρατηγική Διανομής</span>
-        <p class="m-desc">Αναπτύσσει υλικό μέσα από τα σωστά κανάλια τη σωστή στιγμή. Η διανομή δεν είναι εφοδιαστική — είναι στρατηγική επιλογή.</p>
+        <p class="m-desc">Αναπτύσσει υλικό μέσα από τα σωστά κανάλια τη σωστή στιγμή. Η διανομή είναι στρατηγική επιλογή.</p>
       </div>
 
       <div class="member">
@@ -688,7 +685,7 @@
         <span class="m-god">Ήφαιστος</span>
         <div class="m-name">Φορέας</div>
         <span class="m-role">Στρατηγικές Συμφωνίες</span>
-        <p class="m-desc">Κατασκευάζει συμφωνίες με ακρίβεια. Γνωρίζει πότε να πιέσει, πότε να σιωπήσει και ποια πρόταση κλείνει μια συνεργασία.</p>
+        <p class="m-desc">Κατασκευάζει συμφωνίες με ακρίβεια. Γνωρίζει πότε να πιέσει, πότε να σιωπήσει.</p>
       </div>
 
     </div>
@@ -708,17 +705,12 @@
         Χτίζουμε αλήθειες.
       </h2>
       <p class="close-body r d2">
-        Τα σημαντικότερα εμπορικά σήματα του κόσμου δεν κυνηγούν την προσοχή.
-        <strong>Την ορίζουν.</strong> Κατανοούν ότι κάθε πολιτισμική στιγμή που δεν σχεδίασαν
-        οι ίδιοι, τη σχεδίασε κάποιος άλλος εναντίον τους.
+        Τα σημαντικότερα brands του κόσμου δεν κυνηγούν την προσοχή — <strong>την ορίζουν.</strong>
+        Γνωρίζουν ότι κάθε πολιτισμική στιγμή που δεν σχεδίασαν οι ίδιοι,
+        τη σχεδίασε κάποιος άλλος εναντίον τους.
+        Ή κινείς τη συνομιλία — ή είσαι <strong>μέρος του φόντου.</strong>
       </p>
-      <p class="close-body r d3" style="margin-top:18px;">
-        Δεν υπάρχει ουδετερότητα: ή κινείς τη συνομιλία —
-        ή είσαι <strong>μέρος του φόντου.</strong>
-        Αυτό κάνουμε: <strong>σχεδιάζουμε την αναπόφευκτη παρουσία σας στις συνομιλίες που έχουν σημασία.</strong>
-        Όχι με προϋπολογισμό. Με αρχιτεκτονική.
-      </p>
-      <div class="close-sig r d4">
+      <div class="close-sig r d3">
         <span class="sig-name">Νίκος Πελετιέ</span>
         <span class="sig-rule"></span>
         <span class="sig-label">Αρχιτέκτονας Προσοχής · 2026</span>
@@ -732,318 +724,301 @@
   <span><span class="f-dot"></span>nikospeletie.com</span>
 </footer>
 
-<!-- ══════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════ -->
 <script>
-(function () {
-  'use strict';
+(function(){
+'use strict';
 
-  /* ── cursor ── */
-  const cd = document.getElementById('cd');
-  const cr = document.getElementById('cr');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cd.style.left = mx + 'px'; cd.style.top = my + 'px';
+/* ── cursor (desktop only) ── */
+const isTouch = window.matchMedia('(pointer:coarse)').matches;
+if(!isTouch){
+  const cd=document.getElementById('cd'), cr=document.getElementById('cr');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cd.style.left=mx+'px'; cd.style.top=my+'px';
   });
-  document.addEventListener('mouseleave', () => { cd.style.opacity='0'; cr.style.opacity='0'; });
-  document.addEventListener('mouseenter', () => { cd.style.opacity='1'; cr.style.opacity='1'; });
+  document.addEventListener('mouseleave',()=>{cd.style.opacity='0';cr.style.opacity='0';});
+  document.addEventListener('mouseenter',()=>{cd.style.opacity='1';cr.style.opacity='1';});
   (function loop(){
-    rx += (mx-rx)*.1; ry += (my-ry)*.1;
-    cr.style.left = rx+'px'; cr.style.top = ry+'px';
+    rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+    cr.style.left=rx+'px'; cr.style.top=ry+'px';
     requestAnimationFrame(loop);
   })();
+}
 
-  /* ── progress / nav ── */
-  const bar = document.getElementById('bar');
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    bar.style.width = (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
-    nav.classList.toggle('on', scrollY > 44);
-  }, { passive:true });
+/* ── progress / nav ── */
+const bar=document.getElementById('bar');
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  const pct=scrollY/(document.body.scrollHeight-innerHeight)*100;
+  bar.style.width=pct+'%';
+  nav.classList.toggle('on',scrollY>44);
+},{passive:true});
 
-  /* ── reveal on scroll ── */
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold:.08, rootMargin:'0px 0px -32px 0px' });
-  document.querySelectorAll('.r').forEach(el => io.observe(el));
+/* ── reveal ── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:.08,rootMargin:'0px 0px -28px 0px'});
+document.querySelectorAll('.r').forEach(el=>io.observe(el));
 
-  /* ── accordion ── */
-  document.querySelectorAll('.tech-hd').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const bd = btn.nextElementSibling;
-      const wasOpen = bd.classList.contains('open');
-      document.querySelectorAll('.tech-bd.open').forEach(b => {
-        b.classList.remove('open');
-        b.previousElementSibling.setAttribute('aria-expanded','false');
-      });
-      if (!wasOpen) {
-        bd.classList.add('open');
-        btn.setAttribute('aria-expanded','true');
-      }
+/* ── accordion ── */
+document.querySelectorAll('.tech-hd').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const bd=btn.nextElementSibling;
+    const wasOpen=bd.classList.contains('open');
+    document.querySelectorAll('.tech-bd.open').forEach(b=>{
+      b.classList.remove('open');
+      b.previousElementSibling.setAttribute('aria-expanded','false');
     });
-    btn.addEventListener('keydown', e => {
-      if (e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }
+    if(!wasOpen){bd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+  });
+  btn.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();btn.click();}
+  });
+});
+
+/* ══════════════════════════════════════════
+   MATRIX VISUAL
+   Layer 1: falling character rain (Greek + symbols)
+   Layer 2: living constellation network overlay
+   Mobile: canvas hidden via CSS at <1060px,
+   so canvas code only runs on larger screens.
+══════════════════════════════════════════ */
+const canvas=document.getElementById('mtx');
+if(!canvas)return;
+
+/* skip canvas on small screens — it's hidden anyway,
+   no point burning CPU on mobile */
+if(window.matchMedia('(max-width:1060px)').matches)return;
+
+const ctx=canvas.getContext('2d');
+const CELL=16;
+const CHARS='ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789∑∆∇∈∉⊂⊃∩∪∞≈≠≤≥→←↑↓⊕⊗';
+let S=0,COLS=0,drops=[],intervalId=null;
+
+/* ── size ── */
+function resize(){
+  S=Math.min(canvas.parentElement.offsetWidth,480);
+  canvas.width=canvas.height=S;
+  COLS=Math.floor(S/CELL);
+  initDrops();
+}
+
+/* ── matrix drops ── */
+function initDrops(){
+  drops=[];
+  for(let i=0;i<COLS;i++){
+    const chars=[];
+    for(let j=0;j<30;j++) chars.push(CHARS[Math.floor(Math.random()*CHARS.length)]);
+    drops.push({
+      y:Math.random()*-COLS, speed:.3+Math.random()*.7,
+      len:8+Math.floor(Math.random()*14),
+      chars, mutTimer:0, mutRate:4+Math.floor(Math.random()*8)
+    });
+  }
+}
+
+/* ── constellation ── */
+const NODE_COUNT=14;
+let nodes=[],pulses=[];
+
+function makeNode(i){
+  const ang=(i/NODE_COUNT)*Math.PI*2+(Math.random()-.5)*.7;
+  const dist=.25+Math.random()*.72;
+  return{
+    ox:Math.cos(ang)*dist, oy:Math.sin(ang)*dist,
+    x:0,y:0,
+    vx:(Math.random()-.5)*.0004, vy:(Math.random()-.5)*.0004,
+    r:1.5+Math.random()*1.8,
+    ph:Math.random()*Math.PI*2, ps:.014+Math.random()*.02,
+    alpha:0, born:false,
+    birthTime:Date.now()+i*200+Math.random()*600,
+    edges:[]
+  };
+}
+
+function buildEdges(){
+  nodes.forEach(a=>{a.edges=[];});
+  nodes.forEach((a,i)=>{
+    nodes
+      .map((b,j)=>({j,d:(a.ox-b.ox)**2+(a.oy-b.oy)**2}))
+      .filter((_,j)=>j!==i)
+      .sort((x,y)=>x.d-y.d)
+      .slice(0,2)
+      .forEach(o=>{if(!a.edges.includes(o.j))a.edges.push(o.j);});
+  });
+}
+
+function initNodes(){
+  nodes=[];
+  for(let i=0;i<NODE_COUNT;i++) nodes.push(makeNode(i));
+  buildEdges();
+}
+
+function spawnPulse(){
+  const alive=nodes.filter(n=>n.born);
+  if(alive.length<2)return;
+  const a=alive[Math.floor(Math.random()*alive.length)];
+  if(!a.edges.length)return;
+  const b=nodes[a.edges[Math.floor(Math.random()*a.edges.length)]];
+  if(!b.born)return;
+  pulses.push({ax:a.x,ay:a.y,bx:b.x,by:b.y,t:0,spd:.008+Math.random()*.005});
+}
+
+/* clear old interval before creating new one */
+function startPulseTimer(){
+  if(intervalId)clearInterval(intervalId);
+  intervalId=setInterval(spawnPulse,800);
+}
+
+resize();
+initNodes();
+startPulseTimer();
+
+let resizeTimer;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(()=>{
+    resize(); initNodes(); pulses=[];
+  },200);
+},{passive:true});
+
+/* ── draw ── */
+function draw(){
+  const now=Date.now();
+  const cx=S/2,cy=S/2,R=S*.42;
+
+  /* background */
+  ctx.fillStyle='rgba(4,4,6,.88)';
+  ctx.fillRect(0,0,S,S);
+
+  /* clip to circle */
+  ctx.save();
+  ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.clip();
+
+  /* ── rain ── */
+  drops.forEach((d,col)=>{
+    const x=col*CELL+CELL/2;
+    d.mutTimer++;
+    if(d.mutTimer>=d.mutRate){
+      d.mutTimer=0;
+      d.chars[Math.floor(Math.random()*d.chars.length)]=CHARS[Math.floor(Math.random()*CHARS.length)];
+    }
+    for(let row=0;row<d.len;row++){
+      const yy=(Math.floor(d.y)-row)*CELL;
+      if(yy<-CELL||yy>S+CELL)continue;
+      const prog=row/d.len;
+      const ch=d.chars[(Math.floor(d.y)-row+d.chars.length*100)%d.chars.length];
+      ctx.textAlign='center';
+      if(row===0){
+        ctx.fillStyle='rgba(180,255,255,.92)';
+        ctx.font=`bold ${CELL*.75}px 'DM Mono',monospace`;
+      }else if(row<=2){
+        ctx.fillStyle=`rgba(0,243,255,${.68-prog*.28})`;
+        ctx.font=`400 ${CELL*.7}px 'DM Mono',monospace`;
+      }else{
+        ctx.fillStyle=`rgba(0,200,210,${Math.max(0,.34-prog*.3)})`;
+        ctx.font=`300 ${CELL*.67}px 'DM Mono',monospace`;
+      }
+      ctx.fillText(ch,x,yy);
+    }
+    d.y+=d.speed;
+    if(d.y*CELL>S+d.len*CELL){
+      d.y=Math.random()*-10;
+      d.speed=.3+Math.random()*.7;
+      d.len=8+Math.floor(Math.random()*14);
+    }
+  });
+
+  /* ── nodes update ── */
+  nodes.forEach(n=>{
+    if(!n.born&&now>=n.birthTime)n.born=true;
+    if(n.born){
+      n.alpha=Math.min(n.alpha+.016,1);
+      n.ox+=n.vx; n.oy+=n.vy;
+      n.ox*=.9998; n.oy*=.9998;
+    }
+    n.ph+=n.ps;
+    n.x=cx+n.ox*R; n.y=cy+n.oy*R;
+  });
+
+  /* ── edges ── */
+  nodes.forEach(a=>{
+    if(!a.born)return;
+    a.edges.forEach(j=>{
+      const b=nodes[j];
+      if(!b.born)return;
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle=`rgba(0,243,255,${Math.min(a.alpha,b.alpha)*.32})`;
+      ctx.lineWidth=.8;ctx.stroke();
     });
   });
 
-  /* ══════════════════════════════════════════
-     MATRIX VISUAL
-     Falling Greek/Latin character streams,
-     overlaid with a living influence network.
-     Two layers: depth (matrix rain) + signal
-     (node constellation) — working together.
-  ══════════════════════════════════════════ */
-  const canvas = document.getElementById('mtx');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  /* sizing */
-  let S = 0, COLS = 0;
-  const CELL = 16;
-
-  function resize() {
-    const parent = canvas.parentElement;
-    S = Math.min(parent.offsetWidth, 500);
-    canvas.width  = S;
-    canvas.height = S;
-    COLS = Math.floor(S / CELL);
-    initMatrix();
+  /* ── pulses ── */
+  for(let i=pulses.length-1;i>=0;i--){
+    const p=pulses[i]; p.t+=p.spd;
+    if(p.t>1){pulses.splice(i,1);continue;}
+    const px=p.ax+(p.bx-p.ax)*p.t;
+    const py=p.ay+(p.by-p.ay)*p.t;
+    ctx.beginPath();ctx.arc(px,py,2.2,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,243,255,${(1-p.t)*.92})`;
+    /* shadow only every 3rd pulse for perf */
+    if(i%3===0){ctx.shadowBlur=8;ctx.shadowColor='rgba(0,243,255,.8)';}
+    ctx.fill();ctx.shadowBlur=0;
   }
 
-  /* ── LAYER 1: Matrix rain ── */
-  const CHARS = 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789∑∆∇∈∉⊂⊃∩∪∞≈≠≤≥→←↑↓⊕⊗';
-  let drops = [];
+  /* ── nodes draw ── */
+  nodes.forEach(n=>{
+    if(!n.born)return;
+    const pulse=1+Math.sin(n.ph)*.22;
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r*3.2*pulse,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(0,243,255,${n.alpha*.16})`;
+    ctx.lineWidth=.7;ctx.stroke();
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,243,255,${n.alpha*.96})`;
+    ctx.shadowBlur=8;ctx.shadowColor='rgba(0,243,255,.85)';
+    ctx.fill();ctx.shadowBlur=0;
+  });
 
-  function initMatrix() {
-    drops = [];
-    for (let i = 0; i < COLS; i++) {
-      drops.push({
-        y:        Math.random() * -COLS,    /* start above canvas */
-        speed:    0.3 + Math.random() * 0.7,
-        len:      8 + Math.floor(Math.random() * 14),
-        chars:    [],
-        mutTimer: 0,
-        mutRate:  4 + Math.floor(Math.random() * 8)
-      });
-      /* pre-fill char trail */
-      for (let j = 0; j < 30; j++) {
-        drops[i].chars.push(CHARS[Math.floor(Math.random() * CHARS.length)]);
-      }
-    }
-  }
+  /* ── central hub ── */
+  const t=now*.0022, cp=1+Math.sin(t)*.15;
+  [30,18].forEach((rr,i)=>{
+    ctx.beginPath();ctx.arc(cx,cy,rr*cp,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(0,243,255,${i===0?.08:.2})`;
+    ctx.lineWidth=i===0?.6:.9;ctx.stroke();
+  });
+  ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);
+  ctx.fillStyle='rgba(0,243,255,.98)';
+  ctx.shadowBlur=18;ctx.shadowColor='rgba(0,243,255,1)';
+  ctx.fill();ctx.shadowBlur=0;
 
-  /* ── LAYER 2: Constellation nodes ── */
-  const NODE_COUNT = 14;
-  const nodes = [];
-  const pulses = [];
+  /* ── labels ── */
+  const fs=S*.04;
+  ctx.font=`300 ${fs}px 'DM Mono',monospace`;
+  ctx.fillStyle='rgba(0,243,255,.26)';
+  ctx.textAlign='left';
+  ctx.fillText('ΔΙΚΤΥΟ ΕΠΙΡΡΟΗΣ',cx-R*.86+4,cy+R*.88);
+  ctx.textAlign='right';
+  const d=new Date();
+  ctx.fillText([d.getHours(),d.getMinutes(),d.getSeconds()].map(v=>String(v).padStart(2,'0')).join(':'),cx+R*.86-4,cy+R*.88);
 
-  function makeNode(i) {
-    const cx = S / 2, cy = S / 2, r = S * 0.36;
-    const ang  = (i / NODE_COUNT) * Math.PI * 2 + (Math.random() - .5) * .7;
-    const dist = 0.25 + Math.random() * 0.75;
-    return {
-      ox: (Math.cos(ang) * dist),
-      oy: (Math.sin(ang) * dist),
-      x: 0, y: 0,
-      vx: (Math.random() - .5) * 0.0004,
-      vy: (Math.random() - .5) * 0.0004,
-      r:  1.5 + Math.random() * 1.8,
-      ph: Math.random() * Math.PI * 2,
-      ps: 0.014 + Math.random() * 0.02,
-      alpha: 0,
-      born: false,
-      birthTime: Date.now() + i * 200 + Math.random() * 600,
-      edges: []
-    };
-  }
+  ctx.restore();
 
-  function buildEdges() {
-    nodes.forEach(a => { a.edges = []; });
-    nodes.forEach((a, i) => {
-      nodes
-        .map((b, j) => ({ j, d:(a.ox-b.ox)**2+(a.oy-b.oy)**2 }))
-        .filter((_, j) => j !== i)
-        .sort((x,y) => x.d - y.d)
-        .slice(0, 2)
-        .forEach(o => { if (!a.edges.includes(o.j)) a.edges.push(o.j); });
-    });
-  }
+  /* vignette */
+  const vg=ctx.createRadialGradient(cx,cy,R*.7,cx,cy,R*1.01);
+  vg.addColorStop(0,'rgba(0,0,0,0)');
+  vg.addColorStop(1,'rgba(4,4,6,.9)');
+  ctx.beginPath();ctx.arc(cx,cy,R*1.01,0,Math.PI*2);
+  ctx.fillStyle=vg;ctx.fill();
 
-  function initConstellation() {
-    nodes.length = 0;
-    for (let i = 0; i < NODE_COUNT; i++) nodes.push(makeNode(i));
-    buildEdges();
-  }
+  /* border */
+  ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,243,255,.11)';ctx.lineWidth=1;ctx.stroke();
 
-  function spawnPulse() {
-    const alive = nodes.filter(n => n.born);
-    if (alive.length < 2) return;
-    const a = alive[Math.floor(Math.random() * alive.length)];
-    if (!a.edges.length) return;
-    const b = nodes[a.edges[Math.floor(Math.random() * a.edges.length)]];
-    if (!b.born) return;
-    pulses.push({ ax:a.x, ay:a.y, bx:b.x, by:b.y, t:0, spd:.008+Math.random()*.005 });
-  }
+  requestAnimationFrame(draw);
+}
 
-  setInterval(spawnPulse, 800);
-
-  resize();
-  initConstellation();
-  window.addEventListener('resize', () => { resize(); initConstellation(); }, { passive:true });
-
-  /* ── draw loop ── */
-  let frame = 0;
-  function draw() {
-    frame++;
-    const now = Date.now();
-    const cx = S / 2, cy = S / 2, R = S * 0.42;
-
-    /* ── background: near-black with very slight transparency
-       so matrix characters fade naturally ── */
-    ctx.fillStyle = 'rgba(4,4,6,.88)';
-    ctx.fillRect(0, 0, S, S);
-
-    /* ── circular clip mask ── */
-    ctx.save();
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2); ctx.clip();
-
-    /* ── MATRIX RAIN ── */
-    drops.forEach((d, col) => {
-      const x = col * CELL + CELL/2;
-
-      /* mutate characters occasionally */
-      d.mutTimer++;
-      if (d.mutTimer >= d.mutRate) {
-        d.mutTimer = 0;
-        const idx = Math.floor(Math.random() * d.chars.length);
-        d.chars[idx] = CHARS[Math.floor(Math.random() * CHARS.length)];
-      }
-
-      /* draw trail */
-      for (let row = 0; row < d.len; row++) {
-        const yy = (Math.floor(d.y) - row) * CELL;
-        if (yy < -CELL || yy > S + CELL) continue;
-
-        const progress = row / d.len;   /* 0 = head, 1 = tail */
-        const charIdx  = (Math.floor(d.y) - row + d.chars.length * 100) % d.chars.length;
-        const ch       = d.chars[charIdx];
-
-        if (row === 0) {
-          /* bright head */
-          ctx.fillStyle = `rgba(180,255,255,${0.92})`;
-          ctx.font = `bold ${CELL * .75}px 'DM Mono', monospace`;
-        } else if (row <= 2) {
-          ctx.fillStyle = `rgba(0,243,255,${0.7 - progress * .3})`;
-          ctx.font = `400 ${CELL * .7}px 'DM Mono', monospace`;
-        } else {
-          const a = Math.max(0, 0.35 - progress * .32);
-          ctx.fillStyle = `rgba(0,200,210,${a})`;
-          ctx.font = `300 ${CELL * .68}px 'DM Mono', monospace`;
-        }
-        ctx.textAlign = 'center';
-        ctx.fillText(ch, x, yy);
-      }
-
-      /* advance */
-      d.y += d.speed;
-      if (d.y * CELL > S + d.len * CELL) {
-        d.y = Math.random() * -10;
-        d.speed = 0.3 + Math.random() * 0.7;
-        d.len   = 8 + Math.floor(Math.random() * 14);
-      }
-    });
-
-    /* ── CONSTELLATION overlay ── */
-    /* update nodes */
-    nodes.forEach(n => {
-      if (!n.born && now >= n.birthTime) n.born = true;
-      if (n.born) {
-        n.alpha = Math.min(n.alpha + .016, 1);
-        n.ox += n.vx; n.oy += n.vy;
-        n.ox *= .9998; n.oy *= .9998;
-      }
-      n.ph += n.ps;
-      n.x = cx + n.ox * R;
-      n.y = cy + n.oy * R;
-    });
-
-    /* edges */
-    nodes.forEach(a => {
-      if (!a.born) return;
-      a.edges.forEach(j => {
-        const b = nodes[j];
-        if (!b.born) return;
-        const op = Math.min(a.alpha, b.alpha) * .35;
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(0,243,255,${op})`; ctx.lineWidth = .8; ctx.stroke();
-      });
-    });
-
-    /* pulses */
-    for (let i = pulses.length-1; i >= 0; i--) {
-      const p = pulses[i]; p.t += p.spd;
-      if (p.t > 1) { pulses.splice(i,1); continue; }
-      const px = p.ax + (p.bx-p.ax)*p.t;
-      const py = p.ay + (p.by-p.ay)*p.t;
-      ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(0,243,255,${(1-p.t)*.95})`;
-      ctx.shadowBlur=10; ctx.shadowColor='rgba(0,243,255,.9)';
-      ctx.fill(); ctx.shadowBlur=0;
-    }
-
-    /* nodes */
-    nodes.forEach(n => {
-      if (!n.born) return;
-      const pulse = 1 + Math.sin(n.ph) * .22;
-      ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 3.4 * pulse, 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(0,243,255,${n.alpha*.18})`; ctx.lineWidth=.8; ctx.stroke();
-      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(0,243,255,${n.alpha*.98})`;
-      ctx.shadowBlur=10; ctx.shadowColor='rgba(0,243,255,.9)';
-      ctx.fill(); ctx.shadowBlur=0;
-    });
-
-    /* central hub */
-    const t  = now * .0022;
-    const cp = 1 + Math.sin(t) * .15;
-    [30, 18].forEach((rr, i) => {
-      ctx.beginPath(); ctx.arc(cx, cy, rr*cp, 0, Math.PI*2);
-      ctx.strokeStyle = `rgba(0,243,255,${i===0?.08:.2})`; ctx.lineWidth=i===0?.6:.9; ctx.stroke();
-    });
-    ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
-    ctx.fillStyle='rgba(0,243,255,.98)';
-    ctx.shadowBlur=20; ctx.shadowColor='rgba(0,243,255,1)'; ctx.fill(); ctx.shadowBlur=0;
-
-    /* labels */
-    const fs = S * .042;
-    ctx.font = `300 ${fs}px 'DM Mono', monospace`;
-    ctx.textAlign='left';
-    ctx.fillStyle='rgba(0,243,255,.28)';
-    ctx.fillText('ΔΙΚΤΥΟ ΕΠΙΡΡΟΗΣ', cx - R*.88 + 4, cy + R*.9);
-    ctx.textAlign='right';
-    const d2 = new Date();
-    const ts = [d2.getHours(), d2.getMinutes(), d2.getSeconds()].map(v=>String(v).padStart(2,'0')).join(':');
-    ctx.fillText(ts, cx + R*.88 - 4, cy + R*.9);
-
-    ctx.restore();
-
-    /* vignette ring */
-    const vg = ctx.createRadialGradient(cx, cy, R*.72, cx, cy, R*1.02);
-    vg.addColorStop(0,'rgba(0,0,0,0)');
-    vg.addColorStop(1,'rgba(4,4,6,.88)');
-    ctx.beginPath(); ctx.arc(cx, cy, R*1.02, 0, Math.PI*2);
-    ctx.fillStyle = vg; ctx.fill();
-
-    /* thin border ring */
-    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
-    ctx.strokeStyle='rgba(0,243,255,.12)'; ctx.lineWidth=1; ctx.stroke();
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
+draw();
 
 })();
 </script>
