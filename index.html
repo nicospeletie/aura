@@ -6,474 +6,1046 @@
   <title>Νίκος Πελετιέ — Αρχιτέκτονας Προσοχής</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+
   <style>
-    :root {
-      --μ:#050507;--ε1:#0d0d11;--ε2:#131318;--λ:#ededea;
-      --αμ:rgba(237,237,234,.40);--αμ2:rgba(237,237,234,.18);
-      --μπ:#00F3FF;--μπκ:0 0 12px rgba(0,243,255,.5);
-      --πλ:rgba(255,255,255,.055);
-      --ease:cubic-bezier(.16,1,.3,1);
-      --fd:'Cormorant',Georgia,serif;--fm:'DM Mono',monospace;--fb:'Jost',sans-serif;
-    }
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth;font-size:16px}
-    body{background:var(--μ);color:var(--λ);font-family:var(--fb);font-weight:300;line-height:1.7;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
-    ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--μ)}::-webkit-scrollbar-thumb{background:var(--μπ)}
-    a{color:inherit;text-decoration:none}
-    #δτ,#δκ{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0}
-    #δτ{width:6px;height:6px;background:var(--μπ);box-shadow:var(--μπκ);transform:translate(-50%,-50%);transition:opacity .3s}
-    #δκ{width:34px;height:34px;border:1px solid rgba(0,243,255,.32);transform:translate(-50%,-50%);transition:width .4s var(--ease),height .4s var(--ease),border-color .3s,opacity .3s}
-    body:has(.αλ:hover) #δκ{width:52px;height:52px;border-color:var(--μπ)}
-    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ν'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23ν)' opacity='.04'/%3E%3C/svg%3E");background-size:160px 160px;opacity:.4}
-    #πρόοδος{position:fixed;top:0;left:0;height:1px;width:0%;background:linear-gradient(90deg,transparent,var(--μπ),rgba(0,243,255,.2));z-index:200;box-shadow:0 0 8px var(--μπ);transition:width .05s linear}
-    .wrap{max-width:1200px;margin:0 auto;padding:0 clamp(24px,6vw,80px);position:relative;z-index:2}
-    .διαχ{height:1px;background:var(--πλ)}
-    section{padding:clamp(80px,13vw,150px) 0;position:relative;z-index:2}
-    .εκφ{font-family:var(--fm);font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;font-weight:400}
-    .μπχρ{color:var(--μπ);text-shadow:var(--μπκ)}
+  /* ══════════════════════════════════════════
+     DESIGN TOKENS
+  ══════════════════════════════════════════ */
+  :root {
+    --bg:   #040406;
+    --s1:   #08080c;
+    --s2:   #0d0d13;
+    --fg:   #eaeae6;
+    --d1:   rgba(234,234,230,.44);
+    --d2:   rgba(234,234,230,.18);
+    --d3:   rgba(234,234,230,.07);
+    --c:    #00F3FF;
+    --cg:   rgba(0,243,255,.5);
+    --ease: cubic-bezier(.16,1,.3,1);
+    --F:    'Cormorant', Georgia, serif;
+    --M:    'DM Mono', monospace;
+    --pad:  clamp(24px, 6.5vw, 96px);
+  }
 
-    /* ΠΛΟΗΓΗΣΗ */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px clamp(24px,6vw,80px);display:flex;align-items:center;justify-content:space-between;transition:background .6s}
-    nav.κύλ{background:rgba(5,5,7,.86);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid rgba(0,243,255,.07)}
-    .ν-ταυτ{display:flex;align-items:center;gap:12px}
-    .ν-παλμ{width:6px;height:6px;border-radius:50%;background:var(--μπ);box-shadow:var(--μπκ);animation:παλμ 2.5s ease-in-out infinite}
-    @keyframes παλμ{0%,100%{opacity:1;box-shadow:0 0 8px var(--μπ)}50%{opacity:.35;box-shadow:0 0 2px var(--μπ)}}
-    .ν-όνομ{font-family:var(--fm);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--αμ)}
-    .ν-κατ{font-family:var(--fm);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,243,255,.26)}
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { font-size:16px; scroll-behavior:smooth; }
+  body {
+    background:var(--bg); color:var(--fg);
+    font-family:var(--F); font-weight:300;
+    line-height:1.65; overflow-x:hidden;
+    cursor:none;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  a { color:inherit; text-decoration:none; }
+  ::-webkit-scrollbar { width:1px; }
+  ::-webkit-scrollbar-thumb { background:var(--c); }
 
-    /* HERO */
-    #hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:100px;padding-bottom:clamp(60px,8vw,100px);position:relative;overflow:hidden}
-    #hero .wrap{display:grid;grid-template-columns:1fr 480px;gap:clamp(40px,6vw,80px);align-items:center}
-    #hero::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,243,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,243,255,.025) 1px,transparent 1px);background-size:90px 90px;mask-image:radial-gradient(ellipse 75% 80% at 60% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 75% 80% at 60% 50%,black,transparent)}
-    #hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;z-index:1;pointer-events:none;background:linear-gradient(to top,var(--μ),transparent)}
-    .ήρ-αρ{position:relative;z-index:2}
-    .ήρ-ετικ{display:flex;align-items:center;gap:14px;margin-bottom:clamp(24px,3.5vw,40px);opacity:0;transform:translateY(16px);animation:άνω .9s var(--ease) .1s forwards}
-    .γρ-μπ{width:34px;height:1px;background:var(--μπ);box-shadow:0 0 6px var(--μπ)}
-    .ήρ-τιτλ{font-family:var(--fd);font-size:clamp(3.6rem,8.5vw,8.5rem);font-weight:300;line-height:.91;letter-spacing:-.03em;opacity:0;transform:translateY(44px);animation:άνω 1.3s var(--ease) .28s forwards}
-    .ήρ-τιτλ em{font-style:italic;color:var(--μπ);text-shadow:var(--μπκ)}
-    .υπογρ{position:relative;display:inline-block}
-    .υπογρ::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--μπ);box-shadow:0 0 8px var(--μπ);transform:scaleX(0);transform-origin:left;animation:γρεμφ .9s var(--ease) 1.7s forwards}
-    @keyframes γρεμφ{to{transform:scaleX(1)}}
-    .ήρ-υποτ{margin-top:clamp(24px,3.5vw,40px);font-size:clamp(.95rem,1.5vw,1.12rem);font-weight:300;color:var(--αμ);max-width:560px;line-height:1.85;opacity:0;transform:translateY(16px);animation:άνω .9s var(--ease) .75s forwards}
-    .ήρ-υποτ strong{color:var(--λ);font-weight:400}
-    .ήρ-αρχ{display:flex;flex-direction:column;gap:16px;margin-top:clamp(32px,4.5vw,52px);opacity:0;transform:translateY(16px);animation:άνω .9s var(--ease) 1s forwards}
-    .αρχή{display:flex;align-items:flex-start;gap:14px;border-left:1px solid rgba(0,243,255,.22);padding-left:16px}
-    .αρχή-κ{font-family:var(--fm);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.28);margin-top:1px;white-space:nowrap}
-    .αρχή-π{font-size:.87rem;color:var(--αμ);line-height:1.6;font-weight:300}
-    .ήρ-δε{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
-    #ραντάρ-καμβάς{width:100%;max-width:440px;aspect-ratio:1;border-radius:50%;display:block}
-    .ήρ-φκ{position:absolute;right:-2%;bottom:-8%;font-family:var(--fd);font-size:clamp(8rem,22vw,26rem);font-weight:700;line-height:.85;color:transparent;-webkit-text-stroke:1px rgba(0,243,255,.03);pointer-events:none;user-select:none;z-index:0;letter-spacing:-.04em}
+  /* noise grain */
+  body::before {
+    content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.032'/%3E%3C/svg%3E");
+    background-size:220px 220px; opacity:.5;
+  }
 
-    /* ΤΑΙΝΙΑ */
-    #ταινία{background:var(--μπ);overflow:hidden;position:relative;z-index:2}
-    .τ-εσ{display:flex;align-items:center;padding:18px 0;white-space:nowrap;overflow:hidden}
-    .τ-τρ{display:flex;gap:52px;animation:ταινία 30s linear infinite;flex-shrink:0}
-    .τ-τρ span{font-family:var(--fm);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--μ);font-weight:500}
-    .τ-δ{color:rgba(0,0,0,.28)!important}
-    @keyframes ταινία{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  /* ── cursor ── */
+  #cd,#cr {
+    position:fixed; border-radius:50%; pointer-events:none;
+    z-index:9999; top:0; left:0; transform:translate(-50%,-50%);
+  }
+  #cd { width:5px; height:5px; background:var(--c); box-shadow:0 0 10px var(--cg); transition:opacity .3s; }
+  #cr {
+    width:32px; height:32px; border:1px solid rgba(0,243,255,.28);
+    transition:width .4s var(--ease),height .4s var(--ease),border-color .3s,opacity .3s;
+  }
+  body:has(a:hover) #cr,
+  body:has(button:hover) #cr { width:46px; height:46px; border-color:var(--c); }
 
-    /* ΚΟΙΝΕΣ ΚΕΦΑΛΙΔΕΣ */
-    .εν-κεφ{display:flex;align-items:center;gap:14px;margin-bottom:clamp(8px,1.2vw,14px)}
-    .εν-γρ{width:28px;height:1px;background:var(--μπ);box-shadow:0 0 5px var(--μπ)}
-    .εν-τιτλ{font-family:var(--fd);font-size:clamp(2.6rem,6vw,5.5rem);font-weight:300;letter-spacing:-.03em;line-height:.95}
-    .εν-τιτλ em{font-style:italic;color:var(--μπ);text-shadow:var(--μπκ)}
+  /* progress bar */
+  #bar {
+    position:fixed; top:0; left:0; height:1px; width:0%;
+    background:linear-gradient(90deg,transparent,var(--c),rgba(0,243,255,.2));
+    box-shadow:0 0 8px var(--cg); z-index:200; transition:width .05s linear;
+  }
 
-    /* ΤΕΧΝΙΚΕΣ */
-    #τεχνικές{background:var(--μ)}
-    #τεχνικές .επκ-σρ{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);align-items:end;margin-bottom:clamp(48px,7vw,88px)}
-    .εν-εισ{font-size:1rem;color:var(--αμ);line-height:1.85;max-width:420px;font-weight:300}
-    .εν-εισ strong{color:var(--λ);font-weight:400}
-    .τ-λίστα{display:flex;flex-direction:column}
-    .τ-στ{border-top:1px solid var(--πλ);position:relative;overflow:hidden;transition:background .4s}
-    .τ-στ:last-child{border-bottom:1px solid var(--πλ)}
-    .τ-στ:hover{background:var(--ε1)}
-    .τ-στ::before{content:'';position:absolute;top:0;left:0;bottom:0;width:2px;background:var(--μπ);box-shadow:0 0 8px var(--μπ);transform:scaleY(0);transform-origin:top;transition:transform .45s var(--ease)}
-    .τ-στ:hover::before{transform:scaleY(1)}
-    .τ-κεφ{display:grid;grid-template-columns:60px 1fr auto;gap:clamp(16px,2.5vw,32px);align-items:center;padding:clamp(24px,3.5vw,40px) clamp(24px,3vw,40px);cursor:default}
-    .τ-αρ{font-family:var(--fm);font-size:.58rem;letter-spacing:.2em;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.3)}
-    .τ-τιτλ-κ{font-family:var(--fd);font-size:clamp(1.5rem,2.4vw,2.1rem);font-weight:400;letter-spacing:-.02em;line-height:1.05}
-    .τ-τιτλ-κ em{font-style:italic}
-    .τ-ετικ{font-family:var(--fm);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(0,243,255,.15);border-radius:1px;color:rgba(0,243,255,.4);white-space:nowrap;transition:border-color .3s,color .3s}
-    .τ-στ:hover .τ-ετικ{border-color:var(--μπ);color:var(--μπ)}
-    .τ-σώμα{padding:0 clamp(24px,3vw,40px) clamp(24px,3.5vw,40px);padding-left:calc(60px + clamp(16px,2.5vw,32px) + clamp(24px,3vw,40px))}
-    .τ-κεφ-πλ{display:flex;align-items:flex-start;gap:clamp(20px,3vw,40px);flex-wrap:wrap}
-    .τ-κεφ-πλ>div{flex:1;min-width:220px}
-    .τ-βήμα-κ{font-family:var(--fm);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--μπ);margin-bottom:8px}
-    .τ-βήμα-π{font-size:.9rem;color:var(--αμ);line-height:1.8;font-weight:300}
-    .τ-βήμα-π strong{color:var(--λ);font-weight:400}
-    .τ-αποτ{margin-top:20px;font-family:var(--fm);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.25)}
+  /* layout */
+  .W { max-width:1280px; margin:0 auto; padding:0 var(--pad); position:relative; z-index:2; }
+  .rule { height:1px; background:var(--d3); }
+  section { position:relative; z-index:2; }
+  .s-pad { padding:clamp(88px,13vw,160px) 0; }
 
-    /* ΑΛΗΘΕΙΕΣ */
-    #αλήθειες{background:var(--ε1);border-top:1px solid rgba(0,243,255,.07);border-bottom:1px solid rgba(0,243,255,.07);padding:clamp(56px,10vw,110px) 0}
-    .αλ-πλέγμα{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,243,255,.07)}
-    .αλ-στ{background:var(--ε1);padding:clamp(32px,4vw,52px);transition:background .3s}
-    .αλ-στ:hover{background:var(--ε2)}
-    .αλ-φρ{font-family:var(--fd);font-style:italic;font-size:clamp(1.2rem,1.8vw,1.6rem);font-weight:300;line-height:1.35;color:var(--λ);margin-bottom:16px}
-    .αλ-φρ em{font-style:normal;color:var(--μπ)}
-    .αλ-εξ{font-size:.88rem;color:var(--αμ);line-height:1.82;font-weight:300}
-    .αλ-γρ{width:26px;height:1px;background:var(--μπ);box-shadow:0 0 5px var(--μπ);margin-top:20px}
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:24px var(--pad);
+    display:flex; align-items:center; justify-content:space-between;
+    transition:background .5s,border-bottom .5s,padding .4s;
+  }
+  nav.on {
+    background:rgba(4,4,6,.92); backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px); border-bottom:1px solid var(--d3);
+    padding-top:16px; padding-bottom:16px;
+  }
+  .n-id { display:flex; align-items:center; gap:11px; }
+  .n-dot {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--c); box-shadow:0 0 8px var(--cg);
+    animation:blink 2.6s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+  .n-name { font-family:var(--M); font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:var(--d1); }
+  .n-tag  { font-family:var(--M); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(0,243,255,.28); }
 
-    /* ΜΗΧΑΝΙΚΗ */
-    #μηχανική{background:var(--μ)}
-    .μηχ-κεφ{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);align-items:end;margin-bottom:clamp(48px,8vw,96px)}
-    .μηχ-εισ{font-size:1rem;color:var(--αμ);line-height:1.85;max-width:420px;font-weight:300}
-    .μηχ-λίστα{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))}
-    .μηχ{padding:clamp(32px,4.5vw,54px);border:1px solid var(--πλ);position:relative;transition:background .4s}
-    .μηχ:hover{background:rgba(0,243,255,.022)}
-    .μηχ:hover .μηχ-ρωμ{color:rgba(0,243,255,.28);text-shadow:0 0 20px rgba(0,243,255,.18)}
-    .μηχ-ρωμ{font-family:var(--fd);font-size:3.6rem;font-weight:300;color:rgba(0,243,255,.08);line-height:1;margin-bottom:18px;transition:color .4s}
-    .μηχ-όν{font-family:var(--fd);font-size:clamp(1.45rem,2.1vw,1.9rem);font-weight:400;letter-spacing:-.02em;margin-bottom:12px;line-height:1.1}
-    .μηχ-όν em{font-style:italic;color:var(--μπ);text-shadow:0 0 10px rgba(0,243,255,.25)}
-    .μηχ-κ{font-size:.9rem;color:var(--αμ);line-height:1.85;font-weight:300}
-    .μηχ-απ{margin-top:16px;font-family:var(--fm);font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.25)}
+  /* ══════════════════════════════════════════
+     HERO
+  ══════════════════════════════════════════ */
+  #hero {
+    min-height:100svh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding-top:110px; padding-bottom:clamp(56px,8vw,100px);
+    overflow:hidden;
+  }
+  #hero .W {
+    display:grid;
+    grid-template-columns:1fr 500px;
+    gap:clamp(40px,5vw,72px);
+    align-items:center;
+  }
+  /* subtle grid overlay */
+  #hero::before {
+    content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(0,243,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,243,255,.018) 1px,transparent 1px);
+    background-size:88px 88px;
+    mask-image:radial-gradient(ellipse 72% 80% at 60% 50%,black,transparent);
+    -webkit-mask-image:radial-gradient(ellipse 72% 80% at 60% 50%,black,transparent);
+  }
+  #hero::after {
+    content:''; position:absolute; bottom:0; left:0; right:0;
+    height:220px; z-index:1; pointer-events:none;
+    background:linear-gradient(to top,var(--bg),transparent);
+  }
 
-    /* ΜΟΝΑΔΑ */
-    #ομάδα{background:var(--ε1);border-top:1px solid rgba(0,243,255,.07)}
-    .ομ-κεφ{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:clamp(48px,8vw,96px)}
-    .ομ-σύν{font-family:var(--fm);font-size:.64rem;letter-spacing:.2em;color:var(--αμ2)}
-    .ομ-πλ{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(0,243,255,.06)}
-    .μέλ{background:var(--ε1);padding:clamp(22px,3.5vw,42px) clamp(18px,3vw,32px);transition:background .35s;position:relative;overflow:hidden}
-    .μέλ::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--μπ);box-shadow:0 0 8px var(--μπ);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
-    .μέλ:hover::before{transform:scaleX(1)}
-    .μέλ:hover{background:var(--ε2)}
-    .μ-αρ{font-family:var(--fm);font-size:.55rem;letter-spacing:.2em;color:rgba(0,243,255,.22);margin-bottom:16px}
-    .μ-ψευ{font-family:var(--fd);font-size:clamp(1.35rem,2vw,1.9rem);font-weight:600;letter-spacing:.03em;text-transform:uppercase;line-height:1;margin-bottom:6px;transition:color .3s}
-    .μέλ:hover .μ-ψευ{color:var(--μπ);text-shadow:var(--μπκ)}
-    .μ-ρόλ{font-family:var(--fm);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--μπ);text-shadow:0 0 8px rgba(0,243,255,.2);margin-bottom:12px}
-    .μ-πε{font-size:.82rem;color:var(--αμ);line-height:1.7;font-weight:300}
+  .h-left { position:relative; z-index:2; }
 
-    /* ΚΛΕΙΣΙΜΟ */
-    #κλείσιμο{background:var(--μ);border-top:1px solid rgba(0,243,255,.07);position:relative;overflow:hidden}
-    #κλείσιμο::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(0,243,255,.035) 0%,transparent 65%);pointer-events:none}
-    .κλ-εσ{max-width:920px;position:relative;z-index:1}
-    .κλ-τιτ{font-family:var(--fd);font-size:clamp(3.4rem,8vw,8rem);font-weight:300;letter-spacing:-.035em;line-height:.91;margin:clamp(22px,3vw,38px) 0 clamp(26px,4vw,44px)}
-    .κλ-τιτ em{font-style:italic;color:var(--μπ);text-shadow:var(--μπκ)}
-    .κλ-κ{font-size:clamp(1rem,1.5vw,1.14rem);color:var(--αμ);line-height:1.9;max-width:660px;font-weight:300}
-    .κλ-κ strong{color:var(--λ);font-weight:400}
-    .κλ-τέλ{margin-top:clamp(40px,6vw,70px);display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-    .κλ-υπγ{font-family:var(--fd);font-style:italic;font-size:clamp(1.7rem,2.6vw,2.4rem);font-weight:300;color:var(--λ);letter-spacing:-.01em}
-    .κλ-γρ{flex:1;max-width:80px;height:1px;background:linear-gradient(90deg,var(--μπ),transparent);box-shadow:0 0 6px rgba(0,243,255,.25)}
-    .κλ-επ{font-family:var(--fm);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--αμ2)}
+  .h-eyebrow {
+    display:flex; align-items:center; gap:14px;
+    margin-bottom:clamp(22px,3.5vw,38px);
+    opacity:0; transform:translateY(14px);
+    animation:rise .9s var(--ease) .1s forwards;
+  }
+  .h-eyebrow-line { width:32px; height:1px; flex-shrink:0; background:var(--c); box-shadow:0 0 6px var(--cg); }
+  .h-eyebrow span { font-family:var(--M); font-size:.62rem; letter-spacing:.26em; text-transform:uppercase; color:var(--c); text-shadow:0 0 12px var(--cg); }
 
-    /* ΥΠΟΣΕΛΙΔΟ */
-    footer{padding:22px clamp(24px,6vw,80px);border-top:1px solid var(--πλ);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:2}
-    footer span{font-family:var(--fm);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.14)}
-    .υπ-τ{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--μπ);box-shadow:0 0 6px var(--μπ);margin:0 8px;vertical-align:middle}
+  .h-title {
+    font-family:var(--F); font-weight:300;
+    font-size:clamp(3.8rem,9vw,9rem);
+    line-height:.9; letter-spacing:-.025em;
+    opacity:0; transform:translateY(44px);
+    animation:rise 1.3s var(--ease) .26s forwards;
+  }
+  .h-title em { font-style:italic; color:var(--c); text-shadow:0 0 60px rgba(0,243,255,.22); }
+  .h-title .ul { position:relative; display:inline-block; }
+  .h-title .ul::after {
+    content:''; position:absolute; bottom:-3px; left:0; right:0;
+    height:2px; background:var(--c); box-shadow:0 0 8px var(--cg);
+    transform:scaleX(0); transform-origin:left;
+    animation:drawline .9s var(--ease) 1.7s forwards;
+  }
+  @keyframes drawline { to{transform:scaleX(1);} }
 
-    /* ΑΠΟΚΑΛΥΨΕΙΣ */
-    @keyframes άνω{to{opacity:1;transform:translateY(0)}}
-    .α{opacity:0;transform:translateY(30px);transition:opacity .95s var(--ease),transform .95s var(--ease)}
-    .α.ε{opacity:1;transform:translateY(0)}
-    .α1{transition-delay:.1s}.α2{transition-delay:.2s}.α3{transition-delay:.3s}.α4{transition-delay:.4s}.α5{transition-delay:.5s}
+  .h-sub {
+    margin-top:clamp(22px,3.5vw,38px);
+    font-size:clamp(.95rem,1.4vw,1.1rem);
+    color:var(--d1); line-height:1.85; max-width:52ch;
+    opacity:0; transform:translateY(14px);
+    animation:rise .9s var(--ease) .72s forwards;
+  }
+  .h-sub strong { color:var(--fg); font-weight:400; }
 
-    /* ΑΠΟΚΡΙΣΗ */
-    @media(max-width:1024px){#hero .wrap{grid-template-columns:1fr}.ήρ-δε{display:none}#τεχνικές .επκ-σρ,.μηχ-κεφ{grid-template-columns:1fr}}
-    @media(max-width:900px){.αλ-πλέγμα{grid-template-columns:1fr}.ομ-πλ{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:600px){.ομ-πλ{grid-template-columns:1fr 1fr}.τ-κεφ{grid-template-columns:40px 1fr}.τ-ετικ{display:none}}
+  .h-pillars {
+    display:flex; flex-direction:column; gap:14px;
+    margin-top:clamp(30px,4.5vw,50px);
+    opacity:0; transform:translateY(14px);
+    animation:rise .9s var(--ease) .96s forwards;
+  }
+  .pillar { display:flex; align-items:flex-start; gap:16px; border-left:1px solid rgba(0,243,255,.2); padding-left:16px; }
+  .pillar-k { font-family:var(--M); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.3); margin-top:2px; flex-shrink:0; min-width:76px; }
+  .pillar-v { font-size:.88rem; color:var(--d1); line-height:1.65; font-weight:300; }
+
+  /* ghost watermark */
+  .h-ghost {
+    position:absolute; right:-2%; bottom:-6%;
+    font-family:var(--F); font-style:italic;
+    font-size:clamp(9rem,23vw,28rem); font-weight:300; line-height:.85;
+    color:transparent; -webkit-text-stroke:1px rgba(0,243,255,.025);
+    pointer-events:none; user-select:none; z-index:0; letter-spacing:-.03em;
+  }
+
+  @keyframes rise { to{opacity:1;transform:translateY(0);} }
+
+  /* ── MATRIX VISUAL ── */
+  .h-right {
+    position:relative; z-index:2;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #mtx {
+    width:100%; max-width:500px; aspect-ratio:1/1;
+    display:block;
+  }
+
+  /* ══════════════════════════════════════════
+     TICKER
+  ══════════════════════════════════════════ */
+  .ticker-wrap { background:var(--c); overflow:hidden; position:relative; z-index:2; }
+  .ticker-inner { display:flex; padding:16px 0; white-space:nowrap; overflow:hidden; }
+  .ticker-track { display:flex; flex-shrink:0; animation:roll 32s linear infinite; }
+  .ticker-item {
+    display:flex; align-items:center; gap:44px; padding:0 44px;
+    font-family:var(--M); font-size:.68rem; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--bg); font-weight:500;
+  }
+  .t-sep { color:rgba(0,0,0,.2)!important; letter-spacing:0!important; }
+  @keyframes roll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ══════════════════════════════════════════
+     SHARED SECTION HEADER
+  ══════════════════════════════════════════ */
+  .s-head { display:flex; align-items:center; gap:14px; margin-bottom:clamp(6px,1vw,12px); }
+  .s-head-line { width:26px; height:1px; flex-shrink:0; background:var(--c); box-shadow:0 0 5px var(--cg); }
+  .s-head span { font-family:var(--M); font-size:.6rem; letter-spacing:.24em; text-transform:uppercase; color:var(--c); text-shadow:0 0 10px var(--cg); }
+  .s-title { font-family:var(--F); font-weight:300; font-size:clamp(2.6rem,6vw,5.8rem); letter-spacing:-.025em; line-height:.93; }
+  .s-title em { font-style:italic; color:var(--c); text-shadow:0 0 30px rgba(0,243,255,.18); }
+  .s-intro { font-size:1rem; color:var(--d1); line-height:1.88; max-width:44ch; font-weight:300; }
+  .s-intro strong { color:var(--fg); font-weight:400; }
+
+  /* ══════════════════════════════════════════
+     TECHNIQUES — interactive accordion
+  ══════════════════════════════════════════ */
+  #tech { background:var(--bg); }
+  .tech-top {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:clamp(24px,4vw,60px); align-items:end;
+    margin-bottom:clamp(44px,7vw,80px);
+  }
+  .tech-list { display:flex; flex-direction:column; }
+  .tech-row { border-top:1px solid var(--d3); position:relative; overflow:hidden; transition:background .4s; }
+  .tech-row:last-child { border-bottom:1px solid var(--d3); }
+  .tech-row:hover { background:var(--s1); }
+  .tech-row::before {
+    content:''; position:absolute; top:0; left:0; bottom:0; width:2px;
+    background:var(--c); box-shadow:0 0 8px var(--cg);
+    transform:scaleY(0); transform-origin:top; transition:transform .45s var(--ease);
+  }
+  .tech-row:hover::before { transform:scaleY(1); }
+  .tech-hd {
+    display:grid; grid-template-columns:56px 1fr auto;
+    gap:clamp(14px,2.5vw,28px); align-items:center;
+    padding:clamp(20px,3vw,34px); cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .tech-n { font-family:var(--M); font-size:.55rem; letter-spacing:.2em; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.3); }
+  .tech-name { font-family:var(--F); font-size:clamp(1.4rem,2.3vw,2rem); font-weight:400; letter-spacing:-.02em; line-height:1.05; }
+  .tech-name em { font-style:italic; }
+  .tech-tag {
+    font-family:var(--M); font-size:.56rem; letter-spacing:.15em; text-transform:uppercase;
+    padding:5px 12px; border:1px solid rgba(0,243,255,.14); color:rgba(0,243,255,.38);
+    white-space:nowrap; transition:border-color .3s,color .3s;
+  }
+  .tech-row:hover .tech-tag { border-color:var(--c); color:var(--c); }
+  .tech-bd { display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s var(--ease); }
+  .tech-bd.open { grid-template-rows:1fr; }
+  .tech-bd-inner { overflow:hidden; }
+  .tech-bd-pad {
+    padding:0 clamp(20px,3vw,34px) clamp(20px,3vw,34px);
+    padding-left:calc(56px + clamp(14px,2.5vw,28px) + clamp(20px,3vw,34px));
+    display:flex; gap:clamp(20px,3vw,44px); flex-wrap:wrap;
+  }
+  .tech-col { flex:1; min-width:200px; }
+  .tech-col-k { font-family:var(--M); font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--c); margin-bottom:8px; }
+  .tech-col-v { font-size:.9rem; color:var(--d1); line-height:1.82; font-weight:300; }
+  .tech-col-v strong { color:var(--fg); font-weight:400; }
+  .tech-result { margin-top:18px; font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.22); }
+
+  /* ══════════════════════════════════════════
+     TRUTHS
+  ══════════════════════════════════════════ */
+  #truths { background:var(--s1); border-top:1px solid rgba(0,243,255,.07); border-bottom:1px solid rgba(0,243,255,.07); }
+  .truths-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(0,243,255,.06); }
+  .truth { background:var(--s1); padding:clamp(28px,4vw,50px); transition:background .3s; }
+  .truth:hover { background:var(--s2); }
+  .truth-q { font-family:var(--F); font-style:italic; font-size:clamp(1.1rem,1.75vw,1.5rem); font-weight:300; line-height:1.35; color:var(--fg); margin-bottom:16px; }
+  .truth-q em { font-style:normal; color:var(--c); }
+  .truth-line { width:24px; height:1px; background:var(--c); box-shadow:0 0 5px var(--cg); margin:0 0 16px; }
+  .truth-body { font-size:.88rem; color:var(--d1); line-height:1.82; font-weight:300; }
+
+  /* ══════════════════════════════════════════
+     MECHANICS
+  ══════════════════════════════════════════ */
+  #mech { background:var(--bg); }
+  .mech-top { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,60px); align-items:end; margin-bottom:clamp(44px,7vw,80px); }
+  .mech-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr)); }
+  .mech-card { padding:clamp(28px,4vw,48px); border:1px solid var(--d3); position:relative; overflow:hidden; transition:background .4s; }
+  .mech-card:hover { background:rgba(0,243,255,.02); }
+  .mech-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--c); transform:scaleX(0); transform-origin:left; transition:transform .5s var(--ease); }
+  .mech-card:hover::before { transform:scaleX(1); }
+  .mech-rom { font-family:var(--F); font-size:3.4rem; font-weight:300; color:rgba(0,243,255,.07); line-height:1; margin-bottom:16px; transition:color .4s; }
+  .mech-card:hover .mech-rom { color:rgba(0,243,255,.22); }
+  .mech-title { font-family:var(--F); font-size:clamp(1.35rem,2vw,1.8rem); font-weight:400; letter-spacing:-.02em; margin-bottom:12px; line-height:1.05; }
+  .mech-title em { font-style:italic; color:var(--c); text-shadow:0 0 10px rgba(0,243,255,.22); }
+  .mech-body { font-size:.9rem; color:var(--d1); line-height:1.85; font-weight:300; }
+  .mech-out { margin-top:16px; font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c); text-shadow:0 0 8px rgba(0,243,255,.22); }
+
+  /* ══════════════════════════════════════════
+     TEAM
+  ══════════════════════════════════════════ */
+  #team { background:var(--s1); border-top:1px solid rgba(0,243,255,.07); }
+  .team-top { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-bottom:clamp(40px,7vw,80px); }
+  .team-count { font-family:var(--M); font-size:.62rem; letter-spacing:.2em; color:var(--d2); }
+  .team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(0,243,255,.055); }
+  .member { background:var(--s1); padding:clamp(22px,3.5vw,40px) clamp(18px,2.5vw,30px); position:relative; overflow:hidden; transition:background .35s; }
+  .member::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--c); box-shadow:0 0 8px var(--cg); transform:scaleX(0); transform-origin:left; transition:transform .45s var(--ease); }
+  .member:hover { background:var(--s2); }
+  .member:hover::after { transform:scaleX(1); }
+  .m-n { font-family:var(--M); font-size:.52rem; letter-spacing:.2em; color:rgba(0,243,255,.22); margin-bottom:16px; display:block; }
+  .m-god { font-family:var(--M); font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; color:var(--c); text-shadow:0 0 10px var(--cg); margin-bottom:6px; display:block; opacity:.7; }
+  .m-name { font-family:var(--F); font-size:clamp(1.3rem,1.9vw,1.8rem); font-weight:600; letter-spacing:.02em; text-transform:uppercase; line-height:1; margin-bottom:6px; transition:color .3s; }
+  .member:hover .m-name { color:var(--c); text-shadow:0 0 12px var(--cg); }
+  .m-role { font-family:var(--M); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--c); opacity:.55; margin-bottom:12px; display:block; }
+  .m-desc { font-size:.84rem; color:var(--d1); line-height:1.72; font-weight:300; }
+
+  /* ══════════════════════════════════════════
+     CLOSING
+  ══════════════════════════════════════════ */
+  #close { background:var(--bg); border-top:1px solid rgba(0,243,255,.07); position:relative; overflow:hidden; }
+  #close::before { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:800px; background:radial-gradient(circle,rgba(0,243,255,.03) 0%,transparent 62%); pointer-events:none; }
+  .close-inner { max-width:960px; position:relative; z-index:1; }
+  .close-title { font-family:var(--F); font-weight:300; font-size:clamp(3.2rem,8.5vw,8.5rem); letter-spacing:-.03em; line-height:.9; margin:clamp(20px,3vw,34px) 0 clamp(28px,4.5vw,50px); }
+  .close-title em { font-style:italic; color:var(--c); text-shadow:0 0 50px rgba(0,243,255,.2); }
+  .close-body { font-size:clamp(.98rem,1.4vw,1.12rem); color:var(--d1); line-height:1.9; max-width:60ch; font-weight:300; }
+  .close-body strong { color:var(--fg); font-weight:400; }
+  .close-sig { margin-top:clamp(44px,6.5vw,70px); display:flex; align-items:center; gap:22px; flex-wrap:wrap; }
+  .sig-name { font-family:var(--F); font-style:italic; font-size:clamp(1.65rem,2.5vw,2.35rem); font-weight:300; letter-spacing:-.01em; }
+  .sig-rule { flex:1; max-width:72px; height:1px; background:linear-gradient(90deg,var(--c),transparent); box-shadow:0 0 6px rgba(0,243,255,.22); }
+  .sig-label { font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:var(--d2); }
+
+  /* footer */
+  footer { padding:22px var(--pad); border-top:1px solid var(--d3); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; position:relative; z-index:2; }
+  footer span { font-family:var(--M); font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.12); }
+  .f-dot { display:inline-block; width:4px; height:4px; border-radius:50%; background:var(--c); box-shadow:0 0 6px var(--cg); margin:0 8px; vertical-align:middle; }
+
+  /* ── REVEAL ── */
+  .r { opacity:0; transform:translateY(26px); transition:opacity .95s var(--ease),transform .95s var(--ease); }
+  .r.in { opacity:1; transform:none; }
+  .r.d1{transition-delay:.1s} .r.d2{transition-delay:.2s} .r.d3{transition-delay:.3s} .r.d4{transition-delay:.4s} .r.d5{transition-delay:.5s}
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════════ */
+  @media(max-width:1080px){
+    #hero .W{grid-template-columns:1fr}
+    .h-right{display:none}
+    .tech-top,.mech-top{grid-template-columns:1fr}
+  }
+  @media(max-width:860px){
+    .truths-grid{grid-template-columns:1fr}
+    .team-grid{grid-template-columns:repeat(2,1fr)}
+    .tech-hd{grid-template-columns:44px 1fr}
+    .tech-tag{display:none}
+    .tech-bd-pad{padding-left:clamp(20px,3vw,34px)}
+  }
+  @media(max-width:540px){
+    .team-grid{grid-template-columns:1fr 1fr}
+    .h-title{font-size:clamp(3rem,10.5vw,4.8rem)}
+    .s-title{font-size:clamp(2.2rem,8vw,3.4rem)}
+    .close-title{font-size:clamp(2.6rem,9.5vw,4rem)}
+    .mech-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:380px){
+    .team-grid{grid-template-columns:1fr}
+    .h-title{font-size:2.9rem}
+  }
   </style>
 </head>
 <body>
-  <div id="πρόοδος"></div>
-  <div id="δτ"></div>
-  <div id="δκ"></div>
 
-  <nav id="πλοήγηση">
-    <div class="ν-ταυτ"><div class="ν-παλμ"></div><span class="ν-όνομ">Νίκος Πελετιέ</span></div>
-    <span class="ν-κατ">Εμπιστευτικό Έγγραφο · 2026</span>
-  </nav>
+<div id="cd"></div>
+<div id="cr"></div>
+<div id="bar"></div>
 
-  <section id="hero">
-    <div class="wrap">
-      <div class="ήρ-αρ">
-        <div class="ήρ-ετικ"><span class="γρ-μπ"></span><span class="εκφ μπχρ">Αρχιτέκτονας Προσοχής</span></div>
-        <h1 class="ήρ-τιτλ">Η αγορά δεν<br><em>θυμάται</em><br>τους <span class="υπογρ">καλούς.</span></h1>
-        <p class="ήρ-υποτ">Ο Νίκος Πελετιέ δεν φτιάχνει διαφημίσεις. <strong>Σχεδιάζει πολιτισμικές στιγμές που η αγορά αδυνατεί να αγνοήσει.</strong> Κάθε κίνηση υπολογίζεται με ακρίβεια. Κάθε αντίδραση προβλέπεται. Το αποτέλεσμα δεν είναι τύχη — είναι αρχιτεκτονική.</p>
-        <div class="ήρ-αρχ">
-          <div class="αρχή αλ"><div class="αρχή-κ">Αφήγηση</div><p class="αρχή-π">Ελέγχουμε ποια ιστορία λέει η αγορά για εσάς — πριν την πει κανείς άλλος.</p></div>
-          <div class="αρχή αλ"><div class="αρχή-κ">Χρονισμός</div><p class="αρχή-π">Η σωστή κίνηση τη λάθος στιγμή είναι θόρυβος. Η σωστή κίνηση τη σωστή στιγμή είναι ιστορία.</p></div>
-          <div class="αρχή αλ"><div class="αρχή-κ">Επιρροή</div><p class="αρχή-π">Δεν αγοράζουμε προσοχή. Την αρχιτεκτονούμε ώστε να έρχεται μόνη της.</p></div>
-        </div>
-      </div>
-      <div class="ήρ-δε"><canvas id="ραντάρ-καμβάς"></canvas></div>
-    </div>
-    <div class="ήρ-φκ" aria-hidden="true">ΝΠ</div>
-  </section>
-
-  <div id="ταινία" aria-hidden="true">
-    <div class="τ-εσ"><div class="τ-τρ">
-      <span>Χαρτογράφηση Αγοράς</span><span class="τ-δ">·</span><span>Αρχιτεκτονική Αφήγησης</span><span class="τ-δ">·</span><span>Ιογενής Σχεδιασμός</span><span class="τ-δ">·</span><span>Πολιτισμικός Χρονισμός</span><span class="τ-δ">·</span><span>Ενίσχυση Σήματος</span><span class="τ-δ">·</span><span>Στρατηγική Σπανιότητα</span><span class="τ-δ">·</span><span>Ελεγχόμενη Αντιπαράθεση</span><span class="τ-δ">·</span><span>Διακοπή Αφήγησης</span><span class="τ-δ">·</span>
-      <span>Χαρτογράφηση Αγοράς</span><span class="τ-δ">·</span><span>Αρχιτεκτονική Αφήγησης</span><span class="τ-δ">·</span><span>Ιογενής Σχεδιασμός</span><span class="τ-δ">·</span><span>Πολιτισμικός Χρονισμός</span><span class="τ-δ">·</span><span>Ενίσχυση Σήματος</span><span class="τ-δ">·</span><span>Στρατηγική Σπανιότητα</span><span class="τ-δ">·</span><span>Ελεγχόμενη Αντιπαράθεση</span><span class="τ-δ">·</span><span>Διακοπή Αφήγησης</span><span class="τ-δ">·</span>
-    </div></div>
+<!-- NAV -->
+<nav id="nav">
+  <div class="n-id">
+    <div class="n-dot"></div>
+    <span class="n-name">Νίκος Πελετιέ</span>
   </div>
+  <span class="n-tag">Αρχιτέκτονας Προσοχής · 2026</span>
+</nav>
 
-  <section id="τεχνικές">
-    <div class="wrap">
-      <div class="επκ-σρ α">
-        <div>
-          <div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">02 — Τεχνικές Συνεργασίας</span></div>
-          <h2 class="εν-τιτλ">Πώς δουλεύουμε<br><em>μαζί.</em></h2>
-        </div>
-        <p class="εν-εισ">Πέντε μεθοδολογίες που εφαρμόζονται σε κάθε συνεργασία — με συγκεκριμένη σειρά, συγκεκριμένο σκοπό και <strong>μετρήσιμο αποτέλεσμα σε κάθε στάδιο.</strong></p>
+<!-- ══════ HERO ══════ -->
+<section id="hero">
+  <div class="W">
+    <div class="h-left">
+      <div class="h-eyebrow">
+        <span class="h-eyebrow-line"></span>
+        <span>Αρχιτέκτονας Προσοχής</span>
       </div>
-      <div class="τ-λίστα α α2">
-
-        <div class="τ-στ αλ">
-          <div class="τ-κεφ"><span class="τ-αρ">01</span><h3 class="τ-τιτλ-κ">Χαρτογράφηση <em>Πολιτισμικής Τριβής</em></h3><span class="τ-ετικ">Ανάλυση Αγοράς</span></div>
-          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
-            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Αναλύουμε τον κλάδο για να εντοπίσουμε τα σημεία όπου η αγορά αισθάνεται ανεκπλήρωτη — τις παραδοχές που κανείς δεν έχει τολμήσει να αμφισβητήσει και τα κενά που κανείς δεν έχει αποφασίσει να γεμίσει.</p></div>
-            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Χάρτης τριβής</strong> με τα τρία κρίσιμα κενά της αγοράς σας και αξιολόγηση ποιο από αυτά μπορεί να γίνει το θεμέλιο της επόμενης κίνησής σας.</p></div>
-          </div><div class="τ-αποτ">↑ Στρατηγική Ευκρίνεια · ↑ Ανταγωνιστικό Πλεονέκτημα</div></div>
+      <h1 class="h-title">
+        Η αγορά δεν<br>
+        <em>θυμάται</em><br>
+        τους <span class="ul">καλούς.</span>
+      </h1>
+      <p class="h-sub">
+        Ο Νίκος Πελετιέ δεν φτιάχνει διαφημίσεις.
+        <strong>Σχεδιάζει πολιτισμικές στιγμές που η αγορά αδυνατεί να αγνοήσει.</strong>
+        Κάθε κίνηση υπολογίζεται. Κάθε αντίδραση προβλέπεται.
+        Το αποτέλεσμα δεν είναι τύχη — είναι αρχιτεκτονική.
+      </p>
+      <div class="h-pillars">
+        <div class="pillar">
+          <span class="pillar-k">Αφήγηση</span>
+          <p class="pillar-v">Ελέγχουμε ποια ιστορία λέει η αγορά για εσάς — πριν την πει κανείς άλλος.</p>
         </div>
-
-        <div class="τ-στ αλ">
-          <div class="τ-κεφ"><span class="τ-αρ">02</span><h3 class="τ-τιτλ-κ">Αρχιτεκτονική <em>Αφήγησης</em></h3><span class="τ-ετικ">Κατασκευή Ταυτότητας</span></div>
-          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
-            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Κατασκευάζουμε την κεντρική αφήγηση που θα ορίζει τον τρόπο με τον οποίο η αγορά μιλά για εσάς. Δεν πρόκειται για σλόγκαν — πρόκειται για τη δομή της ιστορίας που θα αναπαράγεται χωρίς να το ζητάτε.</p></div>
-            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Αφηγηματικό πλαίσιο</strong> με τον κεντρικό μύθο της εμπορικής σας ταυτότητας, τους ρόλους που παίζουν οι ανταγωνιστές και τον τρόπο που κάθε επικοινωνία ενισχύει το πλαίσιο.</p></div>
-          </div><div class="τ-αποτ">↑ Συνοχή Επικοινωνίας · ↑ Αναγνωρισιμότητα Ταυτότητας</div></div>
+        <div class="pillar">
+          <span class="pillar-k">Χρονισμός</span>
+          <p class="pillar-v">Η σωστή κίνηση τη λάθος στιγμή είναι θόρυβος. Τη σωστή στιγμή — είναι ιστορία.</p>
         </div>
-
-        <div class="τ-στ αλ">
-          <div class="τ-κεφ"><span class="τ-αρ">03</span><h3 class="τ-τιτλ-κ">Σχεδιασμός <em>Πολιτισμικής Παρέμβασης</em></h3><span class="τ-ετικ">Στρατηγική Ενέργειας</span></div>
-          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
-            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Σχεδιάζουμε συγκεκριμένες ενέργειες — εκδηλώσεις, αντικείμενα, στιγμές επικοινωνίας — που εισάγουν την εμπορική σας ταυτότητα σε ζωντανές συνομιλίες με τρόπο που αισθάνεται οργανικός, όχι διαφημιστικός.</p></div>
-            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Σχέδιο παρέμβασης</strong> με χρονοδιάγραμμα, ρόλους εκτέλεσης και κριτήρια επιτυχίας για κάθε στιγμή που επιλέγουμε να ενεργοποιήσουμε.</p></div>
-          </div><div class="τ-αποτ">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Παρουσία</div></div>
+        <div class="pillar">
+          <span class="pillar-k">Επιρροή</span>
+          <p class="pillar-v">Δεν αγοράζουμε προσοχή. Τη διαμορφώνουμε ώστε να έρχεται μόνη της.</p>
         </div>
-
-        <div class="τ-στ αλ">
-          <div class="τ-κεφ"><span class="τ-αρ">04</span><h3 class="τ-τιτλ-κ">Χαρτογράφηση <em>Δικτύου Επιρροής</em></h3><span class="τ-ετικ">Ανάπτυξη Σήματος</span></div>
-          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
-            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Εντοπίζουμε τους κρίσιμους κόμβους επιρροής στον κλάδο σας — τα πρόσωπα, τις κοινότητες και τα κανάλια που πραγματικά κινούν την αγορά — και σχεδιάζουμε πώς το μήνυμά σας θα αναπτυχθεί μέσα σε αυτά με ακρίβεια.</p></div>
-            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Χάρτης δικτύου</strong> με τους σημαντικότερους κόμβους επιρροής για την κατηγορία σας και στρατηγική άμεσης εμπλοκής για κάθε έναν.</p></div>
-          </div><div class="τ-αποτ">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Διάδοσης</div></div>
-        </div>
-
-        <div class="τ-στ αλ">
-          <div class="τ-κεφ"><span class="τ-αρ">05</span><h3 class="τ-τιτλ-κ">Αξιολόγηση <em>Πολιτισμικής Εγκατάστασης</em></h3><span class="τ-ετικ">Μέτρηση Αντίκτυπου</span></div>
-          <div class="τ-σώμα"><div class="τ-κεφ-πλ">
-            <div><div class="τ-βήμα-κ">Τι κάνουμε</div><p class="τ-βήμα-π">Αξιολογούμε αν η εμπορική ταυτότητα έχει καταφέρει να εγκατασταθεί στη μνήμη και στη συνομιλία της αγοράς — όχι μόνο μέσα από αριθμούς, αλλά μέσα από ποιοτικές ενδείξεις πολιτισμικής παρουσίας.</p></div>
-            <div><div class="τ-βήμα-κ">Τι παράγει</div><p class="τ-βήμα-π"><strong>Αναφορά εγκατάστασης</strong> με ποιοτική και ποσοτική αξιολόγηση της παρουσίας σας στη συνείδηση της αγοράς και συστάσεις για την επόμενη φάση.</p></div>
-          </div><div class="τ-αποτ">↑ Ορατότητα Αποτελεσμάτων · ↑ Βελτιστοποίηση Στρατηγικής</div></div>
-        </div>
-
       </div>
     </div>
-  </section>
 
-  <div class="διαχ"></div>
+    <!-- MATRIX VISUAL -->
+    <div class="h-right">
+      <canvas id="mtx"></canvas>
+    </div>
+  </div>
+  <div class="h-ghost" aria-hidden="true">ΝΠ</div>
+</section>
 
-  <section id="αλήθειες">
-    <div class="wrap">
-      <div class="εν-κεφ α" style="margin-bottom:clamp(32px,5vw,54px)"><span class="εν-γρ"></span><span class="εκφ μπχρ">Γιατί λειτουργεί</span></div>
-      <div class="αλ-πλέγμα α α2">
-        <div class="αλ-στ αλ"><p class="αλ-φρ">«Δεν αγοράζουμε προϊόντα.<br>Αγοράζουμε <em>ταυτότητες.</em>»</p><p class="αλ-εξ">Κάθε αγοραστική απόφαση είναι πρώτα συναισθηματική και μετά ορθολογική. Ο σχεδιασμός που αγνοεί αυτό δεν είναι στρατηγική — είναι απλώς θόρυβος.</p><div class="αλ-γρ"></div></div>
-        <div class="αλ-στ αλ"><p class="αλ-φρ">«Η <em>εμπιστοσύνη</em> χτίζεται<br>με αυτά που δεν λες.»</p><p class="αλ-εξ">Οι εμπορικές ταυτότητες που εξηγούν υπερβολικά πολλά, δικαιολογούνται. Αυτές που δεν εξηγούν, προκαλούν. Η στρατηγική σιωπή είναι ένα από τα πιο υποτιμημένα εργαλεία επικοινωνίας.</p><div class="αλ-γρ"></div></div>
-        <div class="αλ-στ αλ"><p class="αλ-φρ">«Η <em>προσοχή</em> είναι<br>το νέο νόμισμα.»</p><p class="αλ-εξ">Δεν υπάρχει ανταγωνισμός κατηγορίας. Υπάρχει μόνο ανταγωνισμός για τη στιγμή που κάποιος αποφασίζει τι θυμάται. Αυτή τη στιγμή τη σχεδιάζουμε εμείς.</p><div class="αλ-γρ"></div></div>
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner">
+    <div class="ticker-track">
+      <div class="ticker-item">Χαρτογράφηση Αγοράς</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Αρχιτεκτονική Αφήγησης</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Ιογενής Σχεδιασμός</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Πολιτισμικός Χρονισμός</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Ενίσχυση Σήματος</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Στρατηγική Σπανιότητα</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Ελεγχόμενη Αντιπαράθεση</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Διακοπή Αφήγησης</div><div class="ticker-item t-sep">·</div>
+      <!-- duplicate for seamless loop -->
+      <div class="ticker-item">Χαρτογράφηση Αγοράς</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Αρχιτεκτονική Αφήγησης</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Ιογενής Σχεδιασμός</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Πολιτισμικός Χρονισμός</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Ενίσχυση Σήματος</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Στρατηγική Σπανιότητα</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Ελεγχόμενη Αντιπαράθεση</div><div class="ticker-item t-sep">·</div>
+      <div class="ticker-item">Διακοπή Αφήγησης</div><div class="ticker-item t-sep">·</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ TECHNIQUES ══════ -->
+<section id="tech" class="s-pad">
+  <div class="W">
+    <div class="tech-top r">
+      <div>
+        <div class="s-head"><span class="s-head-line"></span><span>02 — Τεχνικές Συνεργασίας</span></div>
+        <h2 class="s-title">Πώς δουλεύουμε<br><em>μαζί.</em></h2>
+      </div>
+      <p class="s-intro">Πέντε μεθοδολογίες εφαρμοσμένες σε συγκεκριμένη σειρά — με <strong>μετρήσιμο αποτέλεσμα σε κάθε στάδιο.</strong></p>
+    </div>
+
+    <div class="tech-list r d2">
+
+      <div class="tech-row">
+        <div class="tech-hd" role="button" tabindex="0" aria-expanded="false">
+          <span class="tech-n">01</span>
+          <h3 class="tech-name">Χαρτογράφηση <em>Πολιτισμικής Τριβής</em></h3>
+          <span class="tech-tag">Ανάλυση Αγοράς</span>
+        </div>
+        <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
+          <div class="tech-col">
+            <div class="tech-col-k">Τι κάνουμε</div>
+            <p class="tech-col-v">Αναλύουμε τον κλάδο για να εντοπίσουμε τα σημεία όπου η αγορά αισθάνεται ανεκπλήρωτη — τις παραδοχές που κανείς δεν έχει τολμήσει να αμφισβητήσει.</p>
+          </div>
+          <div class="tech-col">
+            <div class="tech-col-k">Τι παράγει</div>
+            <p class="tech-col-v"><strong>Χάρτης τριβής</strong> με τα τρία κρίσιμα κενά της αγοράς σας και αξιολόγηση ποιο θα γίνει το θεμέλιο της επόμενης κίνησής σας.</p>
+          </div>
+          <div class="tech-result">↑ Στρατηγική Ευκρίνεια · ↑ Ανταγωνιστικό Πλεονέκτημα</div>
+        </div></div></div>
+      </div>
+
+      <div class="tech-row">
+        <div class="tech-hd" role="button" tabindex="0" aria-expanded="false">
+          <span class="tech-n">02</span>
+          <h3 class="tech-name">Αρχιτεκτονική <em>Αφήγησης</em></h3>
+          <span class="tech-tag">Κατασκευή Ταυτότητας</span>
+        </div>
+        <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
+          <div class="tech-col">
+            <div class="tech-col-k">Τι κάνουμε</div>
+            <p class="tech-col-v">Κατασκευάζουμε την κεντρική αφήγηση που θα ορίζει τον τρόπο που η αγορά μιλά για εσάς — τη δομή που αναπαράγεται χωρίς να το ζητάτε.</p>
+          </div>
+          <div class="tech-col">
+            <div class="tech-col-k">Τι παράγει</div>
+            <p class="tech-col-v"><strong>Αφηγηματικό πλαίσιο</strong> με τον κεντρικό μύθο της εμπορικής σας ταυτότητας και τον τρόπο που κάθε επικοινωνία ενισχύει το πλαίσιο.</p>
+          </div>
+          <div class="tech-result">↑ Συνοχή Επικοινωνίας · ↑ Αναγνωρισιμότητα Ταυτότητας</div>
+        </div></div></div>
+      </div>
+
+      <div class="tech-row">
+        <div class="tech-hd" role="button" tabindex="0" aria-expanded="false">
+          <span class="tech-n">03</span>
+          <h3 class="tech-name">Σχεδιασμός <em>Πολιτισμικής Παρέμβασης</em></h3>
+          <span class="tech-tag">Στρατηγική Ενέργειας</span>
+        </div>
+        <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
+          <div class="tech-col">
+            <div class="tech-col-k">Τι κάνουμε</div>
+            <p class="tech-col-v">Σχεδιάζουμε συγκεκριμένες ενέργειες — εκδηλώσεις, αντικείμενα, στιγμές επικοινωνίας — που εισάγουν την εμπορική σας ταυτότητα σε ζωντανές συνομιλίες με τρόπο οργανικό, όχι διαφημιστικό.</p>
+          </div>
+          <div class="tech-col">
+            <div class="tech-col-k">Τι παράγει</div>
+            <p class="tech-col-v"><strong>Σχέδιο παρέμβασης</strong> με χρονοδιάγραμμα, ρόλους εκτέλεσης και κριτήρια επιτυχίας για κάθε στιγμή που επιλέγουμε να ενεργοποιήσουμε.</p>
+          </div>
+          <div class="tech-result">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Παρουσία</div>
+        </div></div></div>
+      </div>
+
+      <div class="tech-row">
+        <div class="tech-hd" role="button" tabindex="0" aria-expanded="false">
+          <span class="tech-n">04</span>
+          <h3 class="tech-name">Χαρτογράφηση <em>Δικτύου Επιρροής</em></h3>
+          <span class="tech-tag">Ανάπτυξη Σήματος</span>
+        </div>
+        <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
+          <div class="tech-col">
+            <div class="tech-col-k">Τι κάνουμε</div>
+            <p class="tech-col-v">Εντοπίζουμε τους κρίσιμους κόμβους επιρροής στον κλάδο σας — τα πρόσωπα, τις κοινότητες και τα κανάλια που πραγματικά κινούν την αγορά.</p>
+          </div>
+          <div class="tech-col">
+            <div class="tech-col-k">Τι παράγει</div>
+            <p class="tech-col-v"><strong>Χάρτης δικτύου</strong> με τους σημαντικότερους κόμβους επιρροής και στρατηγική άμεσης εμπλοκής για κάθε έναν.</p>
+          </div>
+          <div class="tech-result">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Διάδοσης</div>
+        </div></div></div>
+      </div>
+
+      <div class="tech-row">
+        <div class="tech-hd" role="button" tabindex="0" aria-expanded="false">
+          <span class="tech-n">05</span>
+          <h3 class="tech-name">Αξιολόγηση <em>Πολιτισμικής Εγκατάστασης</em></h3>
+          <span class="tech-tag">Μέτρηση Αντίκτυπου</span>
+        </div>
+        <div class="tech-bd"><div class="tech-bd-inner"><div class="tech-bd-pad">
+          <div class="tech-col">
+            <div class="tech-col-k">Τι κάνουμε</div>
+            <p class="tech-col-v">Αξιολογούμε αν η εμπορική ταυτότητα έχει εγκατασταθεί στη μνήμη και στη συνομιλία της αγοράς — μέσα από ποιοτικές ενδείξεις πολιτισμικής παρουσίας.</p>
+          </div>
+          <div class="tech-col">
+            <div class="tech-col-k">Τι παράγει</div>
+            <p class="tech-col-v"><strong>Αναφορά εγκατάστασης</strong> με ποιοτική και ποσοτική αξιολόγηση της παρουσίας σας στη συνείδηση της αγοράς.</p>
+          </div>
+          <div class="tech-result">↑ Ορατότητα Αποτελεσμάτων · ↑ Βελτιστοποίηση Στρατηγικής</div>
+        </div></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══════ TRUTHS ══════ -->
+<section id="truths" class="s-pad">
+  <div class="W">
+    <div class="s-head r" style="margin-bottom:clamp(32px,5vw,56px)">
+      <span class="s-head-line"></span><span>Γιατί λειτουργεί</span>
+    </div>
+    <div class="truths-grid r d2">
+      <div class="truth">
+        <p class="truth-q">«Δεν αγοράζουμε προϊόντα.<br>Αγοράζουμε <em>ταυτότητες.</em>»</p>
+        <div class="truth-line"></div>
+        <p class="truth-body">Κάθε αγοραστική απόφαση είναι πρώτα συναισθηματική και μετά ορθολογική. Ο σχεδιασμός που αγνοεί αυτό δεν είναι στρατηγική — είναι απλώς θόρυβος.</p>
+      </div>
+      <div class="truth">
+        <p class="truth-q">«Η <em>εμπιστοσύνη</em> χτίζεται<br>με αυτά που δεν λες.»</p>
+        <div class="truth-line"></div>
+        <p class="truth-body">Οι ταυτότητες που εξηγούν υπερβολικά πολλά, δικαιολογούνται. Αυτές που δεν εξηγούν, προκαλούν. Η στρατηγική σιωπή είναι ένα από τα πιο υποτιμημένα εργαλεία.</p>
+      </div>
+      <div class="truth">
+        <p class="truth-q">«Η <em>προσοχή</em> είναι<br>το νέο νόμισμα.»</p>
+        <div class="truth-line"></div>
+        <p class="truth-body">Δεν υπάρχει ανταγωνισμός κατηγορίας. Υπάρχει μόνο ανταγωνισμός για τη στιγμή που κάποιος αποφασίζει τι θυμάται. Αυτή τη στιγμή τη σχεδιάζουμε εμείς.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="μηχανική">
-    <div class="wrap">
-      <div class="μηχ-κεφ α">
-        <div><div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">03 — Μηχανική Προσοχής</span></div><h2 class="εν-τιτλ">Οι μοχλοί<br>της <em>επιρροής.</em></h2></div>
-        <p class="μηχ-εισ">Έξι μηχανισμοί που εφαρμόζονται σε κάθε έργο. Λειτουργούν ανεξάρτητα από κλάδο ή αγορά — γιατί βασίζονται στον τρόπο που λειτουργεί η ανθρώπινη προσοχή, όχι στις τάσεις της εποχής.</p>
+<!-- ══════ MECHANICS ══════ -->
+<section id="mech" class="s-pad">
+  <div class="W">
+    <div class="mech-top r">
+      <div>
+        <div class="s-head"><span class="s-head-line"></span><span>03 — Μηχανική Προσοχής</span></div>
+        <h2 class="s-title">Οι μοχλοί<br><em>επιρροής.</em></h2>
       </div>
-      <div class="μηχ-λίστα">
-        <div class="μηχ α α1"><div class="μηχ-ρωμ">Ι.</div><h3 class="μηχ-όν"><em>Διακοπή</em> Αφήγησης</h3><p class="μηχ-κ">Κάθε κλάδος έχει ένα αποδεκτό σενάριο. Εντοπίζουμε την ανεκπλήρωτη υπόσχεση μέσα σε αυτό και σχεδιάζουμε μια αντίφαση τόσο ακριβή που δεν μπορεί να αγνοηθεί. Δεν κάνουμε κραυγή — κάνουμε χειρουργική τομή.</p><div class="μηχ-απ">↑ Εξουσία Κατηγορίας · ↑ Εύρος Ταυτότητας</div></div>
-        <div class="μηχ α α2"><div class="μηχ-ρωμ">ΙΙ.</div><h3 class="μηχ-όν">Ελεγχόμενη <em>Αντιπαράθεση</em></h3><p class="μηχ-κ">Η αντιπαράθεση είναι εργαλείο ακριβείας, όχι χειροβομβίδα. Σχεδιάζουμε τον ακριβή βαθμό τριβής που γεννά συζήτηση χωρίς να προκαλεί αντίδραση — ένα χιλιοστό πίσω από τη γραμμή που δεν διασχίζεις.</p><div class="μηχ-απ">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Σχετικότητα</div></div>
-        <div class="μηχ α α3"><div class="μηχ-ρωμ">ΙΙΙ.</div><h3 class="μηχ-όν">Στρατηγική <em>Σπανιότητα</em></h3><p class="μηχ-κ">Η απρόσιτη κατάσταση αναδιαμορφώνει την επιθυμία. Σχεδιάζουμε συστήματα πρόσβασης — λίστες αναμονής, δομές πρόσκλησης, γεωγραφικοί αποκλεισμοί — που μετατρέπουν την απόκτηση σε σήμα κοινωνικού κύρους.</p><div class="μηχ-απ">↑ Αντιλαμβανόμενη Αξία · ↑ Οργανική Ενίσχυση</div></div>
-        <div class="μηχ α α4"><div class="μηχ-ρωμ">ΙV.</div><h3 class="μηχ-όν">Πολιτισμικός <em>Χρονισμός</em></h3><p class="μηχ-κ">Το ίδιο μήνυμα αποδίδει πολλαπλάσια όταν αναπτύσσεται στο σωστό συναισθηματικό παράθυρο. Διατηρούμε συνεχή παρακολούθηση πολιτισμικών σημάτων για να γνωρίζουμε πότε η αγορά είναι έτοιμη να ακούσει.</p><div class="μηχ-απ">↑ Απήχηση Μηνύματος · ↑ Πολιτισμική Μνήμη</div></div>
-        <div class="μηχ α α1"><div class="μηχ-ρωμ">V.</div><h3 class="μηχ-όν">Ιογενής <em>Σχεδιασμός</em></h3><p class="μηχ-κ">Οι ιδέες εξαπλώνονται όταν περιέχουν εγγενή ανάγκη αναπαραγωγής — ένα κενό που θέλεις να γεμίσεις, μια ερώτηση που δεν αντέχεις να μη θέσεις. Ενσωματώνουμε αυτό στη δομή κάθε καμπάνιας.</p><div class="μηχ-απ">↑ Οργανική Εμβέλεια · ↑ Σχηματισμός Κοινότητας</div></div>
-        <div class="μηχ α α2"><div class="μηχ-ρωμ">VΙ.</div><h3 class="μηχ-όν">Ενίσχυση <em>Σήματος</em></h3><p class="μηχ-κ">Ένα σήμα στο σωστό δίκτυο αξίζει περισσότερο από εκατομμύρια εμφανίσεις στο λάθος. Χαρτογραφούμε την αρχιτεκτονική επιρροής στον κλάδο σας και αναπτύσσουμε με ακρίβεια στα σημεία που έχουν πραγματικό βάρος.</p><div class="μηχ-απ">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Μετατροπής</div></div>
+      <p class="s-intro">Έξι μηχανισμοί βασισμένοι στον τρόπο που λειτουργεί η ανθρώπινη προσοχή — ανεξάρτητα από κλάδο ή εποχή.</p>
+    </div>
+    <div class="mech-grid">
+      <div class="mech-card r d1"><div class="mech-rom">Ι.</div><h3 class="mech-title"><em>Διακοπή</em> Αφήγησης</h3><p class="mech-body">Κάθε κλάδος έχει ένα αποδεκτό σενάριο. Εντοπίζουμε την ανεκπλήρωτη υπόσχεση και σχεδιάζουμε μια αντίφαση τόσο ακριβή που δεν μπορεί να αγνοηθεί. Δεν κάνουμε κραυγή — κάνουμε χειρουργική τομή.</p><div class="mech-out">↑ Εξουσία Κατηγορίας · ↑ Εύρος Ταυτότητας</div></div>
+      <div class="mech-card r d2"><div class="mech-rom">ΙΙ.</div><h3 class="mech-title">Ελεγχόμενη <em>Αντιπαράθεση</em></h3><p class="mech-body">Η αντιπαράθεση είναι εργαλείο ακριβείας, όχι χειροβομβίδα. Σχεδιάζουμε τον ακριβή βαθμό τριβής που γεννά συζήτηση χωρίς να προκαλεί αντίδραση.</p><div class="mech-out">↑ Κερδισμένη Προβολή · ↑ Πολιτισμική Σχετικότητα</div></div>
+      <div class="mech-card r d3"><div class="mech-rom">ΙΙΙ.</div><h3 class="mech-title">Στρατηγική <em>Σπανιότητα</em></h3><p class="mech-body">Η απρόσιτη κατάσταση αναδιαμορφώνει την επιθυμία. Σχεδιάζουμε συστήματα πρόσβασης που μετατρέπουν την απόκτηση σε σήμα κοινωνικού κύρους.</p><div class="mech-out">↑ Αντιλαμβανόμενη Αξία · ↑ Οργανική Ενίσχυση</div></div>
+      <div class="mech-card r d1"><div class="mech-rom">ΙV.</div><h3 class="mech-title">Πολιτισμικός <em>Χρονισμός</em></h3><p class="mech-body">Το ίδιο μήνυμα αποδίδει πολλαπλάσια στο σωστό συναισθηματικό παράθυρο. Διατηρούμε συνεχή παρακολούθηση πολιτισμικών σημάτων.</p><div class="mech-out">↑ Απήχηση Μηνύματος · ↑ Πολιτισμική Μνήμη</div></div>
+      <div class="mech-card r d2"><div class="mech-rom">V.</div><h3 class="mech-title">Ιογενής <em>Σχεδιασμός</em></h3><p class="mech-body">Οι ιδέες εξαπλώνονται όταν περιέχουν εγγενή ανάγκη αναπαραγωγής — ένα κενό που θέλεις να γεμίσεις, μια ερώτηση που δεν αντέχεις να μη θέσεις.</p><div class="mech-out">↑ Οργανική Εμβέλεια · ↑ Σχηματισμός Κοινότητας</div></div>
+      <div class="mech-card r d3"><div class="mech-rom">VΙ.</div><h3 class="mech-title">Ενίσχυση <em>Σήματος</em></h3><p class="mech-body">Ένα σήμα στο σωστό δίκτυο αξίζει περισσότερο από εκατομμύρια εμφανίσεις στο λάθος. Χαρτογραφούμε την αρχιτεκτονική επιρροής στον κλάδο σας.</p><div class="mech-out">↑ Πυκνότητα Επιρροής · ↑ Ποιότητα Μετατροπής</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══════ TEAM ══════ -->
+<section id="team" class="s-pad">
+  <div class="W">
+    <div class="team-top r">
+      <div>
+        <div class="s-head"><span class="s-head-line"></span><span>04 — Η Μονάδα</span></div>
+        <h2 class="s-title">Οκτώ μυαλά.<br><em>Ένας</em> στόχος.</h2>
+      </div>
+      <span class="team-count">08 Ειδικοί</span>
+    </div>
+    <div class="team-grid r d2">
+
+      <div class="member">
+        <span class="m-n">01</span>
+        <span class="m-god">Ζευς</span>
+        <div class="m-name">Πελετιέ</div>
+        <span class="m-role">Στρατηγική &amp; Διεύθυνση</span>
+        <p class="m-desc">Ορίζει την κατεύθυνση κάθε έργου. Μεταφράζει τη φιλοσοφία σε απόφαση και κάθε απόφαση σε αποτέλεσμα.</p>
+      </div>
+
+      <div class="member">
+        <span class="m-n">02</span>
+        <span class="m-god">Ερμής</span>
+        <div class="m-name">Κρυπτογράφος</div>
+        <span class="m-role">Μηχανικός Αφήγησης</span>
+        <p class="m-desc">Γράφει ιστορίες εμπορικής ταυτότητας με ακρίβεια σεναριογράφου και ταχύτητα ρεπόρτερ. Τα λόγια που παραμένουν δεν είναι τυχαία.</p>
+      </div>
+
+      <div class="member">
+        <span class="m-n">03</span>
+        <span class="m-god">Άρτεμις</span>
+        <div class="m-name">Ανιχνεύτρια</div>
+        <span class="m-role">Ανάγνωση Πολιτισμού</span>
+        <p class="m-desc">Ζει μέσα στις υποκουλτούρες. Εντοπίζει τι θα γίνει κυρίαρχο ρεύμα μήνες πριν το δει κανείς άλλος.</p>
+      </div>
+
+      <div class="member">
+        <span class="m-n">04</span>
+        <span class="m-god">Απόλλων</span>
+        <div class="m-name">Πρίσμα</div>
+        <span class="m-role">Οπτική Διεύθυνση</span>
+        <p class="m-desc">Δημιουργεί οπτικές γλώσσες που αισθάνονται αναπόφευκτες. Ένα καλό οπτικό δεν εξηγεί — αποκαλύπτει.</p>
+      </div>
+
+      <div class="member">
+        <span class="m-n">05</span>
+        <span class="m-god">Αθηνά</span>
+        <div class="m-name">Αναλύτρια</div>
+        <span class="m-role">Στρατηγική Δεδομένων</span>
+        <p class="m-desc">Μετατρέπει δεδομένα σε ενστικτώδεις αποφάσεις. Γνωρίζει ποιο κοινό είναι έτοιμο και πότε ακριβώς να κινηθεί.</p>
+      </div>
+
+      <div class="member">
+        <span class="m-n">06</span>
+        <span class="m-god">Ποσειδών</span>
+        <div class="m-name">Χειριστής</div>
+        <span class="m-role">Στρατηγική Διανομής</span>
+        <p class="m-desc">Αναπτύσσει υλικό μέσα από τα σωστά κανάλια τη σωστή στιγμή. Η διανομή δεν είναι εφοδιαστική — είναι στρατηγική επιλογή.</p>
+      </div>
+
+      <div class="member">
+        <span class="m-n">07</span>
+        <span class="m-god">Άδης</span>
+        <div class="m-name">Σκιά</div>
+        <span class="m-role">Διείσδυση Δικτύων</span>
+        <p class="m-desc">Κινείται σε δίκτυα που δεν ξέρεις ότι υπάρχουν. Φυτεύει ιδέες σε συνομιλίες που δεν φτάνεις με καμία διαφήμιση.</p>
+      </div>
+
+      <div class="member">
+        <span class="m-n">08</span>
+        <span class="m-god">Ήφαιστος</span>
+        <div class="m-name">Φορέας</div>
+        <span class="m-role">Στρατηγικές Συμφωνίες</span>
+        <p class="m-desc">Κατασκευάζει συμφωνίες με ακρίβεια. Γνωρίζει πότε να πιέσει, πότε να σιωπήσει και ποια πρόταση κλείνει μια συνεργασία.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ══════ CLOSING ══════ -->
+<section id="close" class="s-pad">
+  <div class="W">
+    <div class="close-inner">
+      <div class="s-head r"><span class="s-head-line"></span><span>05 — Η Φιλοσοφία</span></div>
+      <h2 class="close-title r d1">
+        Δεν χτίζουμε<br>
+        <em>καμπάνιες.</em><br>
+        Χτίζουμε αλήθειες.
+      </h2>
+      <p class="close-body r d2">
+        Τα σημαντικότερα εμπορικά σήματα του κόσμου δεν κυνηγούν την προσοχή.
+        <strong>Την ορίζουν.</strong> Κατανοούν ότι κάθε πολιτισμική στιγμή που δεν σχεδίασαν
+        οι ίδιοι, τη σχεδίασε κάποιος άλλος εναντίον τους.
+      </p>
+      <p class="close-body r d3" style="margin-top:18px;">
+        Δεν υπάρχει ουδετερότητα: ή κινείς τη συνομιλία —
+        ή είσαι <strong>μέρος του φόντου.</strong>
+        Αυτό κάνουμε: <strong>σχεδιάζουμε την αναπόφευκτη παρουσία σας στις συνομιλίες που έχουν σημασία.</strong>
+        Όχι με προϋπολογισμό. Με αρχιτεκτονική.
+      </p>
+      <div class="close-sig r d4">
+        <span class="sig-name">Νίκος Πελετιέ</span>
+        <span class="sig-rule"></span>
+        <span class="sig-label">Αρχιτέκτονας Προσοχής · 2026</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="διαχ"></div>
+<footer>
+  <span>© 2026 Νίκος Πελετιέ</span>
+  <span><span class="f-dot"></span>nikospeletie.com</span>
+</footer>
 
-  <section id="ομάδα">
-    <div class="wrap">
-      <div class="ομ-κεφ α">
-        <div><div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">04 — Η Μονάδα</span></div><h2 class="εν-τιτλ">Οκτώ μυαλά.<br><em>Ένας</em> στόχος.</h2></div>
-        <span class="ομ-σύν">08 Ειδικοί</span>
-      </div>
-      <div class="ομ-πλ α α2">
-        <div class="μέλ αλ"><div class="μ-αρ">01</div><div class="μ-ψευ">Αρχιτέκτονας</div><div class="μ-ρόλ">Ιογενής Αρχιτεκτονική</div><p class="μ-πε">Σχεδιάζει τη δομική λογική κάθε καμπάνιας. Αν δεν υπάρχει μηχανισμός που κάνει τον κόσμο να μοιράζεται, δεν βγαίνει τίποτα έξω.</p></div>
-        <div class="μέλ αλ"><div class="μ-αρ">02</div><div class="μ-ψευ">Κρυπτογράφος</div><div class="μ-ρόλ">Μηχανικός Αφήγησης</div><p class="μ-πε">Γράφει ιστορίες εμπορικής ταυτότητας με ακρίβεια σεναριογράφου και ταχύτητα ρεπόρτερ. Τα λόγια που παραμένουν δεν είναι τυχαία.</p></div>
-        <div class="μέλ αλ"><div class="μ-αρ">03</div><div class="μ-ψευ">Ανιχνευτής</div><div class="μ-ρόλ">Ανάγνωση Πολιτισμού</div><p class="μ-πε">Ζει μέσα στις υποκουλτούρες. Εντοπίζει τι θα γίνει κυρίαρχο ρεύμα μήνες πριν το δει κανείς άλλος.</p></div>
-        <div class="μέλ αλ"><div class="μ-αρ">04</div><div class="μ-ψευ">Πρίσμα</div><div class="μ-ρόλ">Οπτική Διεύθυνση</div><p class="μ-πε">Δημιουργεί οπτικές γλώσσες που αισθάνονται αναπόφευκτες. Ένα καλό οπτικό δεν εξηγεί — αποκαλύπτει.</p></div>
-        <div class="μέλ αλ"><div class="μ-αρ">05</div><div class="μ-ψευ">Σήμα</div><div class="μ-ρόλ">Ανάλυση Δεδομένων</div><p class="μ-πε">Μετατρέπει δεδομένα σε ενστικτώδεις αποφάσεις. Γνωρίζει ποιο κοινό είναι έτοιμο, ποιο μήνυμα θα ανάψει και πότε ακριβώς να κινηθεί.</p></div>
-        <div class="μέλ αλ"><div class="μ-αρ">06</div><div class="μ-ψευ">Χειριστής</div><div class="μ-ρόλ">Στρατηγική Διανομής</div><p class="μ-πε">Αναπτύσσει υλικό μέσα από τα σωστά κανάλια, τη σωστή στιγμή. Η διανομή δεν είναι εφοδιαστική — είναι στρατηγική επιλογή.</p></div>
-        <div class="μέλ αλ"><div class="μ-αρ">07</div><div class="μ-ψευ">Σκιά</div><div class="μ-ρόλ">Διείσδυση Δικτύων</div><p class="μ-πε">Κινείται σε δίκτυα που δεν ξέρεις ότι υπάρχουν. Φυτεύει ιδέες σε συνομιλίες και χώρους που δεν φτάνεις με καμία διαφήμιση.</p></div>
-        <div class="μέλ αλ"><div class="μ-αρ">08</div><div class="μ-ψευ">Φορέας</div><div class="μ-ρόλ">Στρατηγικές Συμφωνίες</div><p class="μ-πε">Μετατρέπει τη δυναμική σε συμφωνίες. Γνωρίζει πότε να πιέσει, πότε να σιωπήσει και ποια πρόταση κλείνει μια συνεργασία.</p></div>
-      </div>
-    </div>
-  </section>
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
 
-  <div class="διαχ"></div>
-
-  <section id="κλείσιμο">
-    <div class="wrap">
-      <div class="κλ-εσ">
-        <div class="α"><div class="εν-κεφ"><span class="εν-γρ"></span><span class="εκφ μπχρ">05 — Η Φιλοσοφία</span></div></div>
-        <h2 class="κλ-τιτ α α2">Δεν χτίζουμε<br><em>καμπάνιες.</em><br>Χτίζουμε αλήθειες.</h2>
-        <p class="κλ-κ α α3">Τα σημαντικότερα εμπορικά σήματα του κόσμου δεν κυνηγούν την προσοχή. <strong>Την ορίζουν.</strong> Κατανοούν ότι κάθε πολιτισμική στιγμή που δεν σχεδίασαν οι ίδιοι, τη σχεδίασε κάποιος άλλος εναντίον τους. Δεν υπάρχει ουδετερότητα: ή κινείς τη συνομιλία — ή είσαι μέρος του φόντου.</p>
-        <p class="κλ-κ α α4" style="margin-top:20px;">Αυτό κάνουμε: <strong>σχεδιάζουμε την αναπόφευκτη παρουσία της εμπορικής σας ταυτότητας στις συνομιλίες που έχουν σημασία</strong> — πριν, κατά τη διάρκεια και μετά την αγοραστική απόφαση. Όχι με προϋπολογισμό. Με αρχιτεκτονική.</p>
-        <div class="κλ-τέλ α α5"><span class="κλ-υπγ">Νίκος Πελετιέ</span><span class="κλ-γρ"></span><span class="κλ-επ">Αρχιτέκτονας Προσοχής · 2026</span></div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <span>© 2026 Νίκος Πελετιέ</span>
-    <span><span class="υπ-τ"></span>Εμπιστευτικό Έγγραφο · Σχεδιασμένο για αντίκτυπο</span>
-  </footer>
-
-  <script>
-  (function(){
-    const δτ=document.getElementById('δτ'),δκ=document.getElementById('δκ');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;δτ.style.left=mx+'px';δτ.style.top=my+'px';});
-    (function κ(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;δκ.style.left=rx+'px';δκ.style.top=ry+'px';requestAnimationFrame(κ);})();
-    document.addEventListener('mouseleave',()=>{δτ.style.opacity='0';δκ.style.opacity='0';});
-    document.addEventListener('mouseenter',()=>{δτ.style.opacity='1';δκ.style.opacity='1';});
-
-    const πλ=document.getElementById('πλοήγηση');
-    window.addEventListener('scroll',()=>πλ.classList.toggle('κύλ',scrollY>40),{passive:true});
-
-    const πρ=document.getElementById('πρόοδος');
-    window.addEventListener('scroll',()=>{πρ.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
-
-    const παρ=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('ε');παρ.unobserve(e.target);}});},{threshold:.07});
-    document.querySelectorAll('.α').forEach(el=>παρ.observe(el));
-
-    /* ΡΑΝΤΆΡ ΣΗΜΑΤΟΣ */
-    const καμ=document.getElementById('ραντάρ-καμβάς');
-    if(!καμ)return;
-    const ctx=καμ.getContext('2d');
-
-    function αλλ(){
-      const δ=Math.min(καμ.parentElement.offsetWidth,440);
-      καμ.width=δ;καμ.height=δ;
-    }
-    αλλ();
-    window.addEventListener('resize',αλλ,{passive:true});
-
-    const σήματα=[];
-    const ΜΕΓΣ=16;
-
-    function νέοΣ(){
-      return{γ:Math.random()*Math.PI*2,απ:Math.random()*.78+.12,α:0,φ:'εμφ',ζ:0,δ:Math.random()*130+70};
-    }
-
-    function ζωγρ(){
-      const Κ=καμ.width/2,Α=Κ,Ρ=Κ*.88;
-      ctx.clearRect(0,0,καμ.width,καμ.height);
-
-      /* Φόντο */
-      ctx.beginPath();ctx.arc(Κ,Α,Ρ,0,Math.PI*2);
-      ctx.fillStyle='rgba(2,8,12,.9)';ctx.fill();
-
-      /* Ομόκεντροι κύκλοι */
-      [.25,.5,.75,1].forEach(π=>{
-        ctx.beginPath();ctx.arc(Κ,Α,Ρ*π,0,Math.PI*2);
-        ctx.strokeStyle=π===1?'rgba(0,243,255,.22)':'rgba(0,243,255,.07)';
-        ctx.lineWidth=π===1?1:.6;ctx.stroke();
-      });
-
-      /* Σταυρόνημα */
-      ctx.strokeStyle='rgba(0,243,255,.06)';ctx.lineWidth=.5;
-      ctx.beginPath();ctx.moveTo(Κ-Ρ,Α);ctx.lineTo(Κ+Ρ,Α);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(Κ,Α-Ρ);ctx.lineTo(Κ,Α+Ρ);ctx.stroke();
-
-      /* Ωρολογιακές ενδείξεις */
-      for(let ι=0;ι<24;ι++){
-        const θ=ι*(Math.PI*2/24);
-        const μ=ι%6===0?0.88:0.92;
-        ctx.beginPath();
-        ctx.moveTo(Κ+Math.cos(θ)*Ρ*μ,Α+Math.sin(θ)*Ρ*μ);
-        ctx.lineTo(Κ+Math.cos(θ)*Ρ,Α+Math.sin(θ)*Ρ);
-        ctx.strokeStyle=ι%6===0?'rgba(0,243,255,.3)':'rgba(0,243,255,.12)';
-        ctx.lineWidth=ι%6===0?1:.5;ctx.stroke();
-      }
-
-      /* Ετικέτες αποστάσεων */
-      ctx.font=`${Κ*.055}px 'DM Mono',monospace`;
-      ctx.fillStyle='rgba(0,243,255,.2)';ctx.textAlign='center';
-      ['25','50','75'].forEach((ε,ι)=>{
-        ctx.fillText(ε,Κ+4,Α-(Ρ*(.25*(ι+1)))-5);
-      });
-
-      /* Δέσμη σάρωσης */
-      const τ=Date.now()/1000;
-      const θσ=(τ*.6)%(Math.PI*2);
-
-      /* Ουρά φωτός */
-      const ΟΥΡΑ=Math.PI*.65;
-      const βήμ=ΟΥΡΑ/80;
-      for(let ι=0;ι<80;ι++){
-        const θτ=θσ-ι*βήμ;
-        const α=(1-ι/80)*.16;
-        ctx.beginPath();
-        ctx.moveTo(Κ,Α);
-        ctx.arc(Κ,Α,Ρ*.86,θτ-βήμ,θτ);
-        ctx.closePath();
-        ctx.fillStyle=`rgba(0,243,255,${α})`;
-        ctx.fill();
-      }
-
-      /* Κύρια δέσμη */
-      ctx.beginPath();
-      ctx.moveTo(Κ,Α);
-      ctx.lineTo(Κ+Math.cos(θσ)*Ρ*.86,Α+Math.sin(θσ)*Ρ*.86);
-      ctx.strokeStyle='rgba(0,243,255,.9)';ctx.lineWidth=1.5;
-      ctx.shadowBlur=14;ctx.shadowColor='rgba(0,243,255,.9)';
-      ctx.stroke();ctx.shadowBlur=0;
-
-      /* Σήματα */
-      for(let ι=σήματα.length-1;ι>=0;ι--){
-        const σ=σήματα[ι];σ.ζ++;
-        if(σ.φ==='εμφ'){σ.α=Math.min(σ.α+.07,1);if(σ.α>=1)σ.φ='σταθ';}
-        else if(σ.φ==='σταθ'){if(σ.ζ>σ.δ)σ.φ='σβ';}
-        else{σ.α=Math.max(σ.α-.05,0);if(σ.α<=0){σήματα.splice(ι,1);continue;}}
-        const σχ=Κ+Math.cos(σ.γ)*σ.απ*Ρ,σψ=Α+Math.sin(σ.γ)*σ.απ*Ρ;
-        ctx.beginPath();ctx.arc(σχ,σψ,Ρ*.032,0,Math.PI*2);
-        ctx.strokeStyle=`rgba(0,243,255,${σ.α*.45})`;ctx.lineWidth=.8;ctx.stroke();
-        ctx.beginPath();ctx.arc(σχ,σψ,Ρ*.011,0,Math.PI*2);
-        ctx.fillStyle=`rgba(0,243,255,${σ.α})`;
-        ctx.shadowBlur=8;ctx.shadowColor='rgba(0,243,255,.9)';
-        ctx.fill();ctx.shadowBlur=0;
-      }
-      if(Math.random()<.04&&σήματα.length<ΜΕΓΣ){
-        const ν=νέοΣ();ν.γ=θσ+(Math.random()-.5)*.2;σήματα.push(ν);
-      }
-
-      /* Κεντρικός κόμβος */
-      ctx.beginPath();ctx.arc(Κ,Α,Ρ*.055,0,Math.PI*2);
-      ctx.strokeStyle='rgba(0,243,255,.35)';ctx.lineWidth=1;ctx.stroke();
-      ctx.beginPath();ctx.arc(Κ,Α,3,0,Math.PI*2);
-      ctx.fillStyle='rgba(0,243,255,.95)';
-      ctx.shadowBlur=12;ctx.shadowColor='rgba(0,243,255,1)';
-      ctx.fill();ctx.shadowBlur=0;
-
-      /* Ετικέτα */
-      ctx.font=`${Κ*.057}px 'DM Mono',monospace`;
-      ctx.fillStyle='rgba(0,243,255,.25)';ctx.textAlign='left';
-      ctx.fillText('ΣΑΡΩΣΗ ΣΗΜΑΤΟΣ',Κ-Ρ*.88+6,Α+Ρ*.94);
-      ctx.textAlign='right';
-      const ώ=new Date();
-      ctx.fillText(
-        `${String(ώ.getHours()).padStart(2,'0')}:${String(ώ.getMinutes()).padStart(2,'0')}:${String(ώ.getSeconds()).padStart(2,'0')}`,
-        Κ+Ρ*.88-6,Α+Ρ*.94
-      );
-
-      requestAnimationFrame(ζωγρ);
-    }
-    ζωγρ();
+  /* ── cursor ── */
+  const cd = document.getElementById('cd');
+  const cr = document.getElementById('cr');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cd.style.left = mx + 'px'; cd.style.top = my + 'px';
+  });
+  document.addEventListener('mouseleave', () => { cd.style.opacity='0'; cr.style.opacity='0'; });
+  document.addEventListener('mouseenter', () => { cd.style.opacity='1'; cr.style.opacity='1'; });
+  (function loop(){
+    rx += (mx-rx)*.1; ry += (my-ry)*.1;
+    cr.style.left = rx+'px'; cr.style.top = ry+'px';
+    requestAnimationFrame(loop);
   })();
-  </script>
+
+  /* ── progress / nav ── */
+  const bar = document.getElementById('bar');
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    bar.style.width = (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
+    nav.classList.toggle('on', scrollY > 44);
+  }, { passive:true });
+
+  /* ── reveal on scroll ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:.08, rootMargin:'0px 0px -32px 0px' });
+  document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+  /* ── accordion ── */
+  document.querySelectorAll('.tech-hd').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const bd = btn.nextElementSibling;
+      const wasOpen = bd.classList.contains('open');
+      document.querySelectorAll('.tech-bd.open').forEach(b => {
+        b.classList.remove('open');
+        b.previousElementSibling.setAttribute('aria-expanded','false');
+      });
+      if (!wasOpen) {
+        bd.classList.add('open');
+        btn.setAttribute('aria-expanded','true');
+      }
+    });
+    btn.addEventListener('keydown', e => {
+      if (e.key==='Enter'||e.key===' '){ e.preventDefault(); btn.click(); }
+    });
+  });
+
+  /* ══════════════════════════════════════════
+     MATRIX VISUAL
+     Falling Greek/Latin character streams,
+     overlaid with a living influence network.
+     Two layers: depth (matrix rain) + signal
+     (node constellation) — working together.
+  ══════════════════════════════════════════ */
+  const canvas = document.getElementById('mtx');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  /* sizing */
+  let S = 0, COLS = 0;
+  const CELL = 16;
+
+  function resize() {
+    const parent = canvas.parentElement;
+    S = Math.min(parent.offsetWidth, 500);
+    canvas.width  = S;
+    canvas.height = S;
+    COLS = Math.floor(S / CELL);
+    initMatrix();
+  }
+
+  /* ── LAYER 1: Matrix rain ── */
+  const CHARS = 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789∑∆∇∈∉⊂⊃∩∪∞≈≠≤≥→←↑↓⊕⊗';
+  let drops = [];
+
+  function initMatrix() {
+    drops = [];
+    for (let i = 0; i < COLS; i++) {
+      drops.push({
+        y:        Math.random() * -COLS,    /* start above canvas */
+        speed:    0.3 + Math.random() * 0.7,
+        len:      8 + Math.floor(Math.random() * 14),
+        chars:    [],
+        mutTimer: 0,
+        mutRate:  4 + Math.floor(Math.random() * 8)
+      });
+      /* pre-fill char trail */
+      for (let j = 0; j < 30; j++) {
+        drops[i].chars.push(CHARS[Math.floor(Math.random() * CHARS.length)]);
+      }
+    }
+  }
+
+  /* ── LAYER 2: Constellation nodes ── */
+  const NODE_COUNT = 14;
+  const nodes = [];
+  const pulses = [];
+
+  function makeNode(i) {
+    const cx = S / 2, cy = S / 2, r = S * 0.36;
+    const ang  = (i / NODE_COUNT) * Math.PI * 2 + (Math.random() - .5) * .7;
+    const dist = 0.25 + Math.random() * 0.75;
+    return {
+      ox: (Math.cos(ang) * dist),
+      oy: (Math.sin(ang) * dist),
+      x: 0, y: 0,
+      vx: (Math.random() - .5) * 0.0004,
+      vy: (Math.random() - .5) * 0.0004,
+      r:  1.5 + Math.random() * 1.8,
+      ph: Math.random() * Math.PI * 2,
+      ps: 0.014 + Math.random() * 0.02,
+      alpha: 0,
+      born: false,
+      birthTime: Date.now() + i * 200 + Math.random() * 600,
+      edges: []
+    };
+  }
+
+  function buildEdges() {
+    nodes.forEach(a => { a.edges = []; });
+    nodes.forEach((a, i) => {
+      nodes
+        .map((b, j) => ({ j, d:(a.ox-b.ox)**2+(a.oy-b.oy)**2 }))
+        .filter((_, j) => j !== i)
+        .sort((x,y) => x.d - y.d)
+        .slice(0, 2)
+        .forEach(o => { if (!a.edges.includes(o.j)) a.edges.push(o.j); });
+    });
+  }
+
+  function initConstellation() {
+    nodes.length = 0;
+    for (let i = 0; i < NODE_COUNT; i++) nodes.push(makeNode(i));
+    buildEdges();
+  }
+
+  function spawnPulse() {
+    const alive = nodes.filter(n => n.born);
+    if (alive.length < 2) return;
+    const a = alive[Math.floor(Math.random() * alive.length)];
+    if (!a.edges.length) return;
+    const b = nodes[a.edges[Math.floor(Math.random() * a.edges.length)]];
+    if (!b.born) return;
+    pulses.push({ ax:a.x, ay:a.y, bx:b.x, by:b.y, t:0, spd:.008+Math.random()*.005 });
+  }
+
+  setInterval(spawnPulse, 800);
+
+  resize();
+  initConstellation();
+  window.addEventListener('resize', () => { resize(); initConstellation(); }, { passive:true });
+
+  /* ── draw loop ── */
+  let frame = 0;
+  function draw() {
+    frame++;
+    const now = Date.now();
+    const cx = S / 2, cy = S / 2, R = S * 0.42;
+
+    /* ── background: near-black with very slight transparency
+       so matrix characters fade naturally ── */
+    ctx.fillStyle = 'rgba(4,4,6,.88)';
+    ctx.fillRect(0, 0, S, S);
+
+    /* ── circular clip mask ── */
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2); ctx.clip();
+
+    /* ── MATRIX RAIN ── */
+    drops.forEach((d, col) => {
+      const x = col * CELL + CELL/2;
+
+      /* mutate characters occasionally */
+      d.mutTimer++;
+      if (d.mutTimer >= d.mutRate) {
+        d.mutTimer = 0;
+        const idx = Math.floor(Math.random() * d.chars.length);
+        d.chars[idx] = CHARS[Math.floor(Math.random() * CHARS.length)];
+      }
+
+      /* draw trail */
+      for (let row = 0; row < d.len; row++) {
+        const yy = (Math.floor(d.y) - row) * CELL;
+        if (yy < -CELL || yy > S + CELL) continue;
+
+        const progress = row / d.len;   /* 0 = head, 1 = tail */
+        const charIdx  = (Math.floor(d.y) - row + d.chars.length * 100) % d.chars.length;
+        const ch       = d.chars[charIdx];
+
+        if (row === 0) {
+          /* bright head */
+          ctx.fillStyle = `rgba(180,255,255,${0.92})`;
+          ctx.font = `bold ${CELL * .75}px 'DM Mono', monospace`;
+        } else if (row <= 2) {
+          ctx.fillStyle = `rgba(0,243,255,${0.7 - progress * .3})`;
+          ctx.font = `400 ${CELL * .7}px 'DM Mono', monospace`;
+        } else {
+          const a = Math.max(0, 0.35 - progress * .32);
+          ctx.fillStyle = `rgba(0,200,210,${a})`;
+          ctx.font = `300 ${CELL * .68}px 'DM Mono', monospace`;
+        }
+        ctx.textAlign = 'center';
+        ctx.fillText(ch, x, yy);
+      }
+
+      /* advance */
+      d.y += d.speed;
+      if (d.y * CELL > S + d.len * CELL) {
+        d.y = Math.random() * -10;
+        d.speed = 0.3 + Math.random() * 0.7;
+        d.len   = 8 + Math.floor(Math.random() * 14);
+      }
+    });
+
+    /* ── CONSTELLATION overlay ── */
+    /* update nodes */
+    nodes.forEach(n => {
+      if (!n.born && now >= n.birthTime) n.born = true;
+      if (n.born) {
+        n.alpha = Math.min(n.alpha + .016, 1);
+        n.ox += n.vx; n.oy += n.vy;
+        n.ox *= .9998; n.oy *= .9998;
+      }
+      n.ph += n.ps;
+      n.x = cx + n.ox * R;
+      n.y = cy + n.oy * R;
+    });
+
+    /* edges */
+    nodes.forEach(a => {
+      if (!a.born) return;
+      a.edges.forEach(j => {
+        const b = nodes[j];
+        if (!b.born) return;
+        const op = Math.min(a.alpha, b.alpha) * .35;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(0,243,255,${op})`; ctx.lineWidth = .8; ctx.stroke();
+      });
+    });
+
+    /* pulses */
+    for (let i = pulses.length-1; i >= 0; i--) {
+      const p = pulses[i]; p.t += p.spd;
+      if (p.t > 1) { pulses.splice(i,1); continue; }
+      const px = p.ax + (p.bx-p.ax)*p.t;
+      const py = p.ay + (p.by-p.ay)*p.t;
+      ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(0,243,255,${(1-p.t)*.95})`;
+      ctx.shadowBlur=10; ctx.shadowColor='rgba(0,243,255,.9)';
+      ctx.fill(); ctx.shadowBlur=0;
+    }
+
+    /* nodes */
+    nodes.forEach(n => {
+      if (!n.born) return;
+      const pulse = 1 + Math.sin(n.ph) * .22;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 3.4 * pulse, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(0,243,255,${n.alpha*.18})`; ctx.lineWidth=.8; ctx.stroke();
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(0,243,255,${n.alpha*.98})`;
+      ctx.shadowBlur=10; ctx.shadowColor='rgba(0,243,255,.9)';
+      ctx.fill(); ctx.shadowBlur=0;
+    });
+
+    /* central hub */
+    const t  = now * .0022;
+    const cp = 1 + Math.sin(t) * .15;
+    [30, 18].forEach((rr, i) => {
+      ctx.beginPath(); ctx.arc(cx, cy, rr*cp, 0, Math.PI*2);
+      ctx.strokeStyle = `rgba(0,243,255,${i===0?.08:.2})`; ctx.lineWidth=i===0?.6:.9; ctx.stroke();
+    });
+    ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
+    ctx.fillStyle='rgba(0,243,255,.98)';
+    ctx.shadowBlur=20; ctx.shadowColor='rgba(0,243,255,1)'; ctx.fill(); ctx.shadowBlur=0;
+
+    /* labels */
+    const fs = S * .042;
+    ctx.font = `300 ${fs}px 'DM Mono', monospace`;
+    ctx.textAlign='left';
+    ctx.fillStyle='rgba(0,243,255,.28)';
+    ctx.fillText('ΔΙΚΤΥΟ ΕΠΙΡΡΟΗΣ', cx - R*.88 + 4, cy + R*.9);
+    ctx.textAlign='right';
+    const d2 = new Date();
+    const ts = [d2.getHours(), d2.getMinutes(), d2.getSeconds()].map(v=>String(v).padStart(2,'0')).join(':');
+    ctx.fillText(ts, cx + R*.88 - 4, cy + R*.9);
+
+    ctx.restore();
+
+    /* vignette ring */
+    const vg = ctx.createRadialGradient(cx, cy, R*.72, cx, cy, R*1.02);
+    vg.addColorStop(0,'rgba(0,0,0,0)');
+    vg.addColorStop(1,'rgba(4,4,6,.88)');
+    ctx.beginPath(); ctx.arc(cx, cy, R*1.02, 0, Math.PI*2);
+    ctx.fillStyle = vg; ctx.fill();
+
+    /* thin border ring */
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+    ctx.strokeStyle='rgba(0,243,255,.12)'; ctx.lineWidth=1; ctx.stroke();
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+
+})();
+</script>
 </body>
 </html>
